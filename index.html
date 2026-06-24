@@ -6,423 +6,350 @@
 <title>The Phoenix Whispers</title>
 
 <style>
-
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Georgia,serif;
-scroll-behavior:smooth;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
 body{
-background:#0a0504;
-color:#fff;
+  font-family: Arial, Helvetica, sans-serif;
+  background:#f7f1e8;
+  color:#111;
 }
 
 header{
-position:fixed;
-top:0;
-width:100%;
-background:rgba(10,5,4,0.95);
-backdrop-filter:blur(10px);
-padding:10px 8%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-border-bottom:1px solid #3d1710;
-z-index:1000;
+  background:#fffaf2;
+  border-bottom:1px solid #111;
+  padding:18px 7%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:1000;
 }
 
-.logo{
-display:flex;
-align-items:center;
-gap:10px;
-font-size:28px;
-font-weight:bold;
-line-height:1;
-background:linear-gradient(90deg,#ffd700,#ff7b00,#b30000);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
+.logo-area{
+  display:flex;
+  align-items:center;
+  gap:14px;
 }
 
-.logo img{
-width:42px;
-height:42px;
-object-fit:contain;
-display:block;
+.logo-area img{
+  width:58px;
+  height:58px;
+  object-fit:contain;
+}
+
+.logo-text{
+  font-family: Georgia, serif;
+  font-size:30px;
+  font-weight:bold;
+  letter-spacing:1px;
+  color:#111;
 }
 
 nav a{
-text-decoration:none;
-color:white;
-margin-left:20px;
-font-size:15px;
-transition:.3s;
+  text-decoration:none;
+  color:#111;
+  margin-left:26px;
+  font-size:14px;
+  font-weight:bold;
+  text-transform:uppercase;
+  letter-spacing:1px;
 }
 
 nav a:hover{
-color:#ff9d00;
+  color:#b13b1e;
 }
 
 .hero{
-height:72vh;
-display:flex;
-justify-content:center;
-align-items:center;
-text-align:center;
-padding:90px 20px 40px;
-background:
-linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.85)),
-url("https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=1400&q=80");
-background-size:cover;
-background-position:center;
+  padding:90px 7% 70px;
+  text-align:center;
+  border-bottom:1px solid #111;
 }
 
 .hero h1{
-font-size:56px;
-margin-bottom:15px;
-background:linear-gradient(90deg,#ffd700,#ff7b00,#b30000);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
+  font-family: Georgia, serif;
+  font-size:74px;
+  line-height:1;
+  margin-bottom:20px;
+  color:#111;
 }
 
 .hero p{
-max-width:750px;
-margin:auto;
-font-size:19px;
-line-height:1.7;
-color:#eee;
+  font-size:22px;
+  max-width:760px;
+  margin:auto;
+  line-height:1.6;
+}
+
+.tagline{
+  margin-top:25px;
+  font-size:14px;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  font-weight:bold;
+  color:#9b2f18;
+}
+
+.section{
+  padding:70px 7%;
+  border-bottom:1px solid #111;
+}
+
+.section-title{
+  font-family: Georgia, serif;
+  font-size:42px;
+  margin-bottom:35px;
+  text-align:center;
+}
+
+.featured{
+  display:grid;
+  grid-template-columns:320px 1fr;
+  gap:55px;
+  align-items:center;
+  max-width:1050px;
+  margin:auto;
+}
+
+.book-cover{
+  width:100%;
+  border:1px solid #111;
+  box-shadow:8px 8px 0 #111;
+}
+
+.book-info h2{
+  font-family: Georgia, serif;
+  font-size:46px;
+  margin-bottom:18px;
+}
+
+.book-info p{
+  font-size:18px;
+  line-height:1.8;
+  margin-bottom:18px;
+}
+
+.status{
+  display:inline-block;
+  border:1px solid #111;
+  padding:8px 13px;
+  font-size:13px;
+  font-weight:bold;
+  text-transform:uppercase;
+  margin-bottom:20px;
+  background:#fffaf2;
 }
 
 .btn{
-display:inline-block;
-margin-top:25px;
-padding:12px 26px;
-background:linear-gradient(90deg,#b30000,#ff7b00);
-color:white;
-text-decoration:none;
-border-radius:40px;
-font-weight:bold;
+  display:inline-block;
+  margin-top:10px;
+  padding:14px 24px;
+  border:1px solid #111;
+  background:#111;
+  color:#fff;
+  text-decoration:none;
+  font-weight:bold;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  font-size:14px;
 }
 
-section{
-padding:70px 8%;
-}
-
-.title{
-text-align:center;
-font-size:36px;
-margin-bottom:38px;
-color:#ffb347;
-}
-
-.book{
-display:flex;
-gap:40px;
-align-items:center;
-justify-content:center;
-flex-wrap:wrap;
-}
-
-.book img{
-width:260px;
-border-radius:15px;
-box-shadow:0 0 25px rgba(255,100,0,.4);
-}
-
-.book-content{
-max-width:600px;
-}
-
-.book-content h3{
-font-size:32px;
-margin-bottom:15px;
-color:#ffd700;
-}
-
-.book-content p{
-line-height:1.8;
-font-size:17px;
-color:#ddd;
+.btn:hover{
+  background:#b13b1e;
 }
 
 .quote{
-max-width:900px;
-margin:auto;
-background:#130907;
-padding:30px;
-border-left:5px solid #ff7b00;
-border-radius:12px;
-font-size:22px;
-line-height:1.7;
-text-align:center;
-color:#ffd9a0;
+  max-width:850px;
+  margin:auto;
+  text-align:center;
+  font-family: Georgia, serif;
+  font-size:34px;
+  line-height:1.5;
 }
 
 .projects{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:25px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:25px;
+  max-width:950px;
+  margin:auto;
 }
 
-.project{
-background:#140907;
-padding:25px;
-border-radius:15px;
-border:1px solid #34130d;
+.project-card{
+  background:#fffaf2;
+  border:1px solid #111;
+  padding:28px;
+  min-height:190px;
 }
 
-.project h3{
-color:#ffd700;
-margin-bottom:10px;
+.project-card h3{
+  font-family: Georgia, serif;
+  font-size:28px;
+  margin-bottom:12px;
+}
+
+.project-card p{
+  font-size:16px;
+  line-height:1.7;
 }
 
 .about{
-max-width:850px;
-margin:auto;
-text-align:center;
-font-size:18px;
-line-height:1.9;
-color:#ddd;
+  max-width:850px;
+  margin:auto;
+  text-align:center;
+  font-size:18px;
+  line-height:1.9;
 }
 
 footer{
-background:#080303;
-padding:30px;
-text-align:center;
-border-top:1px solid #34130d;
-color:#aaa;
+  background:#111;
+  color:#f7f1e8;
+  text-align:center;
+  padding:35px 7%;
+  font-size:14px;
+  line-height:1.8;
 }
 
-@media(max-width:768px){
+@media(max-width:800px){
+  header{
+    flex-direction:column;
+    gap:16px;
+  }
 
-header{
-padding:10px 6%;
+  nav a{
+    margin:0 8px;
+    font-size:12px;
+  }
+
+  .logo-text{
+    font-size:24px;
+  }
+
+  .hero h1{
+    font-size:48px;
+  }
+
+  .hero p{
+    font-size:18px;
+  }
+
+  .featured{
+    grid-template-columns:1fr;
+  }
+
+  .book-info h2{
+    font-size:34px;
+  }
+
+  .quote{
+    font-size:25px;
+  }
 }
-
-.hero{
-height:auto;
-min-height:62vh;
-padding:95px 20px 40px;
-}
-
-.hero h1{
-font-size:40px;
-}
-
-.hero p{
-font-size:17px;
-}
-
-.logo{
-font-size:21px;
-}
-
-.logo img{
-width:36px;
-height:36px;
-}
-
-nav{
-display:none;
-}
-
-.title{
-font-size:30px;
-}
-
-.book-content h3{
-font-size:28px;
-}
-
-}
-
 </style>
 </head>
+
 <body>
 
 <header>
+  <div class="logo-area">
+    <img src="logo.png" alt="The Phoenix Whispers Logo">
+    <div class="logo-text">The Phoenix Whispers</div>
+  </div>
 
-<div class="logo">
-<img src="logo.png" alt="The Phoenix Whispers Logo">
-<span>The Phoenix Whispers</span>
-</div>
-
-<nav>
-<a href="#stories">Stories</a>
-<a href="#community">Community</a>
-<a href="#work">Phoenix work</a>
-<a href="#support">Support the phoenix</a>
-</nav>
-
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#book">Book</a>
+    <a href="#projects">Projects</a>
+    <a href="#about">About</a>
+  </nav>
 </header>
 
-<section class="hero" id="stories">
-
-<div>
-
-<h1>The Phoenix Whispers</h1>
-
-<p>
-Every story begins as a whisper.
-Some become memories.
-Some become books.
-</p>
-
-<a href="#book" class="btn">
-Explore Book
-</a>
-
-</div>
-
+<section class="hero" id="home">
+  <h1>The Phoenix Whispers</h1>
+  <p>
+    A home for stories of silence, survival, heartbreak, hope,
+    memory, and the quiet fire that keeps a person walking.
+  </p>
+  <div class="tagline">Stories that rise from ashes</div>
 </section>
 
-<section id="book">
+<section class="section" id="book">
+  <div class="section-title">Featured Book</div>
 
-<h2 class="title">
-Published Work
-</h2>
+  <div class="featured">
+    <img class="book-cover" src="the person who kept walking.png" alt="The Person Who Kept Walking Book Cover">
 
-<div class="book">
+    <div class="book-info">
+      <div class="status">Available Now</div>
 
-<img src="the person who kept walking.png" alt="The Person Who Kept Walking">
+      <h2>The Person Who Kept Walking</h2>
 
-<div class="book-content">
+      <p>
+        A deeply emotional story about loneliness, memories,
+        heartbreak, healing, and the courage to keep moving forward
+        even when life gives every reason to stop.
+      </p>
 
-<h3>
-The Person Who Kept Walking
-</h3>
+      <p>
+        For readers who have ever felt broken, silent, lost,
+        or still walking through something they cannot explain.
+      </p>
 
-<p>
-A story about loneliness, memories,
-heartbreak, healing and the courage
-to keep moving forward even when life
-gives every reason to stop.
-</p>
-
-<br>
-
-<a class="btn" href="PASTE_YOUR_AMAZON_LINK_HERE" target="_blank">
-Available on Amazon
-</a>
-
-</div>
-
-</div>
-
+      <a class="btn" href="PASTE_YOUR_AMAZON_LINK_HERE" target="_blank">
+        Buy on Amazon
+      </a>
+    </div>
+  </div>
 </section>
 
-<section>
-
-<h2 class="title">
-From The Pages
-</h2>
-
-<div class="quote">
-
-"Some people do not rise loudly.
-They break silently,
-heal quietly,
-and still keep walking."
-
-</div>
-
+<section class="section">
+  <div class="quote">
+    “Some people do not rise loudly.  
+    They break silently, heal quietly,  
+    and still keep walking.”
+  </div>
 </section>
 
-<section id="work">
+<section class="section" id="projects">
+  <div class="section-title">Writing Projects</div>
 
-<h2 class="title">
-Current Writing Projects
-</h2>
+  <div class="projects">
+    <div class="project-card">
+      <h3>Ashwatthama Ki Diary</h3>
+      <p>
+        A Hindi mystery thriller inspired by mythology, obsession,
+        hidden truths, and the strange line between belief and reality.
+      </p>
+    </div>
 
-<div class="projects">
-
-<div class="project">
-<h3>Ashwatthama Ki Diary</h3>
-<p>
-A Hindi mystery thriller inspired by mythology,
-obsession and unanswered questions.
-Currently in writing phase.
-</p>
-</div>
-
-<div class="project">
-<h3>In The Shadows They Live</h3>
-<p>
-Real stories inspired by people,
-struggles and hidden lives.
-Currently under research and interviews.
-</p>
-</div>
-
-</div>
-
+    <div class="project-card">
+      <h3>In The Shadows They Live</h3>
+      <p>
+        A collection of real-life inspired stories about people living
+        quietly inside struggle, silence, society, and survival.
+      </p>
+    </div>
+  </div>
 </section>
 
-<section id="community">
+<section class="section" id="about">
+  <div class="section-title">About The Author</div>
 
-<h2 class="title">
-Community
-</h2>
-
-<div class="about">
-
-<p>
-A space for readers, writers and quiet souls who believe stories can carry emotions people often fail to say out loud.
-</p>
-
-</div>
-
-</section>
-
-<section id="support">
-
-<h2 class="title">
-Support The Phoenix
-</h2>
-
-<div class="about">
-
-<p>
-Instagram, YouTube, Twitter, blog and support links will be added here soon.
-</p>
-
-</div>
-
-</section>
-
-<section id="about">
-
-<h2 class="title">
-About The Author
-</h2>
-
-<div class="about">
-
-<p>
-Vineet is an Indian author who explores
-themes of loneliness, memory, hope,
-identity and the quiet struggles people
-carry within themselves.
-
-Through stories, observations and lived
-experiences, he seeks to capture emotions
-that often remain unspoken.
-</p>
-
-</div>
-
+  <div class="about">
+    Vineet is an Indian author who explores human emotions,
+    loneliness, memory, hope, identity, and the quiet struggles people
+    carry within themselves. His writing focuses on the stories that
+    often remain unspoken.
+  </div>
 </section>
 
 <footer>
-
-© 2026 The Phoenix Whispers
-
-<br><br>
-
-Written & Created by Vineet
-
+  © 2026 The Phoenix Whispers<br>
+  Written & Created by Vineet
 </footer>
 
 </body>

@@ -6,46 +6,174 @@
 <title>The Phoenix Whispers</title>
 
 <style>
-body{margin:0;background:#050505;color:white;font-family:Georgia,serif;}
-header{background:#000;padding:18px 6%;border-bottom:1px solid #333;}
-.top{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;}
-.brand{display:flex;align-items:center;gap:18px;}
-.brand img{width:95px;height:95px;object-fit:contain;}
-.brand h1{font-size:38px;letter-spacing:3px;margin:0;}
-.top-links a{color:white;text-decoration:none;margin-left:28px;font-weight:bold;}
-nav{display:flex;gap:38px;flex-wrap:wrap;margin-top:22px;}
-.nav-item{position:relative;font-weight:bold;cursor:pointer;}
-.nav-item a{color:white;text-decoration:none;}
-.dropdown{display:none;position:absolute;top:28px;left:0;background:#111;border:1px solid #333;min-width:230px;z-index:10;}
-.dropdown a{display:block;padding:12px 16px;color:white;text-decoration:none;}
-.dropdown a:hover{background:#8b0000;}
-.nav-item:hover .dropdown{display:block;}
+body{
+  margin:0;
+  background:#050505;
+  color:white;
+  font-family:Georgia,serif;
+}
+
+header{
+  background:#000;
+  padding:18px 8% 0;
+  border-bottom:1px solid #333;
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+
+.brand img{
+  width:90px;
+  height:90px;
+  object-fit:contain;
+}
+
+.brand h1{
+  font-size:36px;
+  letter-spacing:5px;
+  margin:15px 0 0;
+}
+
+.top-links{
+  margin-top:18px;
+}
+
+.top-links a{
+  color:white;
+  text-decoration:none;
+  margin-left:28px;
+  font-weight:bold;
+}
+
+nav{
+  margin-top:20px;
+  display:flex;
+  justify-content:center;
+  gap:55px;
+  flex-wrap:wrap;
+  padding:18px 0;
+  border-top:1px solid #111;
+}
+
+.nav-item{
+  position:relative;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.dropdown{
+  display:none;
+  position:absolute;
+  top:30px;
+  left:0;
+  background:#111;
+  border:1px solid #333;
+  min-width:230px;
+  z-index:10;
+}
+
+.dropdown a{
+  display:block;
+  padding:13px 16px;
+  color:white;
+  text-decoration:none;
+}
+
+.dropdown a:hover{
+  background:#8b0000;
+}
+
+.nav-item:hover .dropdown{
+  display:block;
+}
 
 .hero{
-min-height:620px;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.92)),url("hero-logo.png");
-background-size:contain;
-background-repeat:no-repeat;
-background-position:center top;
+  min-height:650px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  background:
+  linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.92)),
+  url("hero-logo.png");
+  background-size:contain;
+  background-repeat:no-repeat;
+  background-position:center top;
 }
-.hero h2{font-size:58px;margin-top:360px;}
-.hero p{font-size:22px;}
-.btn{display:inline-block;background:white;color:black;padding:13px 28px;text-decoration:none;font-weight:bold;border-radius:4px;}
-.section{padding:60px 8%;}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:25px;}
-.card{background:#111;border:1px solid #333;padding:25px;border-radius:10px;}
-.card h3{color:#ff3333;}
-footer{text-align:center;padding:35px;border-top:1px solid #333;color:#bbb;}
+
+.hero h2{
+  font-size:58px;
+  margin-top:250px;
+  text-shadow:0 3px 12px black;
+}
+
+.hero p{
+  font-size:22px;
+}
+
+.btn{
+  display:inline-block;
+  background:#b30000;
+  color:white;
+  padding:13px 28px;
+  text-decoration:none;
+  font-weight:bold;
+  border-radius:4px;
+}
+
+.section{
+  padding:60px 8%;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:25px;
+}
+
+.card{
+  background:#111;
+  border:1px solid #333;
+  padding:25px;
+  border-radius:10px;
+}
+
+.card h3{
+  color:#ff3333;
+}
+
+footer{
+  text-align:center;
+  padding:35px;
+  border-top:1px solid #333;
+  color:#bbb;
+}
+
+@media(max-width:700px){
+  .brand h1{font-size:24px;}
+  .brand img{width:65px;height:65px;}
+  .top-links a{display:block;margin:10px 0;}
+  nav{gap:22px;justify-content:flex-start;}
+  .hero h2{font-size:36px;margin-top:220px;}
+}
 </style>
 </head>
 
 <body>
 
 <header>
+
 <div class="top">
   <div class="brand">
     <img src="logo.png" alt="Phoenix Logo">
@@ -61,7 +189,7 @@ footer{text-align:center;padding:35px;border-top:1px solid #333;color:#bbb;}
 </div>
 
 <nav>
-  <div class="nav-item">STORIES
+  <div class="nav-item">STORIES ▼
     <div class="dropdown">
       <a href="stories.html">Listen to The Phoenix</a>
       <a href="story-library.html">Story Library</a>
@@ -70,7 +198,7 @@ footer{text-align:center;padding:35px;border-top:1px solid #333;color:#bbb;}
     </div>
   </div>
 
-  <div class="nav-item">COMMUNITY
+  <div class="nav-item">COMMUNITY ▼
     <div class="dropdown">
       <a href="community.html">Community</a>
       <a href="our-stories.html">Our Stories</a>
@@ -78,7 +206,7 @@ footer{text-align:center;padding:35px;border-top:1px solid #333;color:#bbb;}
     </div>
   </div>
 
-  <div class="nav-item">PHOENIX WORKS
+  <div class="nav-item">PHOENIX WORKS ▼
     <div class="dropdown">
       <a href="phoenix-works.html">Creative Works</a>
       <a href="events.html">Events</a>
@@ -86,7 +214,7 @@ footer{text-align:center;padding:35px;border-top:1px solid #333;color:#bbb;}
     </div>
   </div>
 
-  <div class="nav-item">SUPPORT THE PHOENIX
+  <div class="nav-item">SUPPORT THE PHOENIX ▼
     <div class="dropdown">
       <a href="donate.html">Donate Now</a>
       <a href="member.html">Become a Member</a>
@@ -94,28 +222,44 @@ footer{text-align:center;padding:35px;border-top:1px solid #333;color:#bbb;}
     </div>
   </div>
 </nav>
+
 </header>
 
 <section class="hero">
   <div>
     <h2>The Phoenix Whispers</h2>
     <p>Stories. Community. Creativity.</p>
-    <a class="btn" href="stories.html">Read Stories</a>
+    <a class="btn" href="stories.html">READ STORIES</a>
   </div>
 </section>
 
 <section class="section">
 <div class="grid">
-  <div class="card"><h3>Stories</h3><p>Real, emotional and powerful stories.</p></div>
-  <div class="card"><h3>Community</h3><p>A place for readers, writers and dreamers.</p></div>
-  <div class="card"><h3>Phoenix Works</h3><p>Books, interviews and creative projects.</p></div>
-  <div class="card"><h3>Support</h3><p>Help The Phoenix grow.</p></div>
+  <div class="card">
+    <h3>Stories</h3>
+    <p>Real, emotional and powerful stories.</p>
+  </div>
+
+  <div class="card">
+    <h3>Community</h3>
+    <p>A place for readers, writers and dreamers.</p>
+  </div>
+
+  <div class="card">
+    <h3>Phoenix Works</h3>
+    <p>Books, interviews and creative projects.</p>
+  </div>
+
+  <div class="card">
+    <h3>Support</h3>
+    <p>Help The Phoenix grow.</p>
+  </div>
 </div>
 </section>
 
 <footer>
-<p>© The Phoenix Whispers</p>
-<p>Rise. Transform. Inspire.</p>
+  <p>© The Phoenix Whispers</p>
+  <p>Rise. Transform. Inspire.</p>
 </footer>
 
 </body>

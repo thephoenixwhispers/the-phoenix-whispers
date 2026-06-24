@@ -1,83 +1,74 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Phoenix Whispers</title>
 
 <style>
+*{box-sizing:border-box}
 body{
   margin:0;
-  background:#050505;
-  color:white;
+  background:#070707;
+  color:#f5f0e6;
   font-family:Georgia,serif;
 }
+a{text-decoration:none;color:inherit}
 
 header{
-  background:#000;
-  padding:18px 8% 0;
-  border-bottom:1px solid #333;
+  background:#050505;
+  border-bottom:1px solid #222;
+  padding:18px 7% 0;
+  position:sticky;
+  top:0;
+  z-index:1000;
 }
-
 .top{
   display:flex;
   justify-content:space-between;
   align-items:flex-start;
-  gap:20px;
+  gap:25px;
   flex-wrap:wrap;
 }
-
 .brand{
   display:flex;
   align-items:center;
   gap:18px;
 }
-
 .brand img{
-  width:120px;
-  height:120px;
+  width:125px;
+  height:125px;
   object-fit:contain;
 }
-
 .brand h1{
+  margin:28px 0 0;
   font-size:38px;
   letter-spacing:5px;
-  margin:25px 0 0;
-  background:linear-gradient(90deg,#8b0000,#ff3b00,#ffcc33,#ffffff);
+  background:linear-gradient(90deg,#7b0000,#ff2a00,#ffcc33,#fff1b8);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
-  text-shadow:0 0 18px rgba(255,60,0,.25);
+  text-shadow:0 0 20px rgba(255,80,0,.25);
 }
-
 .top-links{
-  margin-top:25px;
+  margin-top:28px;
 }
-
 .top-links a{
-  color:white;
-  text-decoration:none;
   margin-left:28px;
   font-weight:bold;
+  font-size:14px;
 }
-
-.top-links a:hover{
-  color:#ffcc33;
-}
+.top-links a:hover{color:#ffcc33}
 
 nav{
-  margin-top:15px;
+  margin-top:10px;
   display:flex;
   justify-content:center;
   gap:55px;
-  flex-wrap:wrap;
   padding:18px 0;
   border-top:1px solid #111;
+  flex-wrap:wrap;
 }
-
-.nav-item{
-  position:relative;
-}
-
+.nav-item{position:relative}
 .nav-button{
   background:none;
   border:none;
@@ -87,105 +78,167 @@ nav{
   font-size:16px;
   cursor:pointer;
 }
-
-.nav-button:hover{
-  color:#ffcc33;
-}
-
+.nav-button:hover{color:#ffcc33}
 .dropdown{
   display:none;
   position:absolute;
   top:34px;
   left:0;
+  min-width:260px;
   background:#111;
   border:1px solid #333;
-  min-width:240px;
-  z-index:1000;
+  z-index:2000;
 }
-
-.nav-item.active .dropdown{
-  display:block;
-}
-
+.nav-item.active .dropdown{display:block}
 .dropdown a{
   display:block;
-  padding:13px 16px;
-  color:white;
-  text-decoration:none;
+  padding:14px 16px;
+  color:#f5f0e6;
+  border-bottom:1px solid #222;
 }
-
-.dropdown a:hover{
-  background:#8b0000;
-}
+.dropdown a:hover{background:#8b0000}
 
 .hero{
-  min-height:650px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
+  min-height:760px;
   background:
-  linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.92)),
+  linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.90)),
   url("hero-logo.png");
   background-size:contain;
   background-repeat:no-repeat;
   background-position:center top;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  text-align:center;
+  padding:0 20px 90px;
 }
-
 .hero h2{
-  font-size:58px;
-  margin-top:250px;
-  text-shadow:0 3px 12px black;
+  font-size:64px;
+  margin:0;
+  text-shadow:0 4px 20px black;
 }
-
 .hero p{
   font-size:22px;
+  color:#e8d8b0;
 }
-
 .btn{
   display:inline-block;
-  background:#b30000;
+  margin:10px;
+  padding:14px 30px;
+  background:#9b0000;
   color:white;
-  padding:13px 28px;
-  text-decoration:none;
   font-weight:bold;
-  border-radius:4px;
+  border-radius:3px;
+}
+.btn.light{
+  background:#f0d27a;
+  color:#170b05;
 }
 
 .section{
-  padding:60px 8%;
+  padding:80px 8%;
 }
-
+.section-title{
+  text-align:center;
+  margin-bottom:45px;
+}
+.section-title span{
+  color:#caa24a;
+  letter-spacing:4px;
+  font-size:13px;
+  text-transform:uppercase;
+}
+.section-title h2{
+  font-size:42px;
+  margin:12px 0;
+}
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-  gap:25px;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:28px;
 }
-
 .card{
   background:#111;
-  border:1px solid #333;
-  padding:25px;
-  border-radius:10px;
+  border:1px solid #292929;
+  padding:28px;
+  min-height:190px;
 }
-
 .card h3{
-  color:#ff3333;
+  color:#ff3b22;
+  font-size:25px;
 }
-
-footer{
-  text-align:center;
-  padding:35px;
+.card p{
+  color:#cfc7b8;
+  line-height:1.6;
+}
+.book{
+  display:grid;
+  grid-template-columns:1fr 1.2fr;
+  gap:40px;
+  align-items:center;
+  background:#111;
   border-top:1px solid #333;
-  color:#bbb;
+  border-bottom:1px solid #333;
+}
+.book-box{
+  padding:50px;
+}
+.book h2{
+  font-size:44px;
+  color:#ffcc33;
+}
+.quote{
+  background:#170707;
+  text-align:center;
+  padding:90px 12%;
+  border-top:1px solid #331010;
+  border-bottom:1px solid #331010;
+}
+.quote p{
+  font-size:34px;
+  line-height:1.4;
+  font-style:italic;
+}
+.newsletter{
+  background:#7b0000;
+  padding:80px 8%;
+  display:grid;
+  grid-template-columns:1.3fr 1fr;
+  gap:30px;
+  align-items:center;
+}
+.newsletter h2{font-size:40px}
+.newsletter input{
+  width:100%;
+  padding:15px;
+  border:none;
+  margin-bottom:12px;
+}
+.newsletter button{
+  width:100%;
+  padding:15px;
+  border:none;
+  background:#ffcc33;
+  font-weight:bold;
+  cursor:pointer;
+}
+footer{
+  background:#050505;
+  padding:45px 8%;
+  text-align:center;
+  color:#aaa;
+  border-top:1px solid #222;
 }
 
-@media(max-width:700px){
-  .brand img{width:80px;height:80px;}
-  .brand h1{font-size:24px;margin-top:18px;}
-  .top-links a{display:block;margin:10px 0;}
-  nav{gap:22px;justify-content:flex-start;}
-  .hero h2{font-size:36px;margin-top:220px;}
+@media(max-width:800px){
+  .brand img{width:85px;height:85px}
+  .brand h1{font-size:24px;margin-top:20px}
+  .top-links a{display:block;margin:10px 0}
+  nav{justify-content:flex-start;gap:25px}
+  .hero{min-height:620px;padding-bottom:60px}
+  .hero h2{font-size:38px}
+  .book,.newsletter{grid-template-columns:1fr}
+  .quote p{font-size:24px}
 }
 </style>
 </head>
@@ -193,122 +246,212 @@ footer{
 <body>
 
 <header>
+  <div class="top">
+    <div class="brand">
+      <img src="logo.png" alt="The Phoenix Whispers Logo">
+      <h1>THE PHOENIX WHISPERS</h1>
+    </div>
 
-<div class="top">
-  <div class="brand">
-    <img src="logo.png" alt="Phoenix Logo">
-    <h1>THE PHOENIX WHISPERS</h1>
-  </div>
-
-  <div class="top-links">
-    <a href="newsletter.html">Sign Up For Our Newsletter</a>
-    <a href="shop.html">Shop</a>
-    <a href="blog.html">Blog</a>
-    <a href="donate.html">Donate</a>
-  </div>
-</div>
-
-<nav>
-  <div class="nav-item">
-    <button class="nav-button">STORIES ▼</button>
-    <div class="dropdown">
-      <a href="stories.html">Listen to The Phoenix</a>
-      <a href="story-library.html">Story Library</a>
-      <a href="hosts.html">Meet Our Hosts</a>
-      <a href="books.html">Books</a>
+    <div class="top-links">
+      <a href="#newsletter">Sign Up For Our Newsletter</a>
+      <a href="#books">Shop</a>
+      <a href="#blog">Blog</a>
+      <a href="#support">Donate</a>
     </div>
   </div>
 
-  <div class="nav-item">
-    <button class="nav-button">COMMUNITY ▼</button>
-    <div class="dropdown">
-      <a href="community.html">Community</a>
-      <a href="our-stories.html">Our Stories</a>
-      <a href="donate.html">Donate</a>
+  <nav>
+    <div class="nav-item">
+      <button class="nav-button">STORIES ▼</button>
+      <div class="dropdown">
+        <a href="#stories">Read Stories</a>
+        <a href="#library">Story Library</a>
+        <a href="#submit">Submit Your Story</a>
+        <a href="#books">Books</a>
+      </div>
     </div>
-  </div>
 
-  <div class="nav-item">
-    <button class="nav-button">PHOENIX WORKS ▼</button>
-    <div class="dropdown">
-      <a href="phoenix-works.html">Creative Works</a>
-      <a href="events.html">Events</a>
-      <a href="projects.html">Projects</a>
+    <div class="nav-item">
+      <button class="nav-button">COMMUNITY ▼</button>
+      <div class="dropdown">
+        <a href="#community">Community</a>
+        <a href="#newsletter">Newsletter</a>
+        <a href="#submit">Share Your Voice</a>
+      </div>
     </div>
-  </div>
 
-  <div class="nav-item">
-    <button class="nav-button">SUPPORT THE PHOENIX ▼</button>
-    <div class="dropdown">
-      <a href="donate.html">Donate Now</a>
-      <a href="member.html">Become a Member</a>
-      <a href="newsletter.html">Newsletter Sign Up</a>
+    <div class="nav-item">
+      <button class="nav-button">PHOENIX WORKS ▼</button>
+      <div class="dropdown">
+        <a href="#books">Books</a>
+        <a href="#blog">Blog</a>
+        <a href="#projects">Creative Projects</a>
+      </div>
     </div>
-  </div>
-</nav>
 
+    <div class="nav-item">
+      <button class="nav-button">SUPPORT THE PHOENIX ▼</button>
+      <div class="dropdown">
+        <a href="#support">Donate</a>
+        <a href="#support">Support Us</a>
+        <a href="#newsletter">Join Newsletter</a>
+      </div>
+    </div>
+  </nav>
 </header>
 
 <section class="hero">
   <div>
-    <h2>The Phoenix Whispers</h2>
-    <p>Stories. Community. Creativity.</p>
-    <a class="btn" href="stories.html">READ STORIES</a>
+    <h2>Stories That Rise From Ashes</h2>
+    <p>Books. Stories. Community. Creativity.</p>
+    <a class="btn light" href="#stories">READ STORIES</a>
+    <a class="btn" href="#submit">SUBMIT STORY</a>
   </div>
 </section>
 
-<section class="section">
-<div class="grid">
-  <div class="card">
-    <h3>Stories</h3>
-    <p>Real, emotional and powerful stories.</p>
+<section class="section" id="stories">
+  <div class="section-title">
+    <span>This Week's Collection</span>
+    <h2>Voices We Couldn’t Stop Thinking About</h2>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h3>The Person Who Kept Walking</h3>
+      <p>A story of silence, pain, hope and the courage to continue even when life feels heavy.</p>
+    </div>
+    <div class="card">
+      <h3>In The Shadows They Live</h3>
+      <p>Real voices from ordinary people, carrying extraordinary truths in the corners of society.</p>
+    </div>
+    <div class="card">
+      <h3>Ashwatthama Ki Diary</h3>
+      <p>A dark psychological mystery where mythology, obsession and reality begin to blur.</p>
+    </div>
+  </div>
+</section>
+
+<section class="quote">
+  <p>“Some stories do not ask to be perfect. They only ask to be heard.”</p>
+</section>
+
+<section class="section book" id="books">
+  <div class="book-box">
+    <h2>The Person Who Kept Walking</h2>
+    <p>
+      A deeply emotional book about loneliness, memory, healing and the quiet strength of a person
+      who refuses to stop walking.
+    </p>
+    <a class="btn light" href="#">Buy on Amazon</a>
+    <a class="btn" href="#">Read More</a>
+  </div>
+
+  <div class="book-box">
+    <h3>Upcoming Works</h3>
+    <p>• In The Shadows They Live</p>
+    <p>• Ashwatthama Ki Diary</p>
+    <p>• More stories coming soon...</p>
+  </div>
+</section>
+
+<section class="section" id="community">
+  <div class="section-title">
+    <span>Community</span>
+    <h2>A Home For Readers, Writers And Dreamers</h2>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Readers</h3>
+      <p>Discover emotional and powerful stories that stay with you.</p>
+    </div>
+    <div class="card">
+      <h3>Writers</h3>
+      <p>Share your stories, poems, memories and creative thoughts.</p>
+    </div>
+    <div class="card">
+      <h3>Dreamers</h3>
+      <p>Join a space where imagination, truth and healing meet.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="submit">
+  <div class="section-title">
+    <span>Submit</span>
+    <h2>Share Your Story</h2>
   </div>
 
   <div class="card">
-    <h3>Community</h3>
-    <p>A place for readers, writers and dreamers.</p>
+    <p>
+      Soon you will be able to submit your real stories, poems and creative writing here.
+      For now, this section is a placeholder.
+    </p>
+    <a class="btn" href="mailto:your-email@example.com">Email Your Story</a>
+  </div>
+</section>
+
+<section class="section" id="support">
+  <div class="section-title">
+    <span>Support</span>
+    <h2>Support The Phoenix</h2>
   </div>
 
-  <div class="card">
-    <h3>Phoenix Works</h3>
-    <p>Books, interviews and creative projects.</p>
+  <div class="grid">
+    <div class="card">
+      <h3>Donate</h3>
+      <p>Donation links like UPI, PayPal or Razorpay can be added here later.</p>
+    </div>
+    <div class="card">
+      <h3>Buy Books</h3>
+      <p>The best support is reading, reviewing and sharing the books.</p>
+    </div>
+    <div class="card">
+      <h3>Share</h3>
+      <p>Share The Phoenix Whispers with readers and writers.</p>
+    </div>
+  </div>
+</section>
+
+<section class="newsletter" id="newsletter">
+  <div>
+    <h2>One Story, Every Week</h2>
+    <p>Get updates about books, stories and new creative projects.</p>
   </div>
 
-  <div class="card">
-    <h3>Support</h3>
-    <p>Help The Phoenix grow.</p>
-  </div>
-</div>
+  <form>
+    <input type="email" placeholder="Your email address">
+    <button type="button">Subscribe</button>
+  </form>
 </section>
 
 <footer>
-  <p>© The Phoenix Whispers</p>
+  <h3>The Phoenix Whispers</h3>
   <p>Rise. Transform. Inspire.</p>
+  <p>© The Phoenix Whispers</p>
 </footer>
 
 <script>
-const navItems = document.querySelectorAll('.nav-item');
+const navItems = document.querySelectorAll(".nav-item");
 
 navItems.forEach(item => {
-  const button = item.querySelector('.nav-button');
+  const button = item.querySelector(".nav-button");
 
-  button.addEventListener('click', function(event){
+  button.addEventListener("click", function(event){
     event.stopPropagation();
 
-    navItems.forEach(otherItem => {
-      if(otherItem !== item){
-        otherItem.classList.remove('active');
+    navItems.forEach(other => {
+      if(other !== item){
+        other.classList.remove("active");
       }
     });
 
-    item.classList.toggle('active');
+    item.classList.toggle("active");
   });
 });
 
-document.addEventListener('click', function(){
-  navItems.forEach(item => {
-    item.classList.remove('active');
-  });
+document.addEventListener("click", function(){
+  navItems.forEach(item => item.classList.remove("active"));
 });
 </script>
 

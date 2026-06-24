@@ -7,99 +7,134 @@
 
 <style>
 *{box-sizing:border-box}
+
 body{
   margin:0;
   background:#070707;
   color:#f5f0e6;
   font-family:Georgia,serif;
 }
-a{text-decoration:none;color:inherit}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
 
 header{
   background:#050505;
   border-bottom:1px solid #222;
-  padding:18px 7% 0;
+  padding:8px 7% 0;
   position:sticky;
   top:0;
   z-index:1000;
 }
+
 .top{
   display:flex;
   justify-content:space-between;
-  align-items:flex-start;
-  gap:25px;
+  align-items:center;
+  gap:20px;
   flex-wrap:wrap;
 }
+
 .brand{
   display:flex;
   align-items:center;
-  gap:18px;
+  gap:14px;
 }
+
 .brand img{
-  width:125px;
-  height:125px;
+  width:82px;
+  height:82px;
   object-fit:contain;
 }
+
 .brand h1{
-  margin:28px 0 0;
-  font-size:38px;
-  letter-spacing:5px;
+  margin:0;
+  font-size:31px;
+  letter-spacing:4px;
+  line-height:1;
   background:linear-gradient(90deg,#7b0000,#ff2a00,#ffcc33,#fff1b8);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
-  text-shadow:0 0 20px rgba(255,80,0,.25);
+  text-shadow:0 0 16px rgba(255,80,0,.25);
 }
+
 .top-links{
-  margin-top:28px;
+  display:flex;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
 }
+
 .top-links a{
-  margin-left:28px;
   font-weight:bold;
-  font-size:14px;
+  font-size:13px;
+  color:#f5f0e6;
 }
-.top-links a:hover{color:#ffcc33}
+
+.top-links a:hover{
+  color:#ffcc33;
+}
 
 nav{
-  margin-top:10px;
+  margin-top:6px;
   display:flex;
   justify-content:center;
-  gap:55px;
-  padding:18px 0;
+  gap:42px;
+  padding:10px 0 12px;
   border-top:1px solid #111;
   flex-wrap:wrap;
 }
-.nav-item{position:relative}
+
+.nav-item{
+  position:relative;
+}
+
 .nav-button{
   background:none;
   border:none;
   color:white;
   font-family:Georgia,serif;
   font-weight:bold;
-  font-size:16px;
+  font-size:15px;
   cursor:pointer;
+  padding:5px 0;
 }
-.nav-button:hover{color:#ffcc33}
+
+.nav-button:hover{
+  color:#ffcc33;
+}
+
 .dropdown{
   display:none;
   position:absolute;
-  top:34px;
+  top:32px;
   left:0;
-  min-width:260px;
+  min-width:250px;
   background:#111;
   border:1px solid #333;
   z-index:2000;
 }
-.nav-item.active .dropdown{display:block}
+
+.nav-item.active .dropdown{
+  display:block;
+}
+
 .dropdown a{
   display:block;
-  padding:14px 16px;
+  padding:13px 16px;
   color:#f5f0e6;
   border-bottom:1px solid #222;
+  font-size:14px;
 }
-.dropdown a:hover{background:#8b0000}
+
+.dropdown a:hover{
+  background:#8b0000;
+}
 
 .hero{
-  min-height:760px;
+  min-height:720px;
   background:
   linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.90)),
   url("hero-logo.png");
@@ -110,67 +145,79 @@ nav{
   align-items:flex-end;
   justify-content:center;
   text-align:center;
-  padding:0 20px 90px;
+  padding:0 20px 80px;
 }
+
 .hero h2{
-  font-size:64px;
+  font-size:60px;
   margin:0;
   text-shadow:0 4px 20px black;
 }
+
 .hero p{
-  font-size:22px;
+  font-size:21px;
   color:#e8d8b0;
 }
+
 .btn{
   display:inline-block;
   margin:10px;
-  padding:14px 30px;
+  padding:13px 28px;
   background:#9b0000;
   color:white;
   font-weight:bold;
   border-radius:3px;
 }
+
 .btn.light{
   background:#f0d27a;
   color:#170b05;
 }
 
 .section{
-  padding:80px 8%;
+  padding:75px 8%;
 }
+
 .section-title{
   text-align:center;
-  margin-bottom:45px;
+  margin-bottom:42px;
 }
+
 .section-title span{
   color:#caa24a;
   letter-spacing:4px;
   font-size:13px;
   text-transform:uppercase;
 }
+
 .section-title h2{
   font-size:42px;
   margin:12px 0;
 }
+
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
   gap:28px;
 }
+
 .card{
   background:#111;
   border:1px solid #292929;
   padding:28px;
   min-height:190px;
 }
+
 .card h3{
   color:#ff3b22;
   font-size:25px;
 }
+
 .card p{
   color:#cfc7b8;
   line-height:1.6;
 }
+
 .book{
   display:grid;
   grid-template-columns:1fr 1.2fr;
@@ -180,13 +227,16 @@ nav{
   border-top:1px solid #333;
   border-bottom:1px solid #333;
 }
+
 .book-box{
   padding:50px;
 }
+
 .book h2{
   font-size:44px;
   color:#ffcc33;
 }
+
 .quote{
   background:#170707;
   text-align:center;
@@ -194,26 +244,33 @@ nav{
   border-top:1px solid #331010;
   border-bottom:1px solid #331010;
 }
+
 .quote p{
   font-size:34px;
   line-height:1.4;
   font-style:italic;
 }
+
 .newsletter{
   background:#7b0000;
-  padding:80px 8%;
+  padding:75px 8%;
   display:grid;
   grid-template-columns:1.3fr 1fr;
   gap:30px;
   align-items:center;
 }
-.newsletter h2{font-size:40px}
+
+.newsletter h2{
+  font-size:40px;
+}
+
 .newsletter input{
   width:100%;
   padding:15px;
   border:none;
   margin-bottom:12px;
 }
+
 .newsletter button{
   width:100%;
   padding:15px;
@@ -222,6 +279,7 @@ nav{
   font-weight:bold;
   cursor:pointer;
 }
+
 footer{
   background:#050505;
   padding:45px 8%;
@@ -231,14 +289,55 @@ footer{
 }
 
 @media(max-width:800px){
-  .brand img{width:85px;height:85px}
-  .brand h1{font-size:24px;margin-top:20px}
-  .top-links a{display:block;margin:10px 0}
-  nav{justify-content:flex-start;gap:25px}
-  .hero{min-height:620px;padding-bottom:60px}
-  .hero h2{font-size:38px}
-  .book,.newsletter{grid-template-columns:1fr}
-  .quote p{font-size:24px}
+  header{
+    padding:8px 5% 0;
+    position:relative;
+  }
+
+  .brand img{
+    width:62px;
+    height:62px;
+  }
+
+  .brand h1{
+    font-size:21px;
+    letter-spacing:2px;
+  }
+
+  .top-links{
+    gap:12px;
+  }
+
+  .top-links a{
+    font-size:12px;
+  }
+
+  nav{
+    justify-content:flex-start;
+    gap:22px;
+    padding:10px 0;
+  }
+
+  .nav-button{
+    font-size:14px;
+  }
+
+  .hero{
+    min-height:600px;
+    padding-bottom:55px;
+  }
+
+  .hero h2{
+    font-size:36px;
+  }
+
+  .book,.newsletter{
+    grid-template-columns:1fr;
+  }
+
+  .quote p{
+    font-size:24px;
+  }
 }
 </style>
 </head>
@@ -249,11 +348,11 @@ footer{
   <div class="top">
     <div class="brand">
       <img src="logo.png" alt="The Phoenix Whispers Logo">
-      <h1>THE PHOENIX WHISPERS</h1>
+      <h1>The Phoenix Whispers</h1>
     </div>
 
     <div class="top-links">
-      <a href="#newsletter">Sign Up For Our Newsletter</a>
+      <a href="#newsletter">Sign Up</a>
       <a href="#books">Shop</a>
       <a href="#blog">Blog</a>
       <a href="#support">Donate</a>
@@ -262,7 +361,7 @@ footer{
 
   <nav>
     <div class="nav-item">
-      <button class="nav-button">STORIES ▼</button>
+      <button class="nav-button">Stories ▼</button>
       <div class="dropdown">
         <a href="#stories">Read Stories</a>
         <a href="#library">Story Library</a>
@@ -272,7 +371,7 @@ footer{
     </div>
 
     <div class="nav-item">
-      <button class="nav-button">COMMUNITY ▼</button>
+      <button class="nav-button">Community ▼</button>
       <div class="dropdown">
         <a href="#community">Community</a>
         <a href="#newsletter">Newsletter</a>
@@ -281,7 +380,7 @@ footer{
     </div>
 
     <div class="nav-item">
-      <button class="nav-button">PHOENIX WORKS ▼</button>
+      <button class="nav-button">Phoenix Works ▼</button>
       <div class="dropdown">
         <a href="#books">Books</a>
         <a href="#blog">Blog</a>
@@ -290,7 +389,7 @@ footer{
     </div>
 
     <div class="nav-item">
-      <button class="nav-button">SUPPORT THE PHOENIX ▼</button>
+      <button class="nav-button">Support The Phoenix ▼</button>
       <div class="dropdown">
         <a href="#support">Donate</a>
         <a href="#support">Support Us</a>
@@ -304,8 +403,8 @@ footer{
   <div>
     <h2>Stories That Rise From Ashes</h2>
     <p>Books. Stories. Community. Creativity.</p>
-    <a class="btn light" href="#stories">READ STORIES</a>
-    <a class="btn" href="#submit">SUBMIT STORY</a>
+    <a class="btn light" href="#stories">Read Stories</a>
+    <a class="btn" href="#submit">Submit Story</a>
   </div>
 </section>
 

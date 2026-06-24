@@ -6,248 +6,239 @@
 <title>The Phoenix Whispers</title>
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
+*{box-sizing:border-box}
 body{
-  font-family: Arial, Helvetica, sans-serif;
-  background:#f7f1e8;
-  color:#111;
+  margin:0;
+  background:#070707;
+  color:#f5f0e6;
+  font-family:Georgia,serif;
 }
+a{text-decoration:none;color:inherit}
 
 header{
-  background:#fffaf2;
-  border-bottom:1px solid #111;
-  padding:18px 7%;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  background:#050505;
+  border-bottom:1px solid #222;
+  padding:18px 7% 0;
   position:sticky;
   top:0;
   z-index:1000;
 }
-
-.logo-area{
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:25px;
+  flex-wrap:wrap;
+}
+.brand{
   display:flex;
   align-items:center;
-  gap:14px;
+  gap:18px;
 }
-
-.logo-area img{
-  width:58px;
-  height:58px;
+.brand img{
+  width:125px;
+  height:125px;
   object-fit:contain;
 }
-
-.logo-text{
-  font-family: Georgia, serif;
-  font-size:30px;
-  font-weight:bold;
-  letter-spacing:1px;
-  color:#111;
+.brand h1{
+  margin:28px 0 0;
+  font-size:38px;
+  letter-spacing:5px;
+  background:linear-gradient(90deg,#7b0000,#ff2a00,#ffcc33,#fff1b8);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-shadow:0 0 20px rgba(255,80,0,.25);
 }
-
-nav a{
-  text-decoration:none;
-  color:#111;
-  margin-left:26px;
+.top-links{
+  margin-top:28px;
+}
+.top-links a{
+  margin-left:28px;
+  font-weight:bold;
   font-size:14px;
-  font-weight:bold;
-  text-transform:uppercase;
-  letter-spacing:1px;
 }
+.top-links a:hover{color:#ffcc33}
 
-nav a:hover{
-  color:#b13b1e;
+nav{
+  margin-top:10px;
+  display:flex;
+  justify-content:center;
+  gap:55px;
+  padding:18px 0;
+  border-top:1px solid #111;
+  flex-wrap:wrap;
 }
+.nav-item{position:relative}
+.nav-button{
+  background:none;
+  border:none;
+  color:white;
+  font-family:Georgia,serif;
+  font-weight:bold;
+  font-size:16px;
+  cursor:pointer;
+}
+.nav-button:hover{color:#ffcc33}
+.dropdown{
+  display:none;
+  position:absolute;
+  top:34px;
+  left:0;
+  min-width:260px;
+  background:#111;
+  border:1px solid #333;
+  z-index:2000;
+}
+.nav-item.active .dropdown{display:block}
+.dropdown a{
+  display:block;
+  padding:14px 16px;
+  color:#f5f0e6;
+  border-bottom:1px solid #222;
+}
+.dropdown a:hover{background:#8b0000}
 
 .hero{
-  padding:90px 7% 70px;
+  min-height:760px;
+  background:
+  linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.90)),
+  url("hero-logo.png");
+  background-size:contain;
+  background-repeat:no-repeat;
+  background-position:center top;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
   text-align:center;
-  border-bottom:1px solid #111;
+  padding:0 20px 90px;
 }
-
-.hero h1{
-  font-family: Georgia, serif;
-  font-size:74px;
-  line-height:1;
-  margin-bottom:20px;
-  color:#111;
+.hero h2{
+  font-size:64px;
+  margin:0;
+  text-shadow:0 4px 20px black;
 }
-
 .hero p{
   font-size:22px;
-  max-width:760px;
-  margin:auto;
-  line-height:1.6;
+  color:#e8d8b0;
 }
-
-.tagline{
-  margin-top:25px;
-  font-size:14px;
-  text-transform:uppercase;
-  letter-spacing:2px;
+.btn{
+  display:inline-block;
+  margin:10px;
+  padding:14px 30px;
+  background:#9b0000;
+  color:white;
   font-weight:bold;
-  color:#9b2f18;
+  border-radius:3px;
+}
+.btn.light{
+  background:#f0d27a;
+  color:#170b05;
 }
 
 .section{
-  padding:70px 7%;
-  border-bottom:1px solid #111;
+  padding:80px 8%;
 }
-
 .section-title{
-  font-family: Georgia, serif;
-  font-size:42px;
-  margin-bottom:35px;
   text-align:center;
+  margin-bottom:45px;
 }
-
-.featured{
-  display:grid;
-  grid-template-columns:320px 1fr;
-  gap:55px;
-  align-items:center;
-  max-width:1050px;
-  margin:auto;
-}
-
-.book-cover{
-  width:100%;
-  border:1px solid #111;
-  box-shadow:8px 8px 0 #111;
-}
-
-.book-info h2{
-  font-family: Georgia, serif;
-  font-size:46px;
-  margin-bottom:18px;
-}
-
-.book-info p{
-  font-size:18px;
-  line-height:1.8;
-  margin-bottom:18px;
-}
-
-.status{
-  display:inline-block;
-  border:1px solid #111;
-  padding:8px 13px;
+.section-title span{
+  color:#caa24a;
+  letter-spacing:4px;
   font-size:13px;
-  font-weight:bold;
   text-transform:uppercase;
-  margin-bottom:20px;
-  background:#fffaf2;
 }
-
-.btn{
-  display:inline-block;
-  margin-top:10px;
-  padding:14px 24px;
-  border:1px solid #111;
-  background:#111;
-  color:#fff;
-  text-decoration:none;
-  font-weight:bold;
-  text-transform:uppercase;
-  letter-spacing:1px;
-  font-size:14px;
+.section-title h2{
+  font-size:42px;
+  margin:12px 0;
 }
-
-.btn:hover{
-  background:#b13b1e;
-}
-
-.quote{
-  max-width:850px;
-  margin:auto;
-  text-align:center;
-  font-family: Georgia, serif;
-  font-size:34px;
-  line-height:1.5;
-}
-
-.projects{
+.grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:25px;
-  max-width:950px;
-  margin:auto;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:28px;
 }
-
-.project-card{
-  background:#fffaf2;
-  border:1px solid #111;
+.card{
+  background:#111;
+  border:1px solid #292929;
   padding:28px;
   min-height:190px;
 }
-
-.project-card h3{
-  font-family: Georgia, serif;
-  font-size:28px;
+.card h3{
+  color:#ff3b22;
+  font-size:25px;
+}
+.card p{
+  color:#cfc7b8;
+  line-height:1.6;
+}
+.book{
+  display:grid;
+  grid-template-columns:1fr 1.2fr;
+  gap:40px;
+  align-items:center;
+  background:#111;
+  border-top:1px solid #333;
+  border-bottom:1px solid #333;
+}
+.book-box{
+  padding:50px;
+}
+.book h2{
+  font-size:44px;
+  color:#ffcc33;
+}
+.quote{
+  background:#170707;
+  text-align:center;
+  padding:90px 12%;
+  border-top:1px solid #331010;
+  border-bottom:1px solid #331010;
+}
+.quote p{
+  font-size:34px;
+  line-height:1.4;
+  font-style:italic;
+}
+.newsletter{
+  background:#7b0000;
+  padding:80px 8%;
+  display:grid;
+  grid-template-columns:1.3fr 1fr;
+  gap:30px;
+  align-items:center;
+}
+.newsletter h2{font-size:40px}
+.newsletter input{
+  width:100%;
+  padding:15px;
+  border:none;
   margin-bottom:12px;
 }
-
-.project-card p{
-  font-size:16px;
-  line-height:1.7;
+.newsletter button{
+  width:100%;
+  padding:15px;
+  border:none;
+  background:#ffcc33;
+  font-weight:bold;
+  cursor:pointer;
 }
-
-.about{
-  max-width:850px;
-  margin:auto;
-  text-align:center;
-  font-size:18px;
-  line-height:1.9;
-}
-
 footer{
-  background:#111;
-  color:#f7f1e8;
+  background:#050505;
+  padding:45px 8%;
   text-align:center;
-  padding:35px 7%;
-  font-size:14px;
-  line-height:1.8;
+  color:#aaa;
+  border-top:1px solid #222;
 }
 
 @media(max-width:800px){
-  header{
-    flex-direction:column;
-    gap:16px;
-  }
-
-  nav a{
-    margin:0 8px;
-    font-size:12px;
-  }
-
-  .logo-text{
-    font-size:24px;
-  }
-
-  .hero h1{
-    font-size:48px;
-  }
-
-  .hero p{
-    font-size:18px;
-  }
-
-  .featured{
-    grid-template-columns:1fr;
-  }
-
-  .book-info h2{
-    font-size:34px;
-  }
-
-  .quote{
-    font-size:25px;
-  }
+  .brand img{width:85px;height:85px}
+  .brand h1{font-size:24px;margin-top:20px}
+  .top-links a{display:block;margin:10px 0}
+  nav{justify-content:flex-start;gap:25px}
+  .hero{min-height:620px;padding-bottom:60px}
+  .hero h2{font-size:38px}
+  .book,.newsletter{grid-template-columns:1fr}
+  .quote p{font-size:24px}
 }
 </style>
 </head>
@@ -255,102 +246,214 @@ footer{
 <body>
 
 <header>
-  <div class="logo-area">
-    <img src="logo.png" alt="The Phoenix Whispers Logo">
-    <div class="logo-text">The Phoenix Whispers</div>
+  <div class="top">
+    <div class="brand">
+      <img src="logo.png" alt="The Phoenix Whispers Logo">
+      <h1>THE PHOENIX WHISPERS</h1>
+    </div>
+
+    <div class="top-links">
+      <a href="#newsletter">Sign Up For Our Newsletter</a>
+      <a href="#books">Shop</a>
+      <a href="#blog">Blog</a>
+      <a href="#support">Donate</a>
+    </div>
   </div>
 
   <nav>
-    <a href="#home">Home</a>
-    <a href="#book">Book</a>
-    <a href="#projects">Projects</a>
-    <a href="#about">About</a>
+    <div class="nav-item">
+      <button class="nav-button">STORIES ▼</button>
+      <div class="dropdown">
+        <a href="#stories">Read Stories</a>
+        <a href="#library">Story Library</a>
+        <a href="#submit">Submit Your Story</a>
+        <a href="#books">Books</a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <button class="nav-button">COMMUNITY ▼</button>
+      <div class="dropdown">
+        <a href="#community">Community</a>
+        <a href="#newsletter">Newsletter</a>
+        <a href="#submit">Share Your Voice</a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <button class="nav-button">PHOENIX WORKS ▼</button>
+      <div class="dropdown">
+        <a href="#books">Books</a>
+        <a href="#blog">Blog</a>
+        <a href="#projects">Creative Projects</a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <button class="nav-button">SUPPORT THE PHOENIX ▼</button>
+      <div class="dropdown">
+        <a href="#support">Donate</a>
+        <a href="#support">Support Us</a>
+        <a href="#newsletter">Join Newsletter</a>
+      </div>
+    </div>
   </nav>
 </header>
 
-<section class="hero" id="home">
-  <h1>The Phoenix Whispers</h1>
-  <p>
-    A home for stories of silence, survival, heartbreak, hope,
-    memory, and the quiet fire that keeps a person walking.
-  </p>
-  <div class="tagline">Stories that rise from ashes</div>
-</section>
-
-<section class="section" id="book">
-  <div class="section-title">Featured Book</div>
-
-  <div class="featured">
-    <img class="book-cover" src="the person who kept walking.png" alt="The Person Who Kept Walking Book Cover">
-
-    <div class="book-info">
-      <div class="status">Available Now</div>
-
-      <h2>The Person Who Kept Walking</h2>
-
-      <p>
-        A deeply emotional story about loneliness, memories,
-        heartbreak, healing, and the courage to keep moving forward
-        even when life gives every reason to stop.
-      </p>
-
-      <p>
-        For readers who have ever felt broken, silent, lost,
-        or still walking through something they cannot explain.
-      </p>
-
-      <a class="btn" href="PASTE_YOUR_AMAZON_LINK_HERE" target="_blank">
-        Buy on Amazon
-      </a>
-    </div>
+<section class="hero">
+  <div>
+    <h2>Stories That Rise From Ashes</h2>
+    <p>Books. Stories. Community. Creativity.</p>
+    <a class="btn light" href="#stories">READ STORIES</a>
+    <a class="btn" href="#submit">SUBMIT STORY</a>
   </div>
 </section>
 
-<section class="section">
-  <div class="quote">
-    “Some people do not rise loudly.  
-    They break silently, heal quietly,  
-    and still keep walking.”
+<section class="section" id="stories">
+  <div class="section-title">
+    <span>This Week's Collection</span>
+    <h2>Voices We Couldn’t Stop Thinking About</h2>
   </div>
-</section>
 
-<section class="section" id="projects">
-  <div class="section-title">Writing Projects</div>
-
-  <div class="projects">
-    <div class="project-card">
-      <h3>Ashwatthama Ki Diary</h3>
-      <p>
-        A Hindi mystery thriller inspired by mythology, obsession,
-        hidden truths, and the strange line between belief and reality.
-      </p>
+  <div class="grid">
+    <div class="card">
+      <h3>The Person Who Kept Walking</h3>
+      <p>A story of silence, pain, hope and the courage to continue even when life feels heavy.</p>
     </div>
-
-    <div class="project-card">
+    <div class="card">
       <h3>In The Shadows They Live</h3>
-      <p>
-        A collection of real-life inspired stories about people living
-        quietly inside struggle, silence, society, and survival.
-      </p>
+      <p>Real voices from ordinary people, carrying extraordinary truths in the corners of society.</p>
+    </div>
+    <div class="card">
+      <h3>Ashwatthama Ki Diary</h3>
+      <p>A dark psychological mystery where mythology, obsession and reality begin to blur.</p>
     </div>
   </div>
 </section>
 
-<section class="section" id="about">
-  <div class="section-title">About The Author</div>
+<section class="quote">
+  <p>“Some stories do not ask to be perfect. They only ask to be heard.”</p>
+</section>
 
-  <div class="about">
-    Vineet is an Indian author who explores human emotions,
-    loneliness, memory, hope, identity, and the quiet struggles people
-    carry within themselves. His writing focuses on the stories that
-    often remain unspoken.
+<section class="section book" id="books">
+  <div class="book-box">
+    <h2>The Person Who Kept Walking</h2>
+    <p>
+      A deeply emotional book about loneliness, memory, healing and the quiet strength of a person
+      who refuses to stop walking.
+    </p>
+    <a class="btn light" href="#">Buy on Amazon</a>
+    <a class="btn" href="#">Read More</a>
   </div>
+
+  <div class="book-box">
+    <h3>Upcoming Works</h3>
+    <p>• In The Shadows They Live</p>
+    <p>• Ashwatthama Ki Diary</p>
+    <p>• More stories coming soon...</p>
+  </div>
+</section>
+
+<section class="section" id="community">
+  <div class="section-title">
+    <span>Community</span>
+    <h2>A Home For Readers, Writers And Dreamers</h2>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Readers</h3>
+      <p>Discover emotional and powerful stories that stay with you.</p>
+    </div>
+    <div class="card">
+      <h3>Writers</h3>
+      <p>Share your stories, poems, memories and creative thoughts.</p>
+    </div>
+    <div class="card">
+      <h3>Dreamers</h3>
+      <p>Join a space where imagination, truth and healing meet.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="submit">
+  <div class="section-title">
+    <span>Submit</span>
+    <h2>Share Your Story</h2>
+  </div>
+
+  <div class="card">
+    <p>
+      Soon you will be able to submit your real stories, poems and creative writing here.
+      For now, this section is a placeholder.
+    </p>
+    <a class="btn" href="mailto:your-email@example.com">Email Your Story</a>
+  </div>
+</section>
+
+<section class="section" id="support">
+  <div class="section-title">
+    <span>Support</span>
+    <h2>Support The Phoenix</h2>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Donate</h3>
+      <p>Donation links like UPI, PayPal or Razorpay can be added here later.</p>
+    </div>
+    <div class="card">
+      <h3>Buy Books</h3>
+      <p>The best support is reading, reviewing and sharing the books.</p>
+    </div>
+    <div class="card">
+      <h3>Share</h3>
+      <p>Share The Phoenix Whispers with readers and writers.</p>
+    </div>
+  </div>
+</section>
+
+<section class="newsletter" id="newsletter">
+  <div>
+    <h2>One Story, Every Week</h2>
+    <p>Get updates about books, stories and new creative projects.</p>
+  </div>
+
+  <form>
+    <input type="email" placeholder="Your email address">
+    <button type="button">Subscribe</button>
+  </form>
 </section>
 
 <footer>
-  © 2026 The Phoenix Whispers<br>
-  Written & Created by Vineet
+  <h3>The Phoenix Whispers</h3>
+  <p>Rise. Transform. Inspire.</p>
+  <p>© The Phoenix Whispers</p>
 </footer>
+
+<script>
+const navItems = document.querySelectorAll(".nav-item");
+
+navItems.forEach(item => {
+  const button = item.querySelector(".nav-button");
+
+  button.addEventListener("click", function(event){
+    event.stopPropagation();
+
+    navItems.forEach(other => {
+      if(other !== item){
+        other.classList.remove("active");
+      }
+    });
+
+    item.classList.toggle("active");
+  });
+});
+
+document.addEventListener("click", function(){
+  navItems.forEach(item => item.classList.remove("active"));
+});
+</script>
 
 </body>
 </html>

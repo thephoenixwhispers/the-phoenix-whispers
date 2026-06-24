@@ -34,19 +34,23 @@ header{
 }
 
 .brand img{
-  width:90px;
-  height:90px;
+  width:120px;
+  height:120px;
   object-fit:contain;
 }
 
 .brand h1{
-  font-size:36px;
+  font-size:38px;
   letter-spacing:5px;
-  margin:15px 0 0;
+  margin:25px 0 0;
+  background:linear-gradient(90deg,#8b0000,#ff3b00,#ffcc33,#ffffff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-shadow:0 0 18px rgba(255,60,0,.25);
 }
 
 .top-links{
-  margin-top:18px;
+  margin-top:25px;
 }
 
 .top-links a{
@@ -56,8 +60,12 @@ header{
   font-weight:bold;
 }
 
+.top-links a:hover{
+  color:#ffcc33;
+}
+
 nav{
-  margin-top:20px;
+  margin-top:15px;
   display:flex;
   justify-content:center;
   gap:55px;
@@ -70,20 +78,24 @@ nav{
   position:relative;
 }
 
-.nav-item summary{
-  list-style:none;
-  cursor:pointer;
+.nav-button{
+  background:none;
+  border:none;
+  color:white;
+  font-family:Georgia,serif;
   font-weight:bold;
+  font-size:16px;
+  cursor:pointer;
 }
 
-.nav-item summary::-webkit-details-marker{
-  display:none;
+.nav-button:hover{
+  color:#ffcc33;
 }
 
 .dropdown{
   display:none;
   position:absolute;
-  top:32px;
+  top:34px;
   left:0;
   background:#111;
   border:1px solid #333;
@@ -91,7 +103,7 @@ nav{
   z-index:1000;
 }
 
-.nav-item[open] .dropdown{
+.nav-item.active .dropdown{
   display:block;
 }
 
@@ -169,8 +181,8 @@ footer{
 }
 
 @media(max-width:700px){
-  .brand h1{font-size:24px;}
-  .brand img{width:65px;height:65px;}
+  .brand img{width:80px;height:80px;}
+  .brand h1{font-size:24px;margin-top:18px;}
   .top-links a{display:block;margin:10px 0;}
   nav{gap:22px;justify-content:flex-start;}
   .hero h2{font-size:36px;margin-top:220px;}
@@ -197,42 +209,42 @@ footer{
 </div>
 
 <nav>
-  <details class="nav-item">
-    <summary>STORIES ▼</summary>
+  <div class="nav-item">
+    <button class="nav-button">STORIES ▼</button>
     <div class="dropdown">
       <a href="stories.html">Listen to The Phoenix</a>
       <a href="story-library.html">Story Library</a>
       <a href="hosts.html">Meet Our Hosts</a>
       <a href="books.html">Books</a>
     </div>
-  </details>
+  </div>
 
-  <details class="nav-item">
-    <summary>COMMUNITY ▼</summary>
+  <div class="nav-item">
+    <button class="nav-button">COMMUNITY ▼</button>
     <div class="dropdown">
       <a href="community.html">Community</a>
       <a href="our-stories.html">Our Stories</a>
       <a href="donate.html">Donate</a>
     </div>
-  </details>
+  </div>
 
-  <details class="nav-item">
-    <summary>PHOENIX WORKS ▼</summary>
+  <div class="nav-item">
+    <button class="nav-button">PHOENIX WORKS ▼</button>
     <div class="dropdown">
       <a href="phoenix-works.html">Creative Works</a>
       <a href="events.html">Events</a>
       <a href="projects.html">Projects</a>
     </div>
-  </details>
+  </div>
 
-  <details class="nav-item">
-    <summary>SUPPORT THE PHOENIX ▼</summary>
+  <div class="nav-item">
+    <button class="nav-button">SUPPORT THE PHOENIX ▼</button>
     <div class="dropdown">
       <a href="donate.html">Donate Now</a>
       <a href="member.html">Become a Member</a>
       <a href="newsletter.html">Newsletter Sign Up</a>
     </div>
-  </details>
+  </div>
 </nav>
 
 </header>
@@ -273,6 +285,32 @@ footer{
   <p>© The Phoenix Whispers</p>
   <p>Rise. Transform. Inspire.</p>
 </footer>
+
+<script>
+const navItems = document.querySelectorAll('.nav-item');
+
+navItems.forEach(item => {
+  const button = item.querySelector('.nav-button');
+
+  button.addEventListener('click', function(event){
+    event.stopPropagation();
+
+    navItems.forEach(otherItem => {
+      if(otherItem !== item){
+        otherItem.classList.remove('active');
+      }
+    });
+
+    item.classList.toggle('active');
+  });
+});
+
+document.addEventListener('click', function(){
+  navItems.forEach(item => {
+    item.classList.remove('active');
+  });
+});
+</script>
 
 </body>
 </html>

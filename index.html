@@ -68,19 +68,31 @@ nav{
 
 .nav-item{
   position:relative;
-  font-weight:bold;
+}
+
+.nav-item summary{
+  list-style:none;
   cursor:pointer;
+  font-weight:bold;
+}
+
+.nav-item summary::-webkit-details-marker{
+  display:none;
 }
 
 .dropdown{
   display:none;
   position:absolute;
-  top:30px;
+  top:32px;
   left:0;
   background:#111;
   border:1px solid #333;
-  min-width:230px;
-  z-index:10;
+  min-width:240px;
+  z-index:1000;
+}
+
+.nav-item[open] .dropdown{
+  display:block;
 }
 
 .dropdown a{
@@ -92,10 +104,6 @@ nav{
 
 .dropdown a:hover{
   background:#8b0000;
-}
-
-.nav-item:hover .dropdown{
-  display:block;
 }
 
 .hero{
@@ -189,38 +197,42 @@ footer{
 </div>
 
 <nav>
-  <div class="nav-item">STORIES ▼
+  <details class="nav-item">
+    <summary>STORIES ▼</summary>
     <div class="dropdown">
       <a href="stories.html">Listen to The Phoenix</a>
       <a href="story-library.html">Story Library</a>
       <a href="hosts.html">Meet Our Hosts</a>
       <a href="books.html">Books</a>
     </div>
-  </div>
+  </details>
 
-  <div class="nav-item">COMMUNITY ▼
+  <details class="nav-item">
+    <summary>COMMUNITY ▼</summary>
     <div class="dropdown">
       <a href="community.html">Community</a>
       <a href="our-stories.html">Our Stories</a>
       <a href="donate.html">Donate</a>
     </div>
-  </div>
+  </details>
 
-  <div class="nav-item">PHOENIX WORKS ▼
+  <details class="nav-item">
+    <summary>PHOENIX WORKS ▼</summary>
     <div class="dropdown">
       <a href="phoenix-works.html">Creative Works</a>
       <a href="events.html">Events</a>
       <a href="projects.html">Projects</a>
     </div>
-  </div>
+  </details>
 
-  <div class="nav-item">SUPPORT THE PHOENIX ▼
+  <details class="nav-item">
+    <summary>SUPPORT THE PHOENIX ▼</summary>
     <div class="dropdown">
       <a href="donate.html">Donate Now</a>
       <a href="member.html">Become a Member</a>
       <a href="newsletter.html">Newsletter Sign Up</a>
     </div>
-  </div>
+  </details>
 </nav>
 
 </header>

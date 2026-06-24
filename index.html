@@ -1,11 +1,191 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>The Phoenix Whispers</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>The Phoenix Whispers</title>
+
+<style>
+
+body{
+margin:0;
+background:#0b0b0b;
+color:white;
+font-family:Georgia, serif;
+}
+
+header{
+background:black;
+padding:20px;
+border-bottom:1px solid #333;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+}
+
+.logo{
+font-size:32px;
+font-weight:bold;
+letter-spacing:2px;
+}
+
+.menu{
+margin-top:20px;
+display:flex;
+gap:30px;
+flex-wrap:wrap;
+}
+
+.menu a{
+color:white;
+text-decoration:none;
+font-weight:bold;
+}
+
+.hero{
+height:500px;
+background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
+url('https://images.unsplash.com/photo-1512820790803-83ca734da794');
+background-size:cover;
+background-position:center;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:20px;
+}
+
+.hero h1{
+font-size:60px;
+margin-bottom:10px;
+}
+
+.hero p{
+font-size:20px;
+max-width:700px;
+}
+
+.section{
+padding:60px 10%;
+}
+
+.box{
+background:#141414;
+padding:30px;
+border:1px solid #333;
+margin-bottom:30px;
+border-radius:10px;
+}
+
+.button{
+display:inline-block;
+margin-top:20px;
+padding:12px 25px;
+background:white;
+color:black;
+text-decoration:none;
+font-weight:bold;
+border-radius:5px;
+}
+
+footer{
+padding:30px;
+text-align:center;
+border-top:1px solid #333;
+}
+
+</style>
+
 </head>
+
 <body>
-    <h1>The Phoenix Whispers</h1>
-    <p>Welcome to The Phoenix Whispers.</p>
-    <p>Stories. Community. Creativity.</p>
+
+<header>
+
+<div class="topbar">
+
+<div class="logo">
+THE PHOENIX WHISPERS
+</div>
+
+<div>
+Sign Up For Our Newsletter
+</div>
+
+</div>
+
+<div class="menu">
+<a href="#">Stories</a>
+<a href="#">Community</a>
+<a href="#">Phoenix Works</a>
+<a href="#">Support</a>
+</div>
+
+</header>
+
+<section class="hero">
+
+<div>
+
+<h1>The Phoenix Whispers</h1>
+
+<p>
+Stories that stay with you long after the final page.
+</p>
+
+<a class="button" href="#">
+Read Stories
+</a>
+
+</div>
+
+</section>
+
+<section class="section">
+
+<div class="box">
+
+<h2>About Us</h2>
+
+<p>
+The Phoenix Whispers is a home for stories,
+ideas, books and voices that deserve to be heard.
+</p>
+
+</div>
+
+<div class="box">
+
+<h2>Community</h2>
+
+<p>
+Join readers, writers and dreamers from around the world.
+</p>
+
+</div>
+
+<div class="box">
+
+<h2>Newsletter</h2>
+
+<p>
+Get updates about stories, books and projects.
+</p>
+
+</div>
+
+</section>
+
+<footer>
+
+© The Phoenix Whispers
+
+</footer>
+
 </body>
 </html>

@@ -1,1 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About | The Phoenix Whispers</title>
 
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#070707;color:#f5f0e6;font-family:Georgia,serif}
+a{text-decoration:none;color:inherit}
+
+header{
+  background:rgba(5,5,5,.94);
+  border-bottom:1px solid #222;
+  padding:8px 7% 0;
+  position:sticky;
+  top:0;
+  z-index:1000;
+}
+.top{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:14px}
+.brand img{width:78px;height:78px;object-fit:contain}
+.brand h1{
+  margin:0;font-size:31px;letter-spacing:4px;
+  background:linear-gradient(90deg,#9b0000,#ff2a00,#ffcc33,#fff1b8);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.top-links{display:flex;gap:22px;flex-wrap:wrap}
+.top-links a{font-weight:bold;font-size:13px}
+.top-links a:hover{color:#ffcc33}
+
+nav{
+  margin-top:6px;display:flex;justify-content:center;gap:42px;
+  padding:10px 0 12px;border-top:1px solid #111;flex-wrap:wrap;
+}
+nav a{font-weight:bold;font-size:15px}
+nav a:hover{color:#ffcc33}
+
+.hero{
+  min-height:430px;
+  background:
+  radial-gradient(circle at center,rgba(255,80,0,.22),transparent 35%),
+  linear-gradient(rgba(0,0,0,.18),rgba(0,0,0,.92)),
+  url("hero-logo.png");
+  background-size:contain;
+  background-repeat:no-repeat;
+  background-position:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:80px 20px;
+}
+.hero span{color:#ffcc33;letter-spacing:4px;text-transform:uppercase;font-size:13px}
+.hero h2{font-size:58px;margin:16px 0;text-shadow:0 4px 18px black}
+.hero p{max-width:760px;margin:auto;font-size:20px;color:#d8cbb8;line-height:1.6}
+
+.section{padding:75px 8%}
+.wrap{max-width:1100px;margin:auto}
+
+.two{
+  display:grid;
+  grid-template-columns:1fr 1.2fr;
+  gap:45px;
+  align-items:center;
+}
+.label{color:#caa24a;letter-spacing:4px;text-transform:uppercase;font-size:13px}
+h2{font-size:42px;color:#ffcc33;margin:12px 0}
+p{color:#d8cbb8;line-height:1.7;font-size:17px}
+
+.card-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:26px;
+  margin-top:35px;
+}
+.card{
+  background:#111;
+  border:1px solid #292929;
+  padding:28px;
+}
+.card h3{color:#ff3b22;font-size:25px}
+.card p{color:#cfc7b8}
+
+.quote{
+  background:#170707;
+  text-align:center;
+  padding:85px 12%;
+  border-top:1px solid #331010;
+  border-bottom:1px solid #331010;
+}
+.quote p{
+  font-size:34px;
+  font-style:italic;
+  color:#f5f0e6;
+}
+
+.founder{
+  background:#101010;
+  border-top:1px solid #333;
+  border-bottom:1px solid #333;
+}
+.founder-box{
+  display:grid;
+  grid-template-columns:300px 1fr;
+  gap:45px;
+  align-items:center;
+}
+.founder-photo{
+  min-height:330px;
+  border:1px solid #4b1c1c;
+  background:
+  linear-gradient(rgba(0,0,0,.15),rgba(0,0,0,.85)),
+  radial-gradient(circle,#8b0000,#111 65%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:80px;
+  box-shadow:0 0 35px rgba(139,0,0,.25);
+}
+.btn{
+  display:inline-block;
+  margin-top:15px;
+  padding:13px 28px;
+  background:#9b0000;
+  color:white;
+  font-weight:bold;
+}
+.btn.light{background:#f0d27a;color:#170b05}
+
+footer{
+  background:#030303;
+  border-top:1px solid #222;
+  padding:45px 8%;
+  text-align:center;
+  color:#aaa;
+}
+footer h3{color:#ffcc33}
+
+@media(max-width:800px){
+  header{position:relative;padding:8px 5% 0}
+  .brand img{width:62px;height:62px}
+  .brand h1{font-size:21px;letter-spacing:2px}
+  nav{justify-content:flex-start;gap:22px}
+  .hero h2{font-size:38px}
+  .two,.founder-box{grid-template-columns:1fr}
+  .quote p{font-size:24px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="top">
+    <div class="brand">
+      <img src="logo.png" alt="The Phoenix Whispers Logo">
+      <h1>The Phoenix Whispers</h1>
+    </div>
+
+    <div class="top-links">
+      <a href="index.html#newsletter">Sign Up</a>
+      <a href="books.html">Shop</a>
+      <a href="index.html#support">Donate</a>
+    </div>
+  </div>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="stories.html">Stories</a>
+    <a href="books.html">Books</a>
+    <a href="about.html">About</a>
+    <a href="index.html#submit">Submit Story</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div>
+    <span>About</span>
+    <h2>Why The Phoenix Whispers Exists</h2>
+    <p>
+      A home for stories, books, interviews and creative voices that rise from silence,
+      pain, memory and hope.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap two">
+    <div>
+      <span class="label">Our Story</span>
+      <h2>Built for the voices that deserve to be heard.</h2>
+    </div>
+    <div>
+      <p>
+        The Phoenix Whispers is a storytelling space created for readers, writers and dreamers.
+        It is not just a website — it is a growing home for emotional stories, real interviews,
+        books, poems and creative works.
+      </p>
+      <p>
+        The phoenix represents rising again. Whispers represent the soft voices that are often
+        ignored. Together, The Phoenix Whispers stands for stories that survive, heal and inspire.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="quote">
+  <p>“Some voices do not need to be loud. They only need a place where someone listens.”</p>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="label">Mission & Vision</span>
+    <h2>What we want to build</h2>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3>Our Mission</h3>
+        <p>To collect and share powerful stories that make people feel less alone.</p>
+      </div>
+
+      <div class="card">
+        <h3>Our Vision</h3>
+        <p>To become a creative home for books, interviews, poems, essays and real voices.</p>
+      </div>
+
+      <div class="card">
+        <h3>Our Promise</h3>
+        <p>To treat every story with honesty, respect and emotional truth.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section founder">
+  <div class="wrap founder-box">
+    <div class="founder-photo">🦅</div>
+
+    <div>
+      <span class="label">Founder</span>
+      <h2>About Vineet</h2>
+      <p>
+        Vineet is an Indian author and creator who explores loneliness, memory, healing,
+        identity and hope through books and stories.
+      </p>
+      <p>
+        His works include <b>The Person Who Kept Walking</b>, and upcoming creative projects
+        like <b>In The Shadows They Live</b> and <b>Ashwatthama Ki Diary</b>.
+      </p>
+      <a class="btn light" href="books.html">Explore Books</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="label">Future</span>
+    <h2>What is coming next</h2>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3>Stories</h3>
+        <p>Real stories, fictional pieces, poems and interviews will be added regularly.</p>
+      </div>
+
+      <div class="card">
+        <h3>Books</h3>
+        <p>All upcoming books and projects will have their own pages and updates.</p>
+      </div>
+
+      <div class="card">
+        <h3>Community</h3>
+        <p>A future space where readers and writers can share their voices.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <h3>The Phoenix Whispers</h3>
+  <p>Rise. Transform. Inspire.</p>
+  <p>© The Phoenix Whispers</p>
+</footer>
+
+</body>
+</html>

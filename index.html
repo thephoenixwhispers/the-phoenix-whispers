@@ -15,18 +15,16 @@ body{
   font-family:Georgia,serif;
 }
 
-a{
-  text-decoration:none;
-  color:inherit;
-}
+a{text-decoration:none;color:inherit}
 
 header{
-  background:#050505;
+  background:rgba(5,5,5,.92);
   border-bottom:1px solid #222;
   padding:8px 7% 0;
   position:sticky;
   top:0;
   z-index:1000;
+  backdrop-filter:blur(10px);
 }
 
 .top{
@@ -57,7 +55,6 @@ header{
   background:linear-gradient(90deg,#9b0000,#ff2a00,#ffcc33,#fff1b8);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
-  text-shadow:0 0 16px rgba(255,80,0,.22);
 }
 
 .top-links{
@@ -73,9 +70,7 @@ header{
   color:#f5f0e6;
 }
 
-.top-links a:hover{
-  color:#ffcc33;
-}
+.top-links a:hover{color:#ffcc33}
 
 nav{
   margin-top:6px;
@@ -87,9 +82,7 @@ nav{
   flex-wrap:wrap;
 }
 
-.nav-item{
-  position:relative;
-}
+.nav-item{position:relative}
 
 .nav-button{
   background:none;
@@ -102,9 +95,7 @@ nav{
   padding:5px 0;
 }
 
-.nav-button:hover{
-  color:#ffcc33;
-}
+.nav-button:hover{color:#ffcc33}
 
 .dropdown{
   display:none;
@@ -117,9 +108,7 @@ nav{
   z-index:2000;
 }
 
-.nav-item.active .dropdown{
-  display:block;
-}
+.nav-item.active .dropdown{display:block}
 
 .dropdown a{
   display:block;
@@ -129,14 +118,15 @@ nav{
   font-size:14px;
 }
 
-.dropdown a:hover{
-  background:#8b0000;
-}
+.dropdown a:hover{background:#8b0000}
 
 .hero{
-  min-height:720px;
+  min-height:760px;
+  position:relative;
+  overflow:hidden;
   background:
-  linear-gradient(rgba(0,0,0,.18),rgba(0,0,0,.90)),
+  radial-gradient(circle at center 18%, rgba(255,92,0,.22), transparent 32%),
+  linear-gradient(rgba(0,0,0,.06),rgba(0,0,0,.92)),
   url("hero-logo.png");
   background-size:contain;
   background-repeat:no-repeat;
@@ -145,13 +135,50 @@ nav{
   align-items:flex-start;
   justify-content:center;
   text-align:center;
-  padding:210px 20px 80px;
+  padding:180px 20px 90px;
+}
+
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+  radial-gradient(circle at 50% 38%, transparent 0 34%, rgba(0,0,0,.45) 55%, rgba(0,0,0,.85) 100%);
+  pointer-events:none;
+}
+
+.hero::after{
+  content:"";
+  position:absolute;
+  width:520px;
+  height:520px;
+  top:40px;
+  left:50%;
+  transform:translateX(-50%);
+  background:radial-gradient(circle, rgba(255,80,0,.18), transparent 65%);
+  filter:blur(20px);
+  pointer-events:none;
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+  max-width:900px;
+}
+
+.hero-label{
+  display:inline-block;
+  color:#ffcc33;
+  letter-spacing:4px;
+  font-size:12px;
+  text-transform:uppercase;
+  margin-bottom:18px;
 }
 
 .hero h2{
   font-size:58px;
   margin:0 0 14px;
-  text-shadow:0 4px 20px black;
+  text-shadow:0 4px 22px black;
 }
 
 .hero p{
@@ -163,26 +190,26 @@ nav{
 .btn{
   display:inline-block;
   margin:10px;
-  padding:13px 28px;
+  padding:13px 30px;
   background:#9b0000;
   color:white;
   font-weight:bold;
   border-radius:3px;
+  box-shadow:0 0 18px rgba(155,0,0,.35);
 }
+
+.btn:hover{background:#c1121f}
 
 .btn.light{
   background:#f0d27a;
   color:#170b05;
 }
 
-.section{
-  padding:75px 8%;
-}
+.btn.light:hover{background:#ffdf7e}
 
-.section-title{
-  text-align:center;
-  margin-bottom:42px;
-}
+.section{padding:75px 8%}
+
+.section-title{text-align:center;margin-bottom:42px}
 
 .section-title span{
   color:#caa24a;
@@ -209,15 +236,9 @@ nav{
   min-height:190px;
 }
 
-.card h3{
-  color:#ff3b22;
-  font-size:25px;
-}
+.card h3{color:#ff3b22;font-size:25px}
 
-.card p{
-  color:#cfc7b8;
-  line-height:1.6;
-}
+.card p{color:#cfc7b8;line-height:1.6}
 
 .book{
   display:grid;
@@ -229,14 +250,9 @@ nav{
   border-bottom:1px solid #333;
 }
 
-.book-box{
-  padding:50px;
-}
+.book-box{padding:50px}
 
-.book h2{
-  font-size:44px;
-  color:#ffcc33;
-}
+.book h2{font-size:44px;color:#ffcc33}
 
 .quote{
   background:#170707;
@@ -261,9 +277,7 @@ nav{
   align-items:center;
 }
 
-.newsletter h2{
-  font-size:40px;
-}
+.newsletter h2{font-size:40px}
 
 .newsletter input{
   width:100%;
@@ -290,55 +304,17 @@ footer{
 }
 
 @media(max-width:800px){
-  header{
-    padding:8px 5% 0;
-    position:relative;
-  }
-
-  .brand img{
-    width:62px;
-    height:62px;
-  }
-
-  .brand h1{
-    font-size:21px;
-    letter-spacing:2px;
-  }
-
-  .top-links{
-    gap:12px;
-  }
-
-  .top-links a{
-    font-size:12px;
-  }
-
-  nav{
-    justify-content:flex-start;
-    gap:22px;
-    padding:10px 0;
-  }
-
-  .nav-button{
-    font-size:14px;
-  }
-
-  .hero{
-    min-height:600px;
-    padding:160px 18px 55px;
-  }
-
-  .hero h2{
-    font-size:36px;
-  }
-
-  .book,.newsletter{
-    grid-template-columns:1fr;
-  }
-
-  .quote p{
-    font-size:24px;
-  }
+  header{padding:8px 5% 0;position:relative}
+  .brand img{width:62px;height:62px}
+  .brand h1{font-size:21px;letter-spacing:2px}
+  .top-links{gap:12px}
+  .top-links a{font-size:12px}
+  nav{justify-content:flex-start;gap:22px;padding:10px 0}
+  .nav-button{font-size:14px}
+  .hero{min-height:620px;padding:145px 18px 55px}
+  .hero h2{font-size:36px}
+  .book,.newsletter{grid-template-columns:1fr}
+  .quote p{font-size:24px}
 }
 </style>
 </head>
@@ -401,7 +377,8 @@ footer{
 </header>
 
 <section class="hero">
-  <div>
+  <div class="hero-content">
+    <span class="hero-label">The Phoenix Whispers</span>
     <h2>Stories That Rise From Ashes</h2>
     <p>Books. Stories. Community. Creativity.</p>
     <a class="btn light" href="#stories">Read Stories</a>
@@ -420,12 +397,10 @@ footer{
       <h3>The Person Who Kept Walking</h3>
       <p>A story of silence, pain, hope and the courage to continue even when life feels heavy.</p>
     </div>
-
     <div class="card">
       <h3>In The Shadows They Live</h3>
       <p>Real voices from ordinary people, carrying extraordinary truths in the corners of society.</p>
     </div>
-
     <div class="card">
       <h3>Ashwatthama Ki Diary</h3>
       <p>A dark psychological mystery where mythology, obsession and reality begin to blur.</p>
@@ -440,10 +415,7 @@ footer{
 <section class="section book" id="books">
   <div class="book-box">
     <h2>The Person Who Kept Walking</h2>
-    <p>
-      A deeply emotional book about loneliness, memory, healing and the quiet strength of a person
-      who refuses to stop walking.
-    </p>
+    <p>A deeply emotional book about loneliness, memory, healing and the quiet strength of a person who refuses to stop walking.</p>
     <a class="btn light" href="#">Buy on Amazon</a>
     <a class="btn" href="#">Read More</a>
   </div>
@@ -463,20 +435,9 @@ footer{
   </div>
 
   <div class="grid">
-    <div class="card">
-      <h3>Readers</h3>
-      <p>Discover emotional and powerful stories that stay with you.</p>
-    </div>
-
-    <div class="card">
-      <h3>Writers</h3>
-      <p>Share your stories, poems, memories and creative thoughts.</p>
-    </div>
-
-    <div class="card">
-      <h3>Dreamers</h3>
-      <p>Join a space where imagination, truth and healing meet.</p>
-    </div>
+    <div class="card"><h3>Readers</h3><p>Discover emotional and powerful stories that stay with you.</p></div>
+    <div class="card"><h3>Writers</h3><p>Share your stories, poems, memories and creative thoughts.</p></div>
+    <div class="card"><h3>Dreamers</h3><p>Join a space where imagination, truth and healing meet.</p></div>
   </div>
 </section>
 
@@ -487,10 +448,7 @@ footer{
   </div>
 
   <div class="card">
-    <p>
-      Soon you will be able to submit your real stories, poems and creative writing here.
-      For now, this section is a placeholder.
-    </p>
+    <p>Soon you will be able to submit your real stories, poems and creative writing here. For now, this section is a placeholder.</p>
     <a class="btn" href="mailto:your-email@example.com">Email Your Story</a>
   </div>
 </section>
@@ -502,20 +460,9 @@ footer{
   </div>
 
   <div class="grid">
-    <div class="card">
-      <h3>Donate</h3>
-      <p>Donation links like UPI, PayPal or Razorpay can be added here later.</p>
-    </div>
-
-    <div class="card">
-      <h3>Buy Books</h3>
-      <p>The best support is reading, reviewing and sharing the books.</p>
-    </div>
-
-    <div class="card">
-      <h3>Share</h3>
-      <p>Share The Phoenix Whispers with readers and writers.</p>
-    </div>
+    <div class="card"><h3>Donate</h3><p>Donation links like UPI, PayPal or Razorpay can be added here later.</p></div>
+    <div class="card"><h3>Buy Books</h3><p>The best support is reading, reviewing and sharing the books.</p></div>
+    <div class="card"><h3>Share</h3><p>Share The Phoenix Whispers with readers and writers.</p></div>
   </div>
 </section>
 

@@ -18,7 +18,7 @@ body{
 a{text-decoration:none;color:inherit}
 
 header{
-  background:rgba(5,5,5,.92);
+  background:rgba(5,5,5,.94);
   border-bottom:1px solid #222;
   padding:8px 7% 0;
   position:sticky;
@@ -142,21 +142,7 @@ nav{
   content:"";
   position:absolute;
   inset:0;
-  background:
-  radial-gradient(circle at 50% 38%, transparent 0 34%, rgba(0,0,0,.45) 55%, rgba(0,0,0,.85) 100%);
-  pointer-events:none;
-}
-
-.hero::after{
-  content:"";
-  position:absolute;
-  width:520px;
-  height:520px;
-  top:40px;
-  left:50%;
-  transform:translateX(-50%);
-  background:radial-gradient(circle, rgba(255,80,0,.18), transparent 65%);
-  filter:blur(20px);
+  background:radial-gradient(circle at 50% 38%, transparent 0 34%, rgba(0,0,0,.45) 55%, rgba(0,0,0,.85) 100%);
   pointer-events:none;
 }
 
@@ -207,9 +193,12 @@ nav{
 
 .btn.light:hover{background:#ffdf7e}
 
-.section{padding:75px 8%}
+.section{padding:80px 8%}
 
-.section-title{text-align:center;margin-bottom:42px}
+.section-title{
+  text-align:center;
+  margin-bottom:45px;
+}
 
 .section-title span{
   color:#caa24a;
@@ -223,36 +212,56 @@ nav{
   margin:12px 0;
 }
 
-.grid{
+.story-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:28px;
 }
 
-.card{
-  background:#111;
-  border:1px solid #292929;
-  padding:28px;
-  min-height:190px;
+.story-card{
+  background:#101010;
+  border:1px solid #2b2b2b;
+  overflow:hidden;
+  transition:.3s;
 }
 
-.card h3{color:#ff3b22;font-size:25px}
+.story-card:hover{
+  transform:translateY(-6px);
+  border-color:#8b0000;
+}
 
-.card p{color:#cfc7b8;line-height:1.6}
-
-.book{
-  display:grid;
-  grid-template-columns:1fr 1.2fr;
-  gap:40px;
+.story-image{
+  height:180px;
+  background:
+  linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.75)),
+  radial-gradient(circle at center,#7b0000,#111 60%);
+  display:flex;
   align-items:center;
-  background:#111;
-  border-top:1px solid #333;
-  border-bottom:1px solid #333;
+  justify-content:center;
+  color:#ffcc33;
+  font-size:48px;
 }
 
-.book-box{padding:50px}
+.story-content{
+  padding:25px;
+}
 
-.book h2{font-size:44px;color:#ffcc33}
+.story-content small{
+  color:#caa24a;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+.story-content h3{
+  color:#ff3b22;
+  font-size:25px;
+  margin:12px 0;
+}
+
+.story-content p{
+  color:#cfc7b8;
+  line-height:1.6;
+}
 
 .quote{
   background:#170707;
@@ -268,8 +277,92 @@ nav{
   font-style:italic;
 }
 
+.book{
+  background:#0d0d0d;
+  border-top:1px solid #333;
+  border-bottom:1px solid #333;
+}
+
+.book-wrap{
+  display:grid;
+  grid-template-columns:320px 1fr;
+  gap:50px;
+  align-items:center;
+  max-width:1100px;
+  margin:auto;
+}
+
+.book-cover{
+  min-height:430px;
+  background:
+  linear-gradient(rgba(0,0,0,.15),rgba(0,0,0,.85)),
+  radial-gradient(circle at center,#8b0000,#111 65%);
+  border:1px solid #4b1c1c;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:30px;
+  box-shadow:0 0 35px rgba(139,0,0,.35);
+}
+
+.book-cover h3{
+  font-size:34px;
+  line-height:1.1;
+  color:#ffcc33;
+}
+
+.book-info h2{
+  font-size:46px;
+  color:#ffcc33;
+  margin:0 0 18px;
+}
+
+.book-info p{
+  color:#d8cbb8;
+  line-height:1.7;
+  font-size:17px;
+}
+
+.book-meta{
+  display:flex;
+  gap:16px;
+  flex-wrap:wrap;
+  margin:20px 0;
+}
+
+.book-meta span{
+  border:1px solid #333;
+  padding:8px 12px;
+  color:#caa24a;
+  font-size:13px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:28px;
+}
+
+.card{
+  background:#111;
+  border:1px solid #292929;
+  padding:28px;
+  min-height:190px;
+}
+
+.card h3{
+  color:#ff3b22;
+  font-size:25px;
+}
+
+.card p{
+  color:#cfc7b8;
+  line-height:1.6;
+}
+
 .newsletter{
-  background:#7b0000;
+  background:linear-gradient(135deg,#7b0000,#250000);
   padding:75px 8%;
   display:grid;
   grid-template-columns:1.3fr 1fr;
@@ -296,11 +389,73 @@ nav{
 }
 
 footer{
-  background:#050505;
-  padding:45px 8%;
-  text-align:center;
-  color:#aaa;
+  background:#030303;
   border-top:1px solid #222;
+  padding:55px 8% 25px;
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:35px;
+  max-width:1100px;
+  margin:auto;
+}
+
+.footer-logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.footer-logo img{
+  width:55px;
+  height:55px;
+  object-fit:contain;
+}
+
+.footer-logo h3{
+  margin:0;
+  color:#ffcc33;
+  font-size:24px;
+}
+
+.footer p,.footer-links a{
+  color:#aaa;
+  line-height:1.7;
+  font-size:14px;
+}
+
+.footer-links a{
+  display:block;
+  margin:8px 0;
+}
+
+.footer-links a:hover{color:#ffcc33}
+
+.social{
+  display:flex;
+  gap:12px;
+  margin-top:15px;
+}
+
+.social a{
+  border:1px solid #333;
+  padding:8px 12px;
+  color:#f5f0e6;
+}
+
+.social a:hover{
+  background:#8b0000;
+}
+
+.copyright{
+  text-align:center;
+  color:#777;
+  border-top:1px solid #151515;
+  margin-top:35px;
+  padding-top:22px;
+  font-size:13px;
 }
 
 @media(max-width:800px){
@@ -313,8 +468,8 @@ footer{
   .nav-button{font-size:14px}
   .hero{min-height:620px;padding:145px 18px 55px}
   .hero h2{font-size:36px}
-  .book,.newsletter{grid-template-columns:1fr}
   .quote p{font-size:24px}
+  .book-wrap,.newsletter,.footer-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -392,18 +547,32 @@ footer{
     <h2>Voices We Couldn’t Stop Thinking About</h2>
   </div>
 
-  <div class="grid">
-    <div class="card">
-      <h3>The Person Who Kept Walking</h3>
-      <p>A story of silence, pain, hope and the courage to continue even when life feels heavy.</p>
+  <div class="story-grid">
+    <div class="story-card">
+      <div class="story-image">📖</div>
+      <div class="story-content">
+        <small>Book · Emotional Fiction</small>
+        <h3>The Person Who Kept Walking</h3>
+        <p>A story of silence, pain, hope and the courage to continue even when life feels heavy.</p>
+      </div>
     </div>
-    <div class="card">
-      <h3>In The Shadows They Live</h3>
-      <p>Real voices from ordinary people, carrying extraordinary truths in the corners of society.</p>
+
+    <div class="story-card">
+      <div class="story-image">🕯️</div>
+      <div class="story-content">
+        <small>Interview Project</small>
+        <h3>In The Shadows They Live</h3>
+        <p>Real voices from ordinary people carrying extraordinary truths in the corners of society.</p>
+      </div>
     </div>
-    <div class="card">
-      <h3>Ashwatthama Ki Diary</h3>
-      <p>A dark psychological mystery where mythology, obsession and reality begin to blur.</p>
+
+    <div class="story-card">
+      <div class="story-image">🔥</div>
+      <div class="story-content">
+        <small>Hindi Thriller</small>
+        <h3>Ashwatthama Ki Diary</h3>
+        <p>A dark psychological mystery where mythology, obsession and reality begin to blur.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -413,18 +582,28 @@ footer{
 </section>
 
 <section class="section book" id="books">
-  <div class="book-box">
-    <h2>The Person Who Kept Walking</h2>
-    <p>A deeply emotional book about loneliness, memory, healing and the quiet strength of a person who refuses to stop walking.</p>
-    <a class="btn light" href="#">Buy on Amazon</a>
-    <a class="btn" href="#">Read More</a>
-  </div>
+  <div class="book-wrap">
+    <div class="book-cover">
+      <h3>The Person<br>Who Kept<br>Walking</h3>
+    </div>
 
-  <div class="book-box">
-    <h3>Upcoming Works</h3>
-    <p>• In The Shadows They Live</p>
-    <p>• Ashwatthama Ki Diary</p>
-    <p>• More stories coming soon...</p>
+    <div class="book-info">
+      <h2>The Person Who Kept Walking</h2>
+      <p>
+        A deeply emotional book about loneliness, memory, healing and the quiet strength of a person
+        who refuses to stop walking even when life feels heavy.
+      </p>
+
+      <div class="book-meta">
+        <span>Emotional Fiction</span>
+        <span>Paperback</span>
+        <span>Kindle</span>
+        <span>By Vineet</span>
+      </div>
+
+      <a class="btn light" href="#">Buy on Amazon</a>
+      <a class="btn" href="#">Read More</a>
+    </div>
   </div>
 </section>
 
@@ -478,10 +657,42 @@ footer{
   </form>
 </section>
 
-<footer>
-  <h3>The Phoenix Whispers</h3>
-  <p>Rise. Transform. Inspire.</p>
-  <p>© The Phoenix Whispers</p>
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">
+        <img src="logo.png" alt="The Phoenix Whispers Logo">
+        <h3>The Phoenix Whispers</h3>
+      </div>
+      <p>A home for stories, books, interviews and creative voices that deserve to be heard.</p>
+
+      <div class="social">
+        <a href="#">Instagram</a>
+        <a href="#">YouTube</a>
+        <a href="#">X</a>
+      </div>
+    </div>
+
+    <div class="footer-links">
+      <h3>Explore</h3>
+      <a href="#stories">Stories</a>
+      <a href="#books">Books</a>
+      <a href="#community">Community</a>
+      <a href="#newsletter">Newsletter</a>
+    </div>
+
+    <div class="footer-links">
+      <h3>Support</h3>
+      <a href="#support">Donate</a>
+      <a href="#submit">Submit Story</a>
+      <a href="#">Contact</a>
+      <a href="#">Blog</a>
+    </div>
+  </div>
+
+  <div class="copyright">
+    © The Phoenix Whispers · Rise. Transform. Inspire.
+  </div>
 </footer>
 
 <script>

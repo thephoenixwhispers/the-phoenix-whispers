@@ -13,6 +13,7 @@ body{
   background:#070707;
   color:#f5f0e6;
   font-family:Georgia,serif;
+  scroll-behavior:smooth;
 }
 
 a{text-decoration:none;color:inherit}
@@ -45,6 +46,7 @@ header{
   width:78px;
   height:78px;
   object-fit:contain;
+  filter:drop-shadow(0 0 12px rgba(255,80,0,.35));
 }
 
 .brand h1{
@@ -125,8 +127,8 @@ nav{
   position:relative;
   overflow:hidden;
   background:
-  radial-gradient(circle at center 18%, rgba(255,92,0,.22), transparent 32%),
-  linear-gradient(rgba(0,0,0,.06),rgba(0,0,0,.92)),
+  radial-gradient(circle at center 18%, rgba(255,92,0,.25), transparent 32%),
+  linear-gradient(rgba(0,0,0,.04),rgba(0,0,0,.92)),
   url("hero-logo.png");
   background-size:contain;
   background-repeat:no-repeat;
@@ -142,14 +144,39 @@ nav{
   content:"";
   position:absolute;
   inset:0;
-  background:radial-gradient(circle at 50% 38%, transparent 0 34%, rgba(0,0,0,.45) 55%, rgba(0,0,0,.85) 100%);
+  background:radial-gradient(circle at 50% 38%, transparent 0 34%, rgba(0,0,0,.45) 55%, rgba(0,0,0,.86) 100%);
   pointer-events:none;
+}
+
+.hero::after{
+  content:"";
+  position:absolute;
+  width:600px;
+  height:600px;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:radial-gradient(circle, rgba(255,80,0,.20), transparent 65%);
+  filter:blur(22px);
+  animation:phoenixGlow 5s ease-in-out infinite alternate;
+  pointer-events:none;
+}
+
+@keyframes phoenixGlow{
+  from{opacity:.45;transform:translateX(-50%) scale(.96)}
+  to{opacity:.9;transform:translateX(-50%) scale(1.06)}
 }
 
 .hero-content{
   position:relative;
   z-index:2;
   max-width:900px;
+  animation:fadeUp 1.2s ease forwards;
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(35px)}
+  to{opacity:1;transform:translateY(0)}
 }
 
 .hero-label{
@@ -182,9 +209,13 @@ nav{
   font-weight:bold;
   border-radius:3px;
   box-shadow:0 0 18px rgba(155,0,0,.35);
+  transition:.3s;
 }
 
-.btn:hover{background:#c1121f}
+.btn:hover{
+  background:#c1121f;
+  transform:translateY(-3px);
+}
 
 .btn.light{
   background:#f0d27a;
@@ -222,12 +253,13 @@ nav{
   background:#101010;
   border:1px solid #2b2b2b;
   overflow:hidden;
-  transition:.3s;
+  transition:.35s;
 }
 
 .story-card:hover{
-  transform:translateY(-6px);
+  transform:translateY(-8px);
   border-color:#8b0000;
+  box-shadow:0 15px 35px rgba(139,0,0,.25);
 }
 
 .story-image{
@@ -242,9 +274,7 @@ nav{
   font-size:48px;
 }
 
-.story-content{
-  padding:25px;
-}
+.story-content{padding:25px}
 
 .story-content small{
   color:#caa24a;
@@ -304,6 +334,12 @@ nav{
   text-align:center;
   padding:30px;
   box-shadow:0 0 35px rgba(139,0,0,.35);
+  transition:.4s;
+}
+
+.book-cover:hover{
+  transform:perspective(900px) rotateY(-6deg) translateY(-8px);
+  box-shadow:0 25px 55px rgba(139,0,0,.45);
 }
 
 .book-cover h3{
@@ -349,6 +385,12 @@ nav{
   border:1px solid #292929;
   padding:28px;
   min-height:190px;
+  transition:.3s;
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  border-color:#8b0000;
 }
 
 .card h3{
@@ -386,6 +428,12 @@ nav{
   background:#ffcc33;
   font-weight:bold;
   cursor:pointer;
+  transition:.3s;
+}
+
+.newsletter button:hover{
+  transform:translateY(-3px);
+  background:#ffdf7e;
 }
 
 footer{
@@ -443,10 +491,12 @@ footer{
   border:1px solid #333;
   padding:8px 12px;
   color:#f5f0e6;
+  transition:.3s;
 }
 
 .social a:hover{
   background:#8b0000;
+  transform:translateY(-3px);
 }
 
 .copyright{
@@ -456,6 +506,17 @@ footer{
   margin-top:35px;
   padding-top:22px;
   font-size:13px;
+}
+
+.reveal{
+  opacity:0;
+  transform:translateY(40px);
+  transition:1s ease;
+}
+
+.reveal.active{
+  opacity:1;
+  transform:translateY(0);
 }
 
 @media(max-width:800px){
@@ -500,7 +561,7 @@ footer{
         <a href="stories.html">Read Stories</a>
         <a href="stories.html">Story Library</a>
         <a href="#submit">Submit Your Story</a>
-       <a href="books.html">Books</a>
+        <a href="books.html">Books</a>
       </div>
     </div>
 
@@ -516,8 +577,8 @@ footer{
     <div class="nav-item">
       <button class="nav-button">Phoenix Works ▼</button>
       <div class="dropdown">
-       <a href="books.html">Books</a>
-       <a href="blog.html">Blog</a>
+        <a href="books.html">Books</a>
+        <a href="blog.html">Blog</a>
         <a href="#projects">Creative Projects</a>
       </div>
     </div>
@@ -538,12 +599,12 @@ footer{
     <span class="hero-label">The Phoenix Whispers</span>
     <h2>Stories That Rise From Ashes</h2>
     <p>Books. Stories. Community. Creativity.</p>
-    <a class="btn light" href="#stories">Read Stories</a>
+    <a class="btn light" href="stories.html">Read Stories</a>
     <a class="btn" href="#submit">Submit Story</a>
   </div>
 </section>
 
-<section class="section" id="stories">
+<section class="section reveal" id="stories">
   <div class="section-title">
     <span>This Week's Collection</span>
     <h2>Voices We Couldn’t Stop Thinking About</h2>
@@ -579,11 +640,11 @@ footer{
   </div>
 </section>
 
-<section class="quote">
+<section class="quote reveal">
   <p>“Some stories do not ask to be perfect. They only ask to be heard.”</p>
 </section>
 
-<section class="section book" id="books">
+<section class="section book reveal" id="books">
   <div class="book-wrap">
     <div class="book-cover">
       <h3>The Person<br>Who Kept<br>Walking</h3>
@@ -604,12 +665,12 @@ footer{
       </div>
 
       <a class="btn light" href="#">Buy on Amazon</a>
-      <a class="btn" href="books.html">Read More</a>
+      <a class="btn" href="the-person-who-kept-walking.html">Read More</a>
     </div>
   </div>
 </section>
 
-<section class="section" id="community">
+<section class="section reveal" id="community">
   <div class="section-title">
     <span>Community</span>
     <h2>A Home For Readers, Writers And Dreamers</h2>
@@ -622,7 +683,7 @@ footer{
   </div>
 </section>
 
-<section class="section" id="submit">
+<section class="section reveal" id="submit">
   <div class="section-title">
     <span>Submit</span>
     <h2>Share Your Story</h2>
@@ -634,7 +695,7 @@ footer{
   </div>
 </section>
 
-<section class="section" id="support">
+<section class="section reveal" id="support">
   <div class="section-title">
     <span>Support</span>
     <h2>Support The Phoenix</h2>
@@ -647,7 +708,7 @@ footer{
   </div>
 </section>
 
-<section class="newsletter" id="newsletter">
+<section class="newsletter reveal" id="newsletter">
   <div>
     <h2>One Story, Every Week</h2>
     <p>Get updates about books, stories and new creative projects.</p>
@@ -677,8 +738,8 @@ footer{
 
     <div class="footer-links">
       <h3>Explore</h3>
-      <a href="#stories">Stories</a>
-      <a href="#books">Books</a>
+      <a href="stories.html">Stories</a>
+      <a href="books.html">Books</a>
       <a href="#community">Community</a>
       <a href="#newsletter">Newsletter</a>
     </div>
@@ -687,8 +748,8 @@ footer{
       <h3>Support</h3>
       <a href="#support">Donate</a>
       <a href="#submit">Submit Story</a>
-     <a href="contact.html">Contact</a>
-     <a href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+      <a href="blog.html">Blog</a>
     </div>
   </div>
 
@@ -719,6 +780,22 @@ navItems.forEach(item => {
 document.addEventListener("click", function(){
   navItems.forEach(item => item.classList.remove("active"));
 });
+
+const reveals = document.querySelectorAll(".reveal");
+
+function revealOnScroll(){
+  reveals.forEach(section => {
+    const top = section.getBoundingClientRect().top;
+    const windowHeight = window.innerHeight;
+
+    if(top < windowHeight - 80){
+      section.classList.add("active");
+    }
+  });
+}
+
+window.addEventListener("scroll", revealOnScroll);
+window.addEventListener("load", revealOnScroll);
 </script>
 
 </body>

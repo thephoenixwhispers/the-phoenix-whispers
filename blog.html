@@ -1,1 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog | The Phoenix Whispers</title>
 
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+    background:#070707;
+    color:#f5f0e6;
+    font-family:Georgia,serif;
+}
+
+a{text-decoration:none;color:inherit;}
+
+header{
+    background:#050505;
+    border-bottom:1px solid #222;
+    padding:15px 7%;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.logo img{
+    width:70px;
+}
+
+.logo h1{
+    font-size:30px;
+    background:linear-gradient(90deg,#8b0000,#ff3b00,#ffcc33);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+nav{
+    margin-top:18px;
+    display:flex;
+    gap:30px;
+    flex-wrap:wrap;
+}
+
+nav a:hover{
+    color:#ffcc33;
+}
+
+.hero{
+    text-align:center;
+    padding:90px 20px;
+    background:linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.85)),
+    url("hero-logo.png");
+    background-size:contain;
+    background-repeat:no-repeat;
+    background-position:center;
+}
+
+.hero h2{
+    font-size:60px;
+    margin-bottom:15px;
+}
+
+.hero p{
+    color:#ccc;
+    font-size:20px;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:70px 25px;
+}
+
+.post{
+    background:#111;
+    border:1px solid #292929;
+    padding:30px;
+    margin-bottom:30px;
+    transition:.3s;
+}
+
+.post:hover{
+    border-color:#8b0000;
+}
+
+.post small{
+    color:#caa24a;
+    letter-spacing:2px;
+}
+
+.post h3{
+    color:#ffcc33;
+    margin:15px 0;
+    font-size:30px;
+}
+
+.post p{
+    line-height:1.8;
+    color:#ddd;
+}
+
+.read{
+    display:inline-block;
+    margin-top:18px;
+    color:#ff3b22;
+    font-weight:bold;
+}
+
+footer{
+    text-align:center;
+    border-top:1px solid #222;
+    padding:35px;
+    color:#888;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+<img src="logo.png">
+<h1>The Phoenix Whispers</h1>
+</div>
+
+<nav>
+<a href="index.html">Home</a>
+<a href="stories.html">Stories</a>
+<a href="books.html">Books</a>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+<a href="blog.html">Blog</a>
+</nav>
+
+</header>
+
+<section class="hero">
+
+<h2>Blog</h2>
+
+<p>
+Writing journey, book updates and behind the scenes.
+</p>
+
+</section>
+
+<div class="container">
+
+<div class="post">
+
+<small>COMING SOON</small>
+
+<h3>Why I Created The Phoenix Whispers</h3>
+
+<p>
+
+Soon I'll share the complete story behind this project,
+why I started writing, and how this website came to life.
+
+</p>
+
+<a class="read" href="#">Read More →</a>
+
+</div>
+
+<div class="post">
+
+<small>COMING SOON</small>
+
+<h3>Behind The Person Who Kept Walking</h3>
+
+<p>
+
+The complete journey of writing my first published book,
+from the first idea to publication.
+
+</p>
+
+<a class="read" href="#">Read More →</a>
+
+</div>
+
+<div class="post">
+
+<small>COMING SOON</small>
+
+<h3>Future Projects</h3>
+
+<p>
+
+Updates about upcoming books,
+interviews,
+and The Phoenix Whispers community.
+
+</p>
+
+<a class="read" href="#">Read More →</a>
+
+</div>
+
+</div>
+
+<footer>
+
+© The Phoenix Whispers
+
+<br><br>
+
+Rise • Transform • Inspire
+
+</footer>
+
+</body>
+</html>

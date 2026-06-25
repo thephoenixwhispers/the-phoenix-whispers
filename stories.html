@@ -1,1 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stories | The Phoenix Whispers</title>
 
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:#070707;
+  color:#f5f0e6;
+  font-family:Georgia,serif;
+}
+a{text-decoration:none;color:inherit}
+
+header{
+  background:rgba(5,5,5,.94);
+  border-bottom:1px solid #222;
+  padding:8px 7% 0;
+  position:sticky;
+  top:0;
+  z-index:1000;
+  backdrop-filter:blur(10px);
+}
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.brand img{
+  width:78px;
+  height:78px;
+  object-fit:contain;
+}
+.brand h1{
+  margin:0;
+  font-size:31px;
+  letter-spacing:4px;
+  background:linear-gradient(90deg,#9b0000,#ff2a00,#ffcc33,#fff1b8);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.top-links{
+  display:flex;
+  gap:22px;
+  flex-wrap:wrap;
+}
+.top-links a{
+  font-weight:bold;
+  font-size:13px;
+}
+.top-links a:hover{color:#ffcc33}
+
+nav{
+  margin-top:6px;
+  display:flex;
+  justify-content:center;
+  gap:42px;
+  padding:10px 0 12px;
+  border-top:1px solid #111;
+  flex-wrap:wrap;
+}
+nav a{
+  font-weight:bold;
+  font-size:15px;
+}
+nav a:hover{color:#ffcc33}
+
+.hero{
+  min-height:420px;
+  background:
+  radial-gradient(circle at center,rgba(255,80,0,.22),transparent 35%),
+  linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.92)),
+  url("hero-logo.png");
+  background-size:contain;
+  background-repeat:no-repeat;
+  background-position:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:80px 20px;
+}
+.hero span{
+  color:#ffcc33;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  font-size:13px;
+}
+.hero h2{
+  font-size:58px;
+  margin:16px 0;
+  text-shadow:0 4px 18px black;
+}
+.hero p{
+  max-width:700px;
+  margin:auto;
+  font-size:20px;
+  color:#d8cbb8;
+  line-height:1.6;
+}
+
+.section{
+  padding:75px 8%;
+}
+.section-title{
+  text-align:center;
+  margin-bottom:40px;
+}
+.section-title span{
+  color:#caa24a;
+  letter-spacing:4px;
+  font-size:13px;
+  text-transform:uppercase;
+}
+.section-title h2{
+  font-size:42px;
+  margin:12px 0;
+}
+
+.filters{
+  display:flex;
+  justify-content:center;
+  gap:14px;
+  flex-wrap:wrap;
+  margin-bottom:45px;
+}
+.filters a{
+  border:1px solid #333;
+  padding:10px 16px;
+  color:#d8cbb8;
+}
+.filters a:hover{
+  background:#8b0000;
+  color:white;
+}
+
+.search-box{
+  max-width:620px;
+  margin:0 auto 45px;
+}
+.search-box input{
+  width:100%;
+  padding:16px;
+  background:#111;
+  border:1px solid #333;
+  color:white;
+  font-size:16px;
+}
+
+.story-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:30px;
+}
+.story-card{
+  background:#101010;
+  border:1px solid #2b2b2b;
+  overflow:hidden;
+  transition:.3s;
+}
+.story-card:hover{
+  transform:translateY(-6px);
+  border-color:#8b0000;
+}
+.story-image{
+  height:190px;
+  background:
+  linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.78)),
+  radial-gradient(circle at center,#7b0000,#111 65%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:52px;
+}
+.story-content{
+  padding:26px;
+}
+.story-content small{
+  color:#caa24a;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+.story-content h3{
+  color:#ff3b22;
+  font-size:26px;
+  margin:12px 0;
+}
+.story-content p{
+  color:#cfc7b8;
+  line-height:1.6;
+}
+.read{
+  color:#ffcc33;
+  font-weight:bold;
+}
+
+.featured{
+  background:#130606;
+  border-top:1px solid #331010;
+  border-bottom:1px solid #331010;
+}
+.featured-box{
+  max-width:1000px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:1fr 1.2fr;
+  gap:40px;
+  align-items:center;
+}
+.featured-img{
+  min-height:360px;
+  background:
+  linear-gradient(rgba(0,0,0,.15),rgba(0,0,0,.85)),
+  radial-gradient(circle,#8b0000,#111 65%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:80px;
+  border:1px solid #4b1c1c;
+}
+.featured h2{
+  color:#ffcc33;
+  font-size:42px;
+}
+.featured p{
+  color:#d8cbb8;
+  line-height:1.7;
+}
+
+.submit-box{
+  background:#111;
+  border:1px solid #333;
+  padding:35px;
+  max-width:850px;
+  margin:auto;
+  text-align:center;
+}
+.btn{
+  display:inline-block;
+  margin-top:16px;
+  padding:13px 30px;
+  background:#9b0000;
+  color:white;
+  font-weight:bold;
+}
+.btn:hover{background:#c1121f}
+
+footer{
+  background:#030303;
+  border-top:1px solid #222;
+  padding:45px 8%;
+  text-align:center;
+  color:#aaa;
+}
+footer h3{color:#ffcc33}
+
+@media(max-width:800px){
+  header{position:relative;padding:8px 5% 0}
+  .brand img{width:62px;height:62px}
+  .brand h1{font-size:21px;letter-spacing:2px}
+  nav{justify-content:flex-start;gap:22px}
+  .hero h2{font-size:38px}
+  .featured-box{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="top">
+    <div class="brand">
+      <img src="logo.png" alt="The Phoenix Whispers Logo">
+      <h1>The Phoenix Whispers</h1>
+    </div>
+
+    <div class="top-links">
+      <a href="index.html#newsletter">Sign Up</a>
+      <a href="index.html#books">Shop</a>
+      <a href="index.html#support">Donate</a>
+    </div>
+  </div>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="stories.html">Stories</a>
+    <a href="index.html#books">Books</a>
+    <a href="index.html#community">Community</a>
+    <a href="index.html#submit">Submit Story</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div>
+    <span>Story Library</span>
+    <h2>Stories That Deserve To Be Heard</h2>
+    <p>
+      A collection of real stories, emotional fiction, interviews, poems and voices
+      that rise from silence.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-title">
+    <span>Browse</span>
+    <h2>Explore Stories</h2>
+  </div>
+
+  <div class="filters">
+    <a href="#">All</a>
+    <a href="#">Real Stories</a>
+    <a href="#">Fiction</a>
+    <a href="#">Poems</a>
+    <a href="#">Interviews</a>
+    <a href="#">Letters</a>
+  </div>
+
+  <div class="search-box">
+    <input type="text" placeholder="Search stories...">
+  </div>
+
+  <div class="story-grid">
+    <div class="story-card">
+      <div class="story-image">📖</div>
+      <div class="story-content">
+        <small>Book · Emotional Fiction</small>
+        <h3>The Person Who Kept Walking</h3>
+        <p>A story of silence, pain, hope and the courage to keep moving forward.</p>
+        <a class="read" href="#">Read Story →</a>
+      </div>
+    </div>
+
+    <div class="story-card">
+      <div class="story-image">🕯️</div>
+      <div class="story-content">
+        <small>Real Voices</small>
+        <h3>In The Shadows They Live</h3>
+        <p>Stories from ordinary people carrying extraordinary truths.</p>
+        <a class="read" href="#">Read Story →</a>
+      </div>
+    </div>
+
+    <div class="story-card">
+      <div class="story-image">🔥</div>
+      <div class="story-content">
+        <small>Hindi Thriller</small>
+        <h3>Ashwatthama Ki Diary</h3>
+        <p>A mystery where mythology, obsession and reality begin to blur.</p>
+        <a class="read" href="#">Read Story →</a>
+      </div>
+    </div>
+
+    <div class="story-card">
+      <div class="story-image">✍️</div>
+      <div class="story-content">
+        <small>Example Story</small>
+        <h3>The Boy Who Stayed Quiet</h3>
+        <p>An example placeholder story. Real stories will be added here later.</p>
+        <a class="read" href="#">Read Story →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section featured">
+  <div class="featured-box">
+    <div class="featured-img">🦅</div>
+    <div>
+      <span style="color:#caa24a;letter-spacing:3px;text-transform:uppercase;">Featured</span>
+      <h2>Featured Story Of The Month</h2>
+      <p>
+        This area will highlight the strongest story of the month — the one that
+        readers should not miss.
+      </p>
+      <a class="btn" href="#">Read Featured Story</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="submit-box">
+    <h2>Want To Share Your Story?</h2>
+    <p>
+      Soon readers and writers will be able to send their real stories, poems,
+      letters and creative pieces to The Phoenix Whispers.
+    </p>
+    <a class="btn" href="mailto:your-email@example.com">Email Your Story</a>
+  </div>
+</section>
+
+<footer>
+  <h3>The Phoenix Whispers</h3>
+  <p>Rise. Transform. Inspire.</p>
+  <p>© The Phoenix Whispers</p>
+</footer>
+
+</body>
+</html>

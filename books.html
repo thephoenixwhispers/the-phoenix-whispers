@@ -11,7 +11,7 @@ body{margin:0;background:#070707;color:#f5f0e6;font-family:Georgia,serif}
 a{text-decoration:none;color:inherit}
 
 header{
-  background:rgba(5,5,5,.94);
+  background:rgba(5,5,5,.95);
   border-bottom:1px solid #222;
   padding:8px 7% 0;
   position:sticky;
@@ -22,68 +22,81 @@ header{
 .brand{display:flex;align-items:center;gap:14px}
 .brand img{width:78px;height:78px;object-fit:contain}
 .brand h1{
-  margin:0;font-size:31px;letter-spacing:4px;
+  margin:0;
+  font-size:31px;
+  letter-spacing:4px;
   background:linear-gradient(90deg,#9b0000,#ff2a00,#ffcc33,#fff1b8);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
 .top-links{display:flex;gap:22px;flex-wrap:wrap}
 .top-links a{font-weight:bold;font-size:13px}
 .top-links a:hover{color:#ffcc33}
+
 nav{
-  margin-top:6px;display:flex;justify-content:center;gap:42px;
-  padding:10px 0 12px;border-top:1px solid #111;flex-wrap:wrap;
+  margin-top:6px;
+  display:flex;
+  justify-content:center;
+  gap:42px;
+  padding:10px 0 12px;
+  border-top:1px solid #111;
+  flex-wrap:wrap;
 }
 nav a{font-weight:bold;font-size:15px}
 nav a:hover{color:#ffcc33}
 
 .hero{
-  min-height:390px;
+  min-height:420px;
   background:
   radial-gradient(circle at center,rgba(255,80,0,.22),transparent 35%),
-  linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.92)),
+  linear-gradient(rgba(0,0,0,.18),rgba(0,0,0,.92)),
   url("hero-logo.png");
-  background-size:contain;background-repeat:no-repeat;background-position:center;
-  display:flex;align-items:center;justify-content:center;text-align:center;
+  background-size:contain;
+  background-repeat:no-repeat;
+  background-position:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
   padding:80px 20px;
 }
 .hero span{color:#ffcc33;letter-spacing:4px;text-transform:uppercase;font-size:13px}
 .hero h2{font-size:58px;margin:16px 0;text-shadow:0 4px 18px black}
-.hero p{max-width:700px;margin:auto;font-size:20px;color:#d8cbb8;line-height:1.6}
+.hero p{max-width:760px;margin:auto;font-size:20px;color:#d8cbb8;line-height:1.6}
 
 .section{padding:75px 8%}
-.books-wrap{max-width:1100px;margin:auto;display:grid;gap:40px}
+.wrap{max-width:1150px;margin:auto}
 
-.book-card{
+.featured-book{
   display:grid;
-  grid-template-columns:280px 1fr;
-  gap:38px;
+  grid-template-columns:340px 1fr;
+  gap:50px;
+  align-items:center;
   background:#101010;
   border:1px solid #292929;
-  padding:32px;
-  align-items:center;
+  padding:38px;
+  box-shadow:0 0 35px rgba(139,0,0,.18);
 }
-.book-cover{
-  min-height:380px;
-  background:#0b0b0b;
+
+.cover{
+  background:#080808;
   border:1px solid #4b1c1c;
-  box-shadow:0 0 35px rgba(139,0,0,.28);
+  min-height:470px;
   display:flex;
   align-items:center;
   justify-content:center;
   overflow:hidden;
+  box-shadow:0 0 40px rgba(139,0,0,.35);
 }
-.book-cover img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-.placeholder-cover{
+.cover img{width:100%;height:100%;object-fit:cover}
+.cover-fallback{
   padding:30px;
   text-align:center;
   color:#ffcc33;
-  font-size:32px;
+  font-size:34px;
   line-height:1.15;
 }
+
 .book-info small{
   color:#caa24a;
   letter-spacing:3px;
@@ -91,7 +104,7 @@ nav a:hover{color:#ffcc33}
 }
 .book-info h2{
   color:#ffcc33;
-  font-size:42px;
+  font-size:46px;
   margin:12px 0;
 }
 .book-info p{
@@ -99,7 +112,17 @@ nav a:hover{color:#ffcc33}
   line-height:1.7;
   font-size:17px;
 }
-.meta{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}
+.stars{
+  color:#ffcc33;
+  font-size:22px;
+  margin:15px 0;
+}
+.meta{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:22px 0;
+}
 .meta span{
   border:1px solid #333;
   color:#caa24a;
@@ -118,18 +141,45 @@ nav a:hover{color:#ffcc33}
 .btn:hover{background:#c1121f}
 .btn.light:hover{background:#ffdf7e}
 
-.upcoming{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:24px;
+.quote{
+  background:#170707;
+  border-top:1px solid #331010;
+  border-bottom:1px solid #331010;
+  text-align:center;
+  padding:80px 12%;
 }
-.mini-book{
+.quote p{
+  color:#f5f0e6;
+  font-size:32px;
+  line-height:1.4;
+  font-style:italic;
+}
+
+.section-title{text-align:center;margin-bottom:45px}
+.section-title span{color:#caa24a;letter-spacing:4px;text-transform:uppercase;font-size:13px}
+.section-title h2{font-size:42px;color:#ffcc33;margin:12px 0}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:28px;
+}
+.card{
   background:#111;
   border:1px solid #292929;
   padding:28px;
 }
-.mini-book h3{color:#ff3b22;font-size:25px}
-.mini-book p{color:#cfc7b8;line-height:1.6}
+.card h3{color:#ff3b22;font-size:25px}
+.card p{color:#cfc7b8;line-height:1.6}
+
+.preview{
+  background:#101010;
+  border:1px solid #333;
+  padding:38px;
+  margin-top:45px;
+}
+.preview h3{color:#ffcc33;font-size:32px}
+.preview p{color:#d8cbb8;line-height:1.8;font-size:17px}
 
 footer{
   background:#030303;
@@ -146,7 +196,9 @@ footer h3{color:#ffcc33}
   .brand h1{font-size:21px;letter-spacing:2px}
   nav{justify-content:flex-start;gap:22px}
   .hero h2{font-size:38px}
-  .book-card{grid-template-columns:1fr}
+  .featured-book{grid-template-columns:1fr;padding:24px}
+  .book-info h2{font-size:34px}
+  .quote p{font-size:24px}
 }
 </style>
 </head>
@@ -163,7 +215,10 @@ footer h3{color:#ffcc33}
     <div class="top-links">
       <a href="index.html#newsletter">Sign Up</a>
       <a href="books.html">Shop</a>
+      <a href="index.html#blog">Blog</a>
       <a href="index.html#support">Donate</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
     </div>
   </div>
 
@@ -171,8 +226,8 @@ footer h3{color:#ffcc33}
     <a href="index.html">Home</a>
     <a href="stories.html">Stories</a>
     <a href="books.html">Books</a>
-    <a href="index.html#community">Community</a>
-    <a href="index.html#submit">Submit Story</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
   </nav>
 </header>
 
@@ -180,56 +235,109 @@ footer h3{color:#ffcc33}
   <div>
     <span>Books</span>
     <h2>The Phoenix Library</h2>
-    <p>Books, upcoming works, interviews and creative projects from The Phoenix Whispers.</p>
+    <p>Books, upcoming works, emotional fiction, interviews and creative projects from The Phoenix Whispers.</p>
   </div>
 </section>
 
 <section class="section">
-  <div class="books-wrap">
-
-    <div class="book-card">
-      <div class="book-cover">
-        <img src="the-person-who-kept-walking.png" alt="The Person Who Kept Walking Cover"
-        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;placeholder-cover&quot;>The Person<br>Who Kept<br>Walking</div>';">
-      </div>
-
-      <div class="book-info">
-        <small>Featured Book</small>
-        <h2>The Person Who Kept Walking</h2>
-        <p>
-          A deeply emotional book about loneliness, memory, healing and the quiet strength
-          of a person who refuses to stop walking even when life feels heavy.
-        </p>
-
-        <div class="meta">
-          <span>By Vineet</span>
-          <span>Emotional Fiction</span>
-          <span>Paperback</span>
-          <span>Kindle</span>
-        </div>
-
-        <a class="btn light" href="#">Buy on Amazon</a>
-        <a class="btn" href="the-person-who-kept-walking.html">Read More</a>
-      </div>
+  <div class="wrap featured-book">
+    <div class="cover">
+      <img src="the-person-who-kept-walking.png" alt="The Person Who Kept Walking Cover"
+      onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;cover-fallback&quot;>The Person<br>Who Kept<br>Walking</div>';">
     </div>
 
-    <div class="upcoming">
-      <div class="mini-book">
+    <div class="book-info">
+      <small>Featured Book</small>
+      <h2>The Person Who Kept Walking</h2>
+      <div class="stars">★★★★★</div>
+      <p>
+        A deeply emotional book about loneliness, memory, healing and the quiet strength of a person
+        who refuses to stop walking even when life feels heavy.
+      </p>
+      <p>
+        This is a story for people who have felt lost, broken, silent, or unseen — and still kept moving.
+      </p>
+
+      <div class="meta">
+        <span>By Vineet</span>
+        <span>Emotional Fiction</span>
+        <span>Paperback</span>
+        <span>Kindle</span>
+        <span>English</span>
+      </div>
+
+      <a class="btn light" href="#">Buy on Amazon</a>
+      <a class="btn" href="the-person-who-kept-walking.html">Read More</a>
+      <a class="btn" href="#sample">Read Sample</a>
+    </div>
+  </div>
+</section>
+
+<section class="quote">
+  <p>“Some journeys are not about reaching somewhere. They are about surviving the road.”</p>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-title">
+      <span>Upcoming Works</span>
+      <h2>More From The Phoenix</h2>
+    </div>
+
+    <div class="grid">
+      <div class="card">
         <h3>In The Shadows They Live</h3>
-        <p>Real voices from ordinary people carrying extraordinary truths.</p>
+        <p>A collection of real voices from ordinary people carrying extraordinary truths.</p>
       </div>
 
-      <div class="mini-book">
+      <div class="card">
         <h3>Ashwatthama Ki Diary</h3>
-        <p>A dark psychological mystery where mythology and reality blur.</p>
+        <p>A Hindi psychological thriller where mythology, obsession and reality begin to blur.</p>
       </div>
 
-      <div class="mini-book">
-        <h3>More Works Coming Soon</h3>
-        <p>Future books, stories and projects will appear here.</p>
+      <div class="card">
+        <h3>More Books Coming Soon</h3>
+        <p>Future novels, story collections and creative works will be added here.</p>
       </div>
     </div>
 
+    <div class="preview" id="sample">
+      <h3>Sample Preview</h3>
+      <p>
+        This section will contain a short sample from the book. Later, you can add one powerful
+        paragraph or opening scene from <b>The Person Who Kept Walking</b> here.
+      </p>
+      <p>
+        For now, this is a placeholder. When your final sample is ready, we will replace this text
+        with the real excerpt.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-title">
+      <span>Why Read</span>
+      <h2>For Readers Who Feel Deeply</h2>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Emotional</h3>
+        <p>Written for readers who connect with silence, pain, hope and healing.</p>
+      </div>
+
+      <div class="card">
+        <h3>Reflective</h3>
+        <p>A book that makes you pause, think and feel your own journey.</p>
+      </div>
+
+      <div class="card">
+        <h3>Human</h3>
+        <p>Not just a story, but a quiet conversation with loneliness and courage.</p>
+      </div>
+    </div>
   </div>
 </section>
 

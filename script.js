@@ -228,3 +228,32 @@ document.addEventListener("click", () => {
     );
 
 });
+// =============================
+// Mouse Glow
+// =============================
+
+const glow=document.createElement("div");
+
+glow.id="cursor-glow";
+
+document.body.appendChild(glow);
+
+document.addEventListener("mousemove",e=>{
+
+    glow.style.left=e.clientX+"px";
+
+    glow.style.top=e.clientY+"px";
+
+});
+
+document.addEventListener("mouseleave",()=>{
+
+    glow.style.opacity="0";
+
+});
+
+document.addEventListener("mouseenter",()=>{
+
+    glow.style.opacity=".75";
+
+});

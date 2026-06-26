@@ -775,44 +775,6 @@ footer{
   </div>
 </footer>
 
-<script>
-window.addEventListener("load",()=>{
-  setTimeout(()=>document.getElementById("loader").classList.add("hide"),900);
-});
-
-const progressBar=document.getElementById("progress-bar");
-const backToTop=document.getElementById("backToTop");
-
-window.addEventListener("scroll",()=>{
-  const scrollTop=document.documentElement.scrollTop||document.body.scrollTop;
-  const scrollHeight=document.documentElement.scrollHeight-document.documentElement.clientHeight;
-  progressBar.style.width=(scrollTop/scrollHeight)*100+"%";
-  backToTop.style.display=scrollTop>400?"block":"none";
-});
-
-backToTop.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
-
-const reveals=document.querySelectorAll(".reveal");
-function revealOnScroll(){
-  reveals.forEach(section=>{
-    const top=section.getBoundingClientRect().top;
-    if(top<window.innerHeight-80)section.classList.add("active");
-  });
-}
-window.addEventListener("scroll",revealOnScroll);
-window.addEventListener("load",revealOnScroll);
-
-const embers=document.getElementById("embers");
-for(let i=0;i<28;i++){
-  const ember=document.createElement("span");
-  ember.className="ember";
-  ember.style.left=Math.random()*100+"%";
-  ember.style.animationDuration=5+Math.random()*6+"s";
-  ember.style.animationDelay=Math.random()*5+"s";
-  ember.style.opacity=.25+Math.random()*.65;
-  embers.appendChild(ember);
-}
-</script>
 <script src="script.js"></script>
 </body>
 </html>

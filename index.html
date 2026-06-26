@@ -75,6 +75,7 @@ nav{margin-top:6px;display:flex;justify-content:center;gap:42px;padding:10px 0 1
 
 .quote{background:#170707;text-align:center;padding:90px 12%;border-top:1px solid #331010;border-bottom:1px solid #331010}
 .quote p{font-size:34px;line-height:1.4;font-style:italic}
+#quoteText{transition:opacity .4s ease}
 
 .book{background:#0d0d0d;border-top:1px solid #333;border-bottom:1px solid #333}
 .book-wrap{display:grid;grid-template-columns:330px 1fr;gap:55px;align-items:center;max-width:1120px;margin:auto}
@@ -213,7 +214,7 @@ footer{background:#030303;border-top:1px solid #222;padding:55px 8% 25px}
 </section>
 
 <section class="quote reveal">
-  <p>“Some stories do not ask to be perfect. They only ask to be heard.”</p>
+  <p id="quoteText">“Some stories do not ask to be perfect. They only ask to be heard.”</p>
 </section>
 
 <section class="section book reveal" id="books">
@@ -242,8 +243,8 @@ footer{background:#030303;border-top:1px solid #222;padding:55px 8% 25px}
 
 <section class="section stats reveal">
   <div class="stats-grid">
-    <div class="stat"><h3>1</h3><p>Published Book</p></div>
-    <div class="stat"><h3>3+</h3><p>Creative Projects</p></div>
+    <div class="stat"><h3 data-count="1">0</h3><p>Published Book</p></div>
+    <div class="stat"><h3 data-count="3">0</h3><p>Creative Projects</p></div>
     <div class="stat"><h3>∞</h3><p>Stories To Tell</p></div>
   </div>
 </section>
@@ -375,6 +376,63 @@ for(let i=0;i<38;i++){
   ember.style.opacity=.25+Math.random()*.65;
   embers.appendChild(ember);
 }
+
+const quotes=[
+  "“Some stories do not ask to be perfect. They only ask to be heard.”",
+  "“Some journeys are not about reaching somewhere. They are about surviving the road.”",
+  "“Not every voice is loud. Some voices survive as whispers.”",
+  "“The phoenix does not return unchanged. It rises carrying the memory of fire.”"
+];
+
+let quoteIndex=0;
+const quoteText=document.getElementById("quoteText");
+
+setInterval(()=>{
+  if(quoteText){
+    quoteIndex=(quoteIndex+1)%quotes.length;
+    quoteText.style.opacity=0;
+    setTimeout(()=>{
+      quoteText.innerText=quotes[quoteIndex];
+      quoteText.style.opacity=1;
+    },400);
+  }
+},5000);
+
+const counters=document.querySelectorAll("[data-count]");
+let countersStarted=false;
+
+function startCounters(){
+  if(countersStarted)return;
+
+  const statsSection=document.querySelector(".stats");
+  if(!statsSection)return;
+
+  const top=statsSection.getBoundingClientRect().top;
+
+  if(top<window.innerHeight-100){
+    countersStarted=true;
+
+    counters.forEach(counter=>{
+      const target=parseInt(counter.getAttribute("data-count"));
+      let current=0;
+      const step=Math.max(1,Math.ceil(target/60));
+
+      const timer=setInterval(()=>{
+        current+=step;
+        if(current>=target){
+          counter.innerText=target;
+          clearInterval(timer);
+        }else{
+          counter.innerText=current;
+        }
+      },30);
+    });
+  }
+}
+
+window.addEventListener("scroll",startCounters);
+window.addEventListener("load",startCounters);
+
 </script>
 
 </body>

@@ -1,100 +1,152 @@
-// ===============================
-// THE PHOENIX WHISPERS
-// Global JavaScript
-// ===============================
+// =======================================
+// THE PHOENIX WHISPERS — GLOBAL SCRIPT
+// Part 1: Core, Loader, Progress, BackTop
+// =======================================
 
-// Loader
-window.addEventListener("load", () => {
-    const loader = document.getElementById("loader");
-    if (loader) {
-        setTimeout(() => {
-            loader.classList.add("hide");
-        }, 800);
-    }
-
-    revealOnScroll();
-    startCounters();
+document.addEventListener("DOMContentLoaded", () => {
+  initLoader();
+  initProgressBar();
+  initBackToTop();
+  initRevealAnimation();
+  initDropdownNavigation();
+  initQuoteCarousel();
+  initCounters();
+  initEmbers();
+  initMouseGlow();
+  initBookHover3D();
+  initReaderTools();
 });
 
-// --------------------
-// Reveal Animation
-// --------------------
+/* ---------- Loader ---------- */
 
-const reveals = document.querySelectorAll(".reveal");
+function initLoader(){
+  const loader = document.getElementById("loader");
+  if(!loader) return;
 
-function revealOnScroll() {
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      loader.classList.add("hide");
+    }, 800);
+  });
+}
+
+/* ---------- Scroll Progress Bar ---------- */
+
+function initProgressBar(){
+  const progressBar = document.getElementById("progress-bar");
+  if(!progressBar) return;
+
+  window.addEventListener("scroll", () => {
+    const scrollTop =
+      document.documentElement.scrollTop ||
+      document.body.scrollTop;
+
+    const scrollHeight =
+      document.documentElement.scrollHeight -
+      document.documentElement.clientHeight;
+
+    if(scrollHeight <= 0) return;
+
+    progressBar.style.width =
+      (scrollTop / scrollHeight) * 100 + "%";
+  });
+}
+
+/* ---------- Back To Top ---------- */
+
+function initBackToTop(){
+  const backToTop = document.getElementById("backToTop");
+  if(!backToTop) return;
+
+  window.addEventListener("scroll", () => {
+    backToTop.style.display =
+      window.scrollY > 400 ? "block" : "none";
+  });
+
+  backToTop.addEventListener("click", () => {
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+  });
+}
+
+/* ---------- Reveal Animation ---------- */
+
+function initRevealAnimation(){
+  const reveals = document.querySelectorAll(".reveal");
+  if(!reveals.length) return;
+
+  function revealOnScroll(){
     reveals.forEach(section => {
-        const top = section.getBoundingClientRect().top;
-
-        if (top < window.innerHeight - 80) {
-            section.classList.add("active");
-        }
+      const top = section.getBoundingClientRect().top;
+      if(top < window.innerHeight - 80){
+        section.classList.add("active");
+      }
     });
+  }
+
+  window.addEventListener("scroll", revealOnScroll);
+  window.addEventListener("load", revealOnScroll);
+  revealOnScroll();
 }
+/* =======================================
+   Part 2 : Dropdown + Quote + Counters
+=======================================*/
 
-window.addEventListener("scroll", revealOnScroll);
+/* ---------- Navigation Dropdown ---------- */
 
-// --------------------
-// Progress Bar
-// --------------------
+function initDropdownNavigation(){
 
-const progressBar = document.getElementById("progress-bar");
+  const navItems = document.querySelectorAll(".nav-item");
 
-window.addEventListener("scroll", () => {
+  if(!navItems.length) return;
 
-    if (progressBar) {
+  navItems.forEach(item=>{
 
-        const scrollTop =
-            document.documentElement.scrollTop ||
-            document.body.scrollTop;
+    const button=item.querySelector(".nav-button");
 
-        const scrollHeight =
-            document.documentElement.scrollHeight -
-            document.documentElement.clientHeight;
+    if(!button) return;
 
-        progressBar.style.width =
-            (scrollTop / scrollHeight) * 100 + "%";
-    }
-});
+    button.addEventListener("click",e=>{
 
-// --------------------
-// Back To Top
-// --------------------
+      e.stopPropagation();
 
-const backToTop = document.getElementById("backToTop");
+      navItems.forEach(other=>{
 
-window.addEventListener("scroll", () => {
+        if(other!==item)
+          other.classList.remove("active");
 
-    if (!backToTop) return;
+      });
 
-    if (window.scrollY > 400) {
-        backToTop.style.display = "block";
-    } else {
-        backToTop.style.display = "none";
-    }
-});
-
-if (backToTop) {
-
-    backToTop.addEventListener("click", () => {
-
-        window.scrollTo({
-
-            top: 0,
-
-            behavior: "smooth"
-
-        });
+      item.classList.toggle("active");
 
     });
 
+  });
+
+  document.addEventListener("click",()=>{
+
+    navItems.forEach(item=>{
+
+      item.classList.remove("active");
+
+    });
+
+  });
+
 }
 
-// --------------------
-// Quote Carousel
-// --------------------
 
-const quotes = [
+/* ---------- Quote Carousel ---------- */
+
+function initQuoteCarousel(){
+
+  const quote=document.getElementById("quoteText");
+
+  if(!quote) return;
+
+  const quotes=[
 
 "Some stories do not ask to be perfect. They only ask to be heard.",
 
@@ -104,176 +156,419 @@ const quotes = [
 
 "The phoenix remembers the fire but still chooses to fly.",
 
-"Every scar carries a story worth telling."
+"Stories heal people long after they are written.",
 
-];
+"Every scar deserves to become a story."
 
-const quoteText = document.getElementById("quoteText");
+  ];
 
-let quoteIndex = 0;
+  let current=0;
 
-if (quoteText) {
+  setInterval(()=>{
 
-    setInterval(() => {
+    quote.style.opacity=0;
 
-        quoteIndex++;
+    setTimeout(()=>{
 
-        if (quoteIndex >= quotes.length)
-            quoteIndex = 0;
+      current++;
 
-        quoteText.style.opacity = 0;
+      if(current>=quotes.length)
+        current=0;
 
-        setTimeout(() => {
+      quote.innerText=quotes[current];
 
-            quoteText.innerText = quotes[quoteIndex];
+      quote.style.opacity=1;
 
-            quoteText.style.opacity = 1;
+    },350);
 
-        }, 350);
-
-    }, 5000);
+  },5000);
 
 }
 
-// --------------------
-// Animated Counters
-// --------------------
 
-const counters = document.querySelectorAll("[data-count]");
+/* ---------- Animated Counters ---------- */
 
-let counterStarted = false;
+function initCounters(){
 
-function startCounters() {
+  const counters=document.querySelectorAll("[data-count]");
 
-    if (counterStarted) return;
+  if(!counters.length) return;
 
-    const stats = document.querySelector(".stats");
+  let started=false;
 
-    if (!stats) return;
+  function animate(){
 
-    if (stats.getBoundingClientRect().top < window.innerHeight - 100) {
+    if(started) return;
 
-        counterStarted = true;
+    const stats=document.querySelector(".stats");
 
-        counters.forEach(counter => {
+    if(!stats) return;
 
-            const target = Number(counter.dataset.count);
+    if(stats.getBoundingClientRect().top<window.innerHeight-120){
 
-            let current = 0;
+      started=true;
 
-            const speed = Math.max(1, Math.ceil(target / 60));
+      counters.forEach(counter=>{
 
-            const timer = setInterval(() => {
+        const target=parseInt(counter.dataset.count);
 
-                current += speed;
+        let current=0;
 
-                if (current >= target) {
+        const increment=Math.max(1,Math.ceil(target/60));
 
-                    counter.innerText = target;
+        const timer=setInterval(()=>{
 
-                    clearInterval(timer);
+          current+=increment;
 
-                } else {
+          if(current>=target){
 
-                    counter.innerText = current;
+            current=target;
 
-                }
+            clearInterval(timer);
 
-            }, 30);
+          }
 
-        });
+          counter.innerText=current;
+
+        },30);
+
+      });
 
     }
 
+  }
+
+  window.addEventListener("scroll",animate);
+
+  animate();
+
+}
+/* =======================================
+   Part 3 : Embers + Mouse Glow + 3D Hover
+=======================================*/
+
+/* ---------- Floating Embers ---------- */
+
+function initEmbers(){
+
+  const emberBox = document.getElementById("embers");
+
+  if(!emberBox) return;
+
+  if(emberBox.dataset.ready === "true") return;
+
+  emberBox.dataset.ready = "true";
+
+  const count = window.innerWidth < 800 ? 18 : 38;
+
+  for(let i=0;i<count;i++){
+
+    const ember = document.createElement("span");
+
+    ember.className = "ember";
+
+    ember.style.left = Math.random() * 100 + "%";
+
+    ember.style.animationDuration = 5 + Math.random() * 6 + "s";
+
+    ember.style.animationDelay = Math.random() * 5 + "s";
+
+    ember.style.opacity = .25 + Math.random() * .65;
+
+    ember.style.width = 3 + Math.random() * 4 + "px";
+
+    ember.style.height = ember.style.width;
+
+    emberBox.appendChild(ember);
+
+  }
+
 }
 
-window.addEventListener("scroll", startCounters);
 
-// --------------------
-// Navigation Dropdown
-// --------------------
+/* ---------- Mouse Glow ---------- */
 
-const navItems = document.querySelectorAll(".nav-item");
+function initMouseGlow(){
 
-navItems.forEach(item => {
+  if(window.innerWidth < 800) return;
 
-    const button = item.querySelector(".nav-button");
+  if(document.getElementById("cursor-glow")) return;
 
-    if (!button) return;
+  const glow = document.createElement("div");
 
-    button.addEventListener("click", e => {
+  glow.id = "cursor-glow";
 
-        e.stopPropagation();
+  document.body.appendChild(glow);
 
-        navItems.forEach(other => {
+  document.addEventListener("mousemove", e => {
 
-            if (other !== item)
+    glow.style.left = e.clientX + "px";
 
-                other.classList.remove("active");
+    glow.style.top = e.clientY + "px";
 
-        });
+  });
 
-        item.classList.toggle("active");
+  document.addEventListener("mouseleave", () => {
+
+    glow.style.opacity = "0";
+
+  });
+
+  document.addEventListener("mouseenter", () => {
+
+    glow.style.opacity = ".75";
+
+  });
+
+}
+
+
+/* ---------- 3D Book Hover ---------- */
+
+function initBookHover3D(){
+
+  const books = document.querySelectorAll(".book-cover, .cover");
+
+  if(!books.length) return;
+
+  books.forEach(book => {
+
+    book.addEventListener("mousemove", e => {
+
+      const rect = book.getBoundingClientRect();
+
+      const x = e.clientX - rect.left;
+
+      const y = e.clientY - rect.top;
+
+      const rotateY = ((x / rect.width) - 0.5) * 14;
+
+      const rotateX = ((y / rect.height) - 0.5) * -14;
+
+      book.style.transform =
+        `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
 
     });
 
+    book.addEventListener("mouseleave", () => {
+
+      book.style.transform = "";
+
+    });
+
+  });
+
+}
+
+
+/* ---------- Button Ripple Effect ---------- */
+
+document.addEventListener("click", e => {
+
+  const button = e.target.closest(".btn");
+
+  if(!button) return;
+
+  const ripple = document.createElement("span");
+
+  ripple.style.position = "absolute";
+
+  ripple.style.borderRadius = "50%";
+
+  ripple.style.transform = "scale(0)";
+
+  ripple.style.animation = "ripple .6s linear";
+
+  ripple.style.background = "rgba(255,255,255,.35)";
+
+  ripple.style.pointerEvents = "none";
+
+  const rect = button.getBoundingClientRect();
+
+  const size = Math.max(rect.width, rect.height);
+
+  ripple.style.width = ripple.style.height = size + "px";
+
+  ripple.style.left = e.clientX - rect.left - size / 2 + "px";
+
+  ripple.style.top = e.clientY - rect.top - size / 2 + "px";
+
+  button.style.position = "relative";
+
+  button.style.overflow = "hidden";
+
+  button.appendChild(ripple);
+
+  setTimeout(() => {
+
+    ripple.remove();
+
+  }, 650);
+
 });
+/* =======================================
+   Part 4 : Reader Tools + Utilities
+=======================================*/
 
-document.addEventListener("click", () => {
+/* ---------- Reader Mode ---------- */
 
-    navItems.forEach(item =>
+function initReaderTools(){
 
-        item.classList.remove("active")
+  const article = document.getElementById("article");
 
-    );
+  if(article){
 
-});
-// =============================
-// Mouse Glow
-// =============================
+    calculateReadingTime(article);
 
-const glow=document.createElement("div");
+  }
 
-glow.id="cursor-glow";
+}
 
-document.body.appendChild(glow);
 
-document.addEventListener("mousemove",e=>{
+/* ---------- Reading Time ---------- */
 
-    glow.style.left=e.clientX+"px";
+function calculateReadingTime(article){
 
-    glow.style.top=e.clientY+"px";
+  const readingTime = document.getElementById("readingTime");
 
-});
+  if(!readingTime) return;
 
-document.addEventListener("mouseleave",()=>{
+  const words = article.innerText.trim().split(/\s+/).length;
 
-    glow.style.opacity="0";
+  const minutes = Math.max(1, Math.ceil(words / 200));
 
-});
+  readingTime.innerText = minutes + " min read";
 
-document.addEventListener("mouseenter",()=>{
+}
 
-    glow.style.opacity=".75";
 
-});
-// =============================
-// Mouse Glow
-// =============================
+/* ---------- Font Controls ---------- */
 
-const glow = document.createElement("div");
-glow.id = "cursor-glow";
-document.body.appendChild(glow);
+let currentFontSize = 21;
 
-document.addEventListener("mousemove", e => {
-  glow.style.left = e.clientX + "px";
-  glow.style.top = e.clientY + "px";
-});
+window.increaseFont = function(){
 
-document.addEventListener("mouseleave", () => {
-  glow.style.opacity = "0";
-});
+  const article = document.getElementById("article");
 
-document.addEventListener("mouseenter", () => {
-  glow.style.opacity = ".75";
-});
+  if(!article) return;
+
+  currentFontSize += 2;
+
+  article.style.fontSize = currentFontSize + "px";
+
+}
+
+window.decreaseFont = function(){
+
+  const article = document.getElementById("article");
+
+  if(!article) return;
+
+  if(currentFontSize > 15){
+
+    currentFontSize -= 2;
+
+    article.style.fontSize = currentFontSize + "px";
+
+  }
+
+}
+
+
+/* ---------- Dark / Light Mode ---------- */
+
+window.toggleTheme = function(){
+
+  document.body.classList.toggle("light-mode");
+
+}
+
+
+/* ---------- Copy Link ---------- */
+
+window.copyLink = function(){
+
+  navigator.clipboard.writeText(window.location.href);
+
+  alert("Story link copied!");
+
+}
+
+
+/* ---------- Lazy Images ---------- */
+
+const lazyImages = document.querySelectorAll("img[data-src]");
+
+if(lazyImages.length){
+
+  const observer = new IntersectionObserver(entries=>{
+
+    entries.forEach(entry=>{
+
+      if(entry.isIntersecting){
+
+        const img = entry.target;
+
+        img.src = img.dataset.src;
+
+        img.removeAttribute("data-src");
+
+        observer.unobserve(img);
+
+      }
+
+    });
+
+  });
+
+  lazyImages.forEach(img=>observer.observe(img));
+
+}
+
+
+/* ---------- Ripple Animation CSS ---------- */
+
+const rippleStyle=document.createElement("style");
+
+rippleStyle.innerHTML=`
+
+@keyframes ripple{
+
+0%{
+
+transform:scale(0);
+
+opacity:.6;
+
+}
+
+100%{
+
+transform:scale(4);
+
+opacity:0;
+
+}
+
+}
+
+`;
+
+document.head.appendChild(rippleStyle);
+
+
+/* ---------- Console ---------- */
+
+console.log(
+
+"%cThe Phoenix Whispers",
+
+"font-size:18px;color:#ffcc33;font-weight:bold"
+
+);
+
+console.log(
+
+"Website Loaded Successfully."
+
+);

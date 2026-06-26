@@ -1,1 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>404 | The Phoenix Whispers</title>
+
+<link rel="icon" href="logo.png">
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+body{
+background:#050505;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+overflow:hidden;
+text-align:center;
+}
+
+.wrap{
+max-width:700px;
+padding:40px;
+position:relative;
+z-index:2;
+}
+
+.wrap img{
+width:180px;
+filter:
+drop-shadow(0 0 12px rgba(255,80,0,.4))
+drop-shadow(0 0 30px rgba(255,180,40,.25));
+animation:float 4s ease-in-out infinite;
+}
+
+@keyframes float{
+
+0%,100%{
+transform:translateY(0px);
+}
+
+50%{
+transform:translateY(-12px);
+}
+
+}
+
+h1{
+
+font-size:110px;
+
+margin:20px 0 10px;
+
+color:#ffcc33;
+
+}
+
+h2{
+
+font-size:42px;
+
+margin:0;
+
+}
+
+p{
+
+margin:25px auto;
+
+max-width:620px;
+
+font-size:19px;
+
+line-height:1.7;
+
+color:#d2c5b3;
+
+}
+
+.btn404{
+
+display:inline-block;
+
+padding:15px 34px;
+
+background:#9b0000;
+
+color:white;
+
+font-weight:bold;
+
+transition:.3s;
+
+}
+
+.btn404:hover{
+
+background:#c1121f;
+
+transform:translateY(-4px);
+
+}
+
+.embers{
+
+position:fixed;
+
+inset:0;
+
+pointer-events:none;
+
+overflow:hidden;
+
+z-index:1;
+
+}
+
+.ember{
+
+position:absolute;
+
+bottom:-30px;
+
+width:5px;
+
+height:5px;
+
+background:#ffcc33;
+
+border-radius:50%;
+
+box-shadow:0 0 14px #ff5500;
+
+animation:rise linear infinite;
+
+}
+
+@keyframes rise{
+
+0%{
+
+transform:translateY(0) scale(.5);
+
+opacity:0;
+
+}
+
+20%{
+
+opacity:.9;
+
+}
+
+100%{
+
+transform:translateY(-100vh) scale(1.2);
+
+opacity:0;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="embers" id="embers"></div>
+
+<div class="wrap">
+
+<img src="logo.png" alt="Phoenix">
+
+<h1>404</h1>
+
+<h2>This Page Turned To Ashes</h2>
+
+<p>
+
+The page you're looking for no longer exists,
+
+or perhaps it has already risen somewhere else.
+
+Every ending is only another beginning.
+
+</p>
+
+<a href="index.html" class="btn404">
+
+Return Home
+
+</a>
+
+</div>
+
+<script>
+
+const embers=document.getElementById("embers");
+
+for(let i=0;i<40;i++){
+
+const ember=document.createElement("span");
+
+ember.className="ember";
+
+ember.style.left=Math.random()*100+"%";
+
+ember.style.animationDuration=5+Math.random()*6+"s";
+
+ember.style.animationDelay=Math.random()*5+"s";
+
+ember.style.opacity=.25+Math.random()*.65;
+
+embers.appendChild(ember);
+
+}
+
+</script>
+
+</body>
+
+</html>

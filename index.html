@@ -9,595 +9,126 @@
 
 <style>
 *{box-sizing:border-box}
-
-body{
-  margin:0;
-  background:#070707;
-  color:#f5f0e6;
-  font-family:Georgia,serif;
-  scroll-behavior:smooth;
-}
-
+html{scroll-behavior:smooth}
+body{margin:0;background:#070707;color:#f5f0e6;font-family:Georgia,serif}
 a{text-decoration:none;color:inherit}
 
-/* LOADER + PROGRESS */
-#loader{
-  position:fixed;
-  inset:0;
-  background:#030303;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
-  transition:opacity .7s ease,visibility .7s ease;
-}
+#loader{position:fixed;inset:0;background:#030303;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:.7s}
+#loader.hide{opacity:0;visibility:hidden}
+#loader img{width:120px;height:120px;object-fit:contain;filter:drop-shadow(0 0 24px rgba(255,80,0,.8));animation:pulse 1.6s infinite alternate}
+#loader h2{margin:18px 0 8px;font-size:34px;letter-spacing:3px;background:linear-gradient(90deg,#9b0000,#ff2a00,#ffcc33,#fff1b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+#loader p{color:#caa24a;letter-spacing:4px}
+@keyframes pulse{from{transform:scale(.94);opacity:.75}to{transform:scale(1.08);opacity:1}}
 
-#loader.hide{
-  opacity:0;
-  visibility:hidden;
-}
+#progress-bar{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,#8b0000,#ff2a00,#ffcc33);z-index:10000}
+#backToTop{position:fixed;right:22px;bottom:22px;width:46px;height:46px;border:none;border-radius:50%;background:#9b0000;color:#fff;font-size:24px;cursor:pointer;display:none;z-index:2000;box-shadow:0 0 18px rgba(155,0,0,.5)}
 
-#loader img{
-  width:120px;
-  height:120px;
-  object-fit:contain;
-  filter:drop-shadow(0 0 22px rgba(255,80,0,.75));
-  animation:loaderPulse 1.6s infinite alternate;
-}
-
-#loader h2{
-  margin:18px 0 8px;
-  font-size:34px;
-  letter-spacing:3px;
-  background:linear-gradient(90deg,#9b0000,#ff2a00,#ffcc33,#fff1b8);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-#loader p{
-  color:#caa24a;
-  letter-spacing:4px;
-}
-
-@keyframes loaderPulse{
-  from{transform:scale(.95);opacity:.75}
-  to{transform:scale(1.08);opacity:1}
-}
-
-#progress-bar{
-  position:fixed;
-  top:0;
-  left:0;
-  height:4px;
-  width:0%;
-  background:linear-gradient(90deg,#8b0000,#ff2a00,#ffcc33);
-  z-index:10000;
-}
-
-#backToTop{
-  position:fixed;
-  right:22px;
-  bottom:22px;
-  width:46px;
-  height:46px;
-  border:none;
-  border-radius:50%;
-  background:#9b0000;
-  color:white;
-  font-size:24px;
-  cursor:pointer;
-  display:none;
-  z-index:2000;
-  box-shadow:0 0 18px rgba(155,0,0,.5);
-}
-
-#backToTop:hover{
-  background:#c1121f;
-}
-
-/* HEADER */
-header{
-  background:rgba(5,5,5,.94);
-  border-bottom:1px solid #222;
-  padding:8px 7% 0;
-  position:sticky;
-  top:0;
-  z-index:1000;
-  backdrop-filter:blur(10px);
-}
-
-.top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:20px;
-  flex-wrap:wrap;
-}
-
-.brand{
-  display:flex;
-  align-items:center;
-  gap:14px;
-}
-
-.brand img{
-  width:78px;
-  height:78px;
-  object-fit:contain;
-  filter:drop-shadow(0 0 12px rgba(255,80,0,.35));
-}
-
-.brand h1{
-  margin:0;
-  font-size:31px;
-  letter-spacing:4px;
-  line-height:1;
-  background:linear-gradient(90deg,#9b0000,#ff2a00,#ffcc33,#fff1b8);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-.top-links{
-  display:flex;
-  align-items:center;
-  gap:22px;
-  flex-wrap:wrap;
-}
-
-.top-links a{
-  font-weight:bold;
-  font-size:13px;
-  color:#f5f0e6;
-}
-
+header{background:rgba(5,5,5,.94);border-bottom:1px solid #222;padding:8px 7% 0;position:sticky;top:0;z-index:1000;backdrop-filter:blur(10px)}
+.top{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:14px}
+.brand img{width:78px;height:78px;object-fit:contain;filter:drop-shadow(0 0 12px rgba(255,80,0,.35))}
+.brand h1{margin:0;font-size:31px;letter-spacing:4px;line-height:1;background:linear-gradient(90deg,#9b0000,#ff2a00,#ffcc33,#fff1b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.top-links{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.top-links a{font-weight:bold;font-size:13px;color:#f5f0e6}
 .top-links a:hover{color:#ffcc33}
 
-nav{
-  margin-top:6px;
-  display:flex;
-  justify-content:center;
-  gap:42px;
-  padding:10px 0 12px;
-  border-top:1px solid #111;
-  flex-wrap:wrap;
-}
-
+nav{margin-top:6px;display:flex;justify-content:center;gap:42px;padding:10px 0 12px;border-top:1px solid #111;flex-wrap:wrap}
 .nav-item{position:relative}
-
-.nav-button{
-  background:none;
-  border:none;
-  color:white;
-  font-family:Georgia,serif;
-  font-weight:bold;
-  font-size:15px;
-  cursor:pointer;
-  padding:5px 0;
-}
-
+.nav-button{background:none;border:none;color:white;font-family:Georgia,serif;font-weight:bold;font-size:15px;cursor:pointer;padding:5px 0}
 .nav-button:hover{color:#ffcc33}
-
-.dropdown{
-  display:none;
-  position:absolute;
-  top:32px;
-  left:0;
-  min-width:250px;
-  background:#111;
-  border:1px solid #333;
-  z-index:2000;
-}
-
+.dropdown{display:none;position:absolute;top:32px;left:0;min-width:250px;background:#111;border:1px solid #333;z-index:2000}
 .nav-item.active .dropdown{display:block}
-
-.dropdown a{
-  display:block;
-  padding:13px 16px;
-  color:#f5f0e6;
-  border-bottom:1px solid #222;
-  font-size:14px;
-}
-
+.dropdown a{display:block;padding:13px 16px;color:#f5f0e6;border-bottom:1px solid #222;font-size:14px}
 .dropdown a:hover{background:#8b0000}
 
-/* HERO */
-.hero{
-  min-height:760px;
-  position:relative;
-  overflow:hidden;
-  background:
-  radial-gradient(circle at center 18%, rgba(255,92,0,.25), transparent 32%),
-  linear-gradient(rgba(0,0,0,.04),rgba(0,0,0,.92)),
-  url("hero-logo.png");
-  background-size:contain;
-  background-repeat:no-repeat;
-  background-position:center top;
-  display:flex;
-  align-items:flex-start;
-  justify-content:center;
-  text-align:center;
-  padding:180px 20px 90px;
-}
-
-.hero::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:radial-gradient(circle at 50% 38%, transparent 0 34%, rgba(0,0,0,.45) 55%, rgba(0,0,0,.86) 100%);
-  pointer-events:none;
-}
-
-.hero::after{
-  content:"";
-  position:absolute;
-  width:600px;
-  height:600px;
-  top:20px;
-  left:50%;
-  transform:translateX(-50%);
-  background:radial-gradient(circle, rgba(255,80,0,.20), transparent 65%);
-  filter:blur(22px);
-  animation:phoenixGlow 5s ease-in-out infinite alternate;
-  pointer-events:none;
-}
-
-@keyframes phoenixGlow{
-  from{opacity:.45;transform:translateX(-50%) scale(.96)}
-  to{opacity:.9;transform:translateX(-50%) scale(1.06)}
-}
-
-.hero-content{
-  position:relative;
-  z-index:2;
-  max-width:900px;
-  animation:fadeUp 1.2s ease forwards;
-}
-
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(35px)}
-  to{opacity:1;transform:translateY(0)}
-}
-
-.hero-label{
-  display:inline-block;
-  color:#ffcc33;
-  letter-spacing:4px;
-  font-size:12px;
-  text-transform:uppercase;
-  margin-bottom:18px;
-}
-
-.hero h2{
-  font-size:58px;
-  margin:0 0 14px;
-  text-shadow:0 4px 22px black;
-}
-
-.hero p{
-  font-size:21px;
-  color:#e8d8b0;
-  margin:0 0 18px;
-}
-
-.btn{
-  display:inline-block;
-  margin:10px;
-  padding:13px 30px;
-  background:#9b0000;
-  color:white;
-  font-weight:bold;
-  border-radius:3px;
-  box-shadow:0 0 18px rgba(155,0,0,.35);
-  transition:.3s;
-}
-
-.btn:hover{
-  background:#c1121f;
-  transform:translateY(-3px);
-}
-
-.btn.light{
-  background:#f0d27a;
-  color:#170b05;
-}
-
+.hero{min-height:790px;position:relative;overflow:hidden;background:radial-gradient(circle at center 18%,rgba(255,92,0,.25),transparent 32%),linear-gradient(rgba(0,0,0,.04),rgba(0,0,0,.92)),url("hero-logo.png");background-size:contain;background-repeat:no-repeat;background-position:center top;display:flex;align-items:flex-start;justify-content:center;text-align:center;padding:180px 20px 90px}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 38%,transparent 0 34%,rgba(0,0,0,.45) 55%,rgba(0,0,0,.86) 100%);pointer-events:none}
+.hero::after{content:"";position:absolute;width:650px;height:650px;top:20px;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(255,80,0,.22),transparent 65%);filter:blur(22px);animation:phoenixGlow 5s ease-in-out infinite alternate;pointer-events:none}
+@keyframes phoenixGlow{from{opacity:.45;transform:translateX(-50%) scale(.96)}to{opacity:.9;transform:translateX(-50%) scale(1.06)}}
+.embers{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+.ember{position:absolute;bottom:-20px;width:5px;height:5px;background:#ffcc33;border-radius:50%;box-shadow:0 0 15px #ff4b00;animation:rise linear infinite;opacity:.8}
+@keyframes rise{0%{transform:translateY(0) scale(.6);opacity:0}20%{opacity:.8}100%{transform:translateY(-850px) scale(1.2);opacity:0}}
+.hero-content{position:relative;z-index:2;max-width:900px;animation:fadeUp 1.2s ease forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(35px)}to{opacity:1;transform:translateY(0)}}
+.hero-label{display:inline-block;color:#ffcc33;letter-spacing:4px;font-size:12px;text-transform:uppercase;margin-bottom:18px}
+.hero h2{font-size:60px;margin:0 0 14px;text-shadow:0 4px 22px black}
+.hero p{font-size:21px;color:#e8d8b0;margin:0 0 18px}
+.btn{display:inline-block;margin:10px;padding:13px 30px;background:#9b0000;color:white;font-weight:bold;border-radius:3px;box-shadow:0 0 18px rgba(155,0,0,.35);transition:.3s}
+.btn:hover{background:#c1121f;transform:translateY(-3px)}
+.btn.light{background:#f0d27a;color:#170b05}
 .btn.light:hover{background:#ffdf7e}
 
-.section{padding:80px 8%}
+.section{padding:85px 8%}
+.section-title{text-align:center;margin-bottom:45px}
+.section-title span{color:#caa24a;letter-spacing:4px;font-size:13px;text-transform:uppercase}
+.section-title h2{font-size:42px;margin:12px 0}
 
-.section-title{
-  text-align:center;
-  margin-bottom:45px;
-}
-
-.section-title span{
-  color:#caa24a;
-  letter-spacing:4px;
-  font-size:13px;
-  text-transform:uppercase;
-}
-
-.section-title h2{
-  font-size:42px;
-  margin:12px 0;
-}
-
-.story-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:28px;
-}
-
-.story-card{
-  background:#101010;
-  border:1px solid #2b2b2b;
-  overflow:hidden;
-  transition:.35s;
-}
-
-.story-card:hover{
-  transform:translateY(-8px);
-  border-color:#8b0000;
-  box-shadow:0 15px 35px rgba(139,0,0,.25);
-}
-
-.story-image{
-  height:180px;
-  background:
-  linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.75)),
-  radial-gradient(circle at center,#7b0000,#111 60%);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#ffcc33;
-  font-size:48px;
-}
-
+.story-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px}
+.story-card{background:#101010;border:1px solid #2b2b2b;overflow:hidden;transition:.35s}
+.story-card:hover{transform:translateY(-8px);border-color:#8b0000;box-shadow:0 15px 35px rgba(139,0,0,.25)}
+.story-image{height:185px;background:linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.75)),radial-gradient(circle at center,#7b0000,#111 60%);display:flex;align-items:center;justify-content:center;color:#ffcc33;font-size:48px}
 .story-content{padding:25px}
+.story-content small{color:#caa24a;letter-spacing:2px;text-transform:uppercase}
+.story-content h3{color:#ff3b22;font-size:25px;margin:12px 0}
+.story-content p{color:#cfc7b8;line-height:1.6}
+.read-link{color:#ffcc33;font-weight:bold}
 
-.story-content small{
-  color:#caa24a;
-  letter-spacing:2px;
-  text-transform:uppercase;
-}
+.quote{background:#170707;text-align:center;padding:90px 12%;border-top:1px solid #331010;border-bottom:1px solid #331010}
+.quote p{font-size:34px;line-height:1.4;font-style:italic}
 
-.story-content h3{
-  color:#ff3b22;
-  font-size:25px;
-  margin:12px 0;
-}
+.book{background:#0d0d0d;border-top:1px solid #333;border-bottom:1px solid #333}
+.book-wrap{display:grid;grid-template-columns:330px 1fr;gap:55px;align-items:center;max-width:1120px;margin:auto}
+.book-cover{min-height:455px;background:#080808;border:1px solid #4b1c1c;display:flex;align-items:center;justify-content:center;text-align:center;padding:18px;box-shadow:0 0 40px rgba(139,0,0,.38);transition:.4s;overflow:hidden}
+.book-cover:hover{transform:perspective(900px) rotateY(-6deg) translateY(-8px);box-shadow:0 25px 55px rgba(139,0,0,.48)}
+.book-cover img{width:100%;height:100%;object-fit:cover}
+.book-info h2{font-size:46px;color:#ffcc33;margin:0 0 18px}
+.book-info p{color:#d8cbb8;line-height:1.7;font-size:17px}
+.book-meta,.formats{display:flex;gap:14px;flex-wrap:wrap;margin:20px 0}
+.book-meta span{border:1px solid #333;padding:8px 12px;color:#caa24a;font-size:13px}
+.formats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
+.formats div{background:#120808;border:1px solid #3a1a1a;padding:16px;transition:.3s}
+.formats div:hover{transform:translateY(-5px);border-color:#8b0000;box-shadow:0 10px 25px rgba(139,0,0,.25)}
+.formats strong{color:#ffcc33;font-size:18px}
+.formats p{margin:8px 0 0;font-size:14px;color:#cfc7b8}
 
-.story-content p{
-  color:#cfc7b8;
-  line-height:1.6;
-}
+.stats{background:#090909;border-top:1px solid #222;border-bottom:1px solid #222}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:22px;max-width:1000px;margin:auto;text-align:center}
+.stat{padding:24px;border:1px solid #292929;background:#111}
+.stat h3{font-size:34px;color:#ffcc33;margin:0}
+.stat p{color:#cfc7b8}
 
-.quote{
-  background:#170707;
-  text-align:center;
-  padding:90px 12%;
-  border-top:1px solid #331010;
-  border-bottom:1px solid #331010;
-}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:28px}
+.card{background:#111;border:1px solid #292929;padding:28px;min-height:190px;transition:.3s}
+.card:hover{transform:translateY(-6px);border-color:#8b0000}
+.card h3{color:#ff3b22;font-size:25px}
+.card p{color:#cfc7b8;line-height:1.6}
 
-.quote p{
-  font-size:34px;
-  line-height:1.4;
-  font-style:italic;
-}
+.blog-preview{background:#100808;border-top:1px solid #331010;border-bottom:1px solid #331010}
+.blog-card{background:#111;border:1px solid #292929;padding:30px}
+.blog-card small{color:#caa24a;letter-spacing:3px;text-transform:uppercase}
+.blog-card h3{color:#ffcc33;font-size:28px}
 
-.book{
-  background:#0d0d0d;
-  border-top:1px solid #333;
-  border-bottom:1px solid #333;
-}
-
-.book-wrap{
-  display:grid;
-  grid-template-columns:320px 1fr;
-  gap:50px;
-  align-items:center;
-  max-width:1100px;
-  margin:auto;
-}
-
-.book-cover{
-  min-height:430px;
-  background:
-  linear-gradient(rgba(0,0,0,.15),rgba(0,0,0,.85)),
-  radial-gradient(circle at center,#8b0000,#111 65%);
-  border:1px solid #4b1c1c;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:30px;
-  box-shadow:0 0 35px rgba(139,0,0,.35);
-  transition:.4s;
-}
-
-.book-cover:hover{
-  transform:perspective(900px) rotateY(-6deg) translateY(-8px);
-  box-shadow:0 25px 55px rgba(139,0,0,.45);
-}
-
-.book-cover img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.book-info h2{
-  font-size:46px;
-  color:#ffcc33;
-  margin:0 0 18px;
-}
-
-.book-info p{
-  color:#d8cbb8;
-  line-height:1.7;
-  font-size:17px;
-}
-
-.book-meta{
-  display:flex;
-  gap:16px;
-  flex-wrap:wrap;
-  margin:20px 0;
-}
-
-.book-meta span{
-  border:1px solid #333;
-  padding:8px 12px;
-  color:#caa24a;
-  font-size:13px;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:28px;
-}
-
-.card{
-  background:#111;
-  border:1px solid #292929;
-  padding:28px;
-  min-height:190px;
-  transition:.3s;
-}
-
-.card:hover{
-  transform:translateY(-6px);
-  border-color:#8b0000;
-}
-
-.card h3{
-  color:#ff3b22;
-  font-size:25px;
-}
-
-.card p{
-  color:#cfc7b8;
-  line-height:1.6;
-}
-
-.newsletter{
-  background:linear-gradient(135deg,#7b0000,#250000);
-  padding:75px 8%;
-  display:grid;
-  grid-template-columns:1.3fr 1fr;
-  gap:30px;
-  align-items:center;
-}
-
+.newsletter{background:linear-gradient(135deg,#7b0000,#250000);padding:75px 8%;display:grid;grid-template-columns:1.3fr 1fr;gap:30px;align-items:center}
 .newsletter h2{font-size:40px}
+.newsletter input{width:100%;padding:15px;border:none;margin-bottom:12px}
+.newsletter button{width:100%;padding:15px;border:none;background:#ffcc33;font-weight:bold;cursor:pointer;transition:.3s}
+.newsletter button:hover{transform:translateY(-3px);background:#ffdf7e}
 
-.newsletter input{
-  width:100%;
-  padding:15px;
-  border:none;
-  margin-bottom:12px;
-}
-
-.newsletter button{
-  width:100%;
-  padding:15px;
-  border:none;
-  background:#ffcc33;
-  font-weight:bold;
-  cursor:pointer;
-  transition:.3s;
-}
-
-.newsletter button:hover{
-  transform:translateY(-3px);
-  background:#ffdf7e;
-}
-
-footer{
-  background:#030303;
-  border-top:1px solid #222;
-  padding:55px 8% 25px;
-}
-
-.footer-grid{
-  display:grid;
-  grid-template-columns:2fr 1fr 1fr;
-  gap:35px;
-  max-width:1100px;
-  margin:auto;
-}
-
-.footer-logo{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.footer-logo img{
-  width:55px;
-  height:55px;
-  object-fit:contain;
-}
-
-.footer-logo h3{
-  margin:0;
-  color:#ffcc33;
-  font-size:24px;
-}
-
-.footer p,.footer-links a{
-  color:#aaa;
-  line-height:1.7;
-  font-size:14px;
-}
-
-.footer-links a{
-  display:block;
-  margin:8px 0;
-}
-
+footer{background:#030303;border-top:1px solid #222;padding:55px 8% 25px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:35px;max-width:1100px;margin:auto}
+.footer-logo{display:flex;align-items:center;gap:12px}
+.footer-logo img{width:55px;height:55px;object-fit:contain}
+.footer-logo h3{margin:0;color:#ffcc33;font-size:24px}
+.footer p,.footer-links a{color:#aaa;line-height:1.7;font-size:14px}
+.footer-links a{display:block;margin:8px 0}
 .footer-links a:hover{color:#ffcc33}
+.social{display:flex;gap:12px;margin-top:15px;flex-wrap:wrap}
+.social a{border:1px solid #333;padding:8px 12px;color:#f5f0e6;transition:.3s}
+.social a:hover{background:#8b0000;transform:translateY(-3px)}
+.copyright{text-align:center;color:#777;border-top:1px solid #151515;margin-top:35px;padding-top:22px;font-size:13px}
 
-.social{
-  display:flex;
-  gap:12px;
-  margin-top:15px;
-}
-
-.social a{
-  border:1px solid #333;
-  padding:8px 12px;
-  color:#f5f0e6;
-  transition:.3s;
-}
-
-.social a:hover{
-  background:#8b0000;
-  transform:translateY(-3px);
-}
-
-.copyright{
-  text-align:center;
-  color:#777;
-  border-top:1px solid #151515;
-  margin-top:35px;
-  padding-top:22px;
-  font-size:13px;
-}
-
-.reveal{
-  opacity:0;
-  transform:translateY(40px);
-  transition:1s ease;
-}
-
-.reveal.active{
-  opacity:1;
-  transform:translateY(0);
-}
+.reveal{opacity:0;transform:translateY(40px);transition:1s ease}
+.reveal.active{opacity:1;transform:translateY(0)}
 
 @media(max-width:800px){
   header{padding:8px 5% 0;position:relative}
@@ -607,7 +138,7 @@ footer{
   .top-links a{font-size:12px}
   nav{justify-content:flex-start;gap:22px;padding:10px 0}
   .nav-button{font-size:14px}
-  .hero{min-height:620px;padding:145px 18px 55px}
+  .hero{min-height:640px;padding:145px 18px 55px}
   .hero h2{font-size:36px}
   .quote p{font-size:24px}
   .book-wrap,.newsletter,.footer-grid{grid-template-columns:1fr}
@@ -632,7 +163,6 @@ footer{
       <img src="logo.png" alt="The Phoenix Whispers Logo">
       <h1>The Phoenix Whispers</h1>
     </div>
-
     <div class="top-links">
       <a href="newsletter.html">Sign Up</a>
       <a href="books.html">Shop</a>
@@ -644,46 +174,23 @@ footer{
   </div>
 
   <nav>
-    <div class="nav-item">
-      <button class="nav-button">Stories ▼</button>
-      <div class="dropdown">
-        <a href="stories.html">Read Stories</a>
-        <a href="stories.html">Story Library</a>
-        <a href="#submit">Submit Your Story</a>
-        <a href="books.html">Books</a>
-      </div>
-    </div>
-
-    <div class="nav-item">
-      <button class="nav-button">Community ▼</button>
-      <div class="dropdown">
-        <a href="#community">Community</a>
-        <a href="newsletter.html">Newsletter</a>
-        <a href="#submit">Share Your Voice</a>
-      </div>
-    </div>
-
-    <div class="nav-item">
-      <button class="nav-button">Phoenix Works ▼</button>
-      <div class="dropdown">
-        <a href="books.html">Books</a>
-        <a href="blog.html">Blog</a>
-        <a href="#projects">Creative Projects</a>
-      </div>
-    </div>
-
-    <div class="nav-item">
-      <button class="nav-button">Support The Phoenix ▼</button>
-      <div class="dropdown">
-        <a href="donate.html">Donate</a>
-        <a href="donate.html">Support Us</a>
-        <a href="newsletter.html">Join Newsletter</a>
-      </div>
-    </div>
+    <div class="nav-item"><button class="nav-button">Stories ▼</button><div class="dropdown">
+      <a href="stories.html">Read Stories</a><a href="stories.html">Story Library</a><a href="#submit">Submit Your Story</a><a href="books.html">Books</a>
+    </div></div>
+    <div class="nav-item"><button class="nav-button">Community ▼</button><div class="dropdown">
+      <a href="#community">Community</a><a href="newsletter.html">Newsletter</a><a href="#submit">Share Your Voice</a>
+    </div></div>
+    <div class="nav-item"><button class="nav-button">Phoenix Works ▼</button><div class="dropdown">
+      <a href="books.html">Books</a><a href="blog.html">Blog</a><a href="#projects">Creative Projects</a>
+    </div></div>
+    <div class="nav-item"><button class="nav-button">Support The Phoenix ▼</button><div class="dropdown">
+      <a href="donate.html">Donate</a><a href="donate.html">Support Us</a><a href="newsletter.html">Join Newsletter</a>
+    </div></div>
   </nav>
 </header>
 
 <section class="hero">
+  <div class="embers" id="embers"></div>
   <div class="hero-content">
     <span class="hero-label">The Phoenix Whispers</span>
     <h2>Stories That Rise From Ashes</h2>
@@ -698,34 +205,10 @@ footer{
     <span>This Week's Collection</span>
     <h2>Voices We Couldn’t Stop Thinking About</h2>
   </div>
-
   <div class="story-grid">
-    <div class="story-card">
-      <div class="story-image">📖</div>
-      <div class="story-content">
-        <small>Book · Emotional Fiction</small>
-        <h3>The Person Who Kept Walking</h3>
-        <p>A story of silence, pain, hope and the courage to continue even when life feels heavy.</p>
-      </div>
-    </div>
-
-    <div class="story-card">
-      <div class="story-image">🕯️</div>
-      <div class="story-content">
-        <small>Interview Project</small>
-        <h3>In The Shadows They Live</h3>
-        <p>Real voices from ordinary people carrying extraordinary truths in the corners of society.</p>
-      </div>
-    </div>
-
-    <div class="story-card">
-      <div class="story-image">🔥</div>
-      <div class="story-content">
-        <small>Hindi Thriller</small>
-        <h3>Ashwatthama Ki Diary</h3>
-        <p>A dark psychological mystery where mythology, obsession and reality begin to blur.</p>
-      </div>
-    </div>
+    <div class="story-card"><div class="story-image">📖</div><div class="story-content"><small>Book · Emotional Fiction</small><h3>The Person Who Kept Walking</h3><p>A story of silence, pain, hope and the courage to continue even when life feels heavy.</p><a class="read-link" href="the-person-who-kept-walking.html">Read More →</a></div></div>
+    <div class="story-card"><div class="story-image">🕯️</div><div class="story-content"><small>Interview Project</small><h3>In The Shadows They Live</h3><p>Real voices from ordinary people carrying extraordinary truths in the corners of society.</p><a class="read-link" href="stories.html">Explore →</a></div></div>
+    <div class="story-card"><div class="story-image">🔥</div><div class="story-content"><small>Hindi Thriller</small><h3>Ashwatthama Ki Diary</h3><p>A dark psychological mystery where mythology, obsession and reality begin to blur.</p><a class="read-link" href="books.html">Coming Soon →</a></div></div>
   </div>
 </section>
 
@@ -738,24 +221,17 @@ footer{
     <div class="book-cover">
       <img src="the-person-who-kept-walking.png" alt="The Person Who Kept Walking Book Cover">
     </div>
-
     <div class="book-info">
       <h2>The Person Who Kept Walking</h2>
-      <p>
-        A deeply emotional book about loneliness, memory, healing and the quiet strength of a person
-        who refuses to stop walking even when life feels heavy.
-      </p>
-
+      <p>A deeply emotional book about loneliness, memory, healing and the quiet strength of a person who refuses to stop walking even when life feels heavy.</p>
       <div class="book-meta">
-        <span>⭐⭐⭐⭐⭐</span>
-        <span>Published</span>
-        <span>Paperback</span>
-        <span>Kindle Edition</span>
-        <span>English</span>
-        <span>Emotional Fiction</span>
-        <span>By Vineet</span>
+        <span>⭐⭐⭐⭐⭐</span><span>Published</span><span>Paperback</span><span>Kindle Edition</span><span>English</span><span>Emotional Fiction</span><span>By Vineet</span>
       </div>
-
+      <div class="formats">
+        <div><strong>Paperback</strong><p>Available on Amazon</p></div>
+        <div><strong>Kindle</strong><p>Digital edition available</p></div>
+        <div><strong>Author</strong><p>Amazon Author Page</p></div>
+      </div>
       <a class="btn light" href="https://a.co/d/0a8lC6Hp" target="_blank">Buy Paperback</a>
       <a class="btn" href="https://amzn.in/d/0gR9ecc2" target="_blank">Buy Kindle</a>
       <a class="btn" href="https://www.amazon.in/vineet-yadav/e/B0H4G7GKY2/" target="_blank">Author Page</a>
@@ -764,16 +240,34 @@ footer{
   </div>
 </section>
 
+<section class="section stats reveal">
+  <div class="stats-grid">
+    <div class="stat"><h3>1</h3><p>Published Book</p></div>
+    <div class="stat"><h3>3+</h3><p>Creative Projects</p></div>
+    <div class="stat"><h3>∞</h3><p>Stories To Tell</p></div>
+  </div>
+</section>
+
 <section class="section reveal" id="community">
   <div class="section-title">
     <span>Community</span>
     <h2>A Home For Readers, Writers And Dreamers</h2>
   </div>
-
   <div class="grid">
     <div class="card"><h3>Readers</h3><p>Discover emotional and powerful stories that stay with you.</p></div>
     <div class="card"><h3>Writers</h3><p>Share your stories, poems, memories and creative thoughts.</p></div>
     <div class="card"><h3>Dreamers</h3><p>Join a space where imagination, truth and healing meet.</p></div>
+  </div>
+</section>
+
+<section class="section blog-preview reveal">
+  <div class="section-title">
+    <span>From The Blog</span>
+    <h2>Behind The Phoenix</h2>
+  </div>
+  <div class="grid">
+    <div class="blog-card"><small>Coming Soon</small><h3>Why I Created The Phoenix Whispers</h3><p>The story behind the name, the idea, and the dream.</p><a class="read-link" href="blog.html">Read Blog →</a></div>
+    <div class="blog-card"><small>Coming Soon</small><h3>Behind The Person Who Kept Walking</h3><p>How the book began and what it means.</p><a class="read-link" href="blog.html">Read Blog →</a></div>
   </div>
 </section>
 
@@ -782,7 +276,6 @@ footer{
     <span>Submit</span>
     <h2>Share Your Story</h2>
   </div>
-
   <div class="card">
     <p>Soon you will be able to submit your real stories, poems and creative writing here. For now, this section is a placeholder.</p>
     <a class="btn" href="mailto:your-email@example.com">Email Your Story</a>
@@ -794,11 +287,10 @@ footer{
     <span>Support</span>
     <h2>Support The Phoenix</h2>
   </div>
-
   <div class="grid">
-    <div class="card"><h3>Donate</h3><p>Donation links like UPI, PayPal or Razorpay can be added here later.</p></div>
-    <div class="card"><h3>Buy Books</h3><p>The best support is reading, reviewing and sharing the books.</p></div>
-    <div class="card"><h3>Share</h3><p>Share The Phoenix Whispers with readers and writers.</p></div>
+    <div class="card"><h3>Donate</h3><p>Support future stories, books and creative projects.</p><a class="btn" href="donate.html">Donate</a></div>
+    <div class="card"><h3>Buy Books</h3><p>The best support is reading, reviewing and sharing the books.</p><a class="btn light" href="books.html">Shop Books</a></div>
+    <div class="card"><h3>Share</h3><p>Share The Phoenix Whispers with readers and writers.</p><a class="btn" href="contact.html">Contact</a></div>
   </div>
 </section>
 
@@ -807,7 +299,6 @@ footer{
     <h2>One Story, Every Week</h2>
     <p>Get updates about books, stories and new creative projects.</p>
   </div>
-
   <form>
     <input type="email" placeholder="Your email address">
     <button type="button">Subscribe</button>
@@ -822,105 +313,68 @@ footer{
         <h3>The Phoenix Whispers</h3>
       </div>
       <p>A home for stories, books, interviews and creative voices that deserve to be heard.</p>
-
       <div class="social">
-        <a href="#">Instagram</a>
-        <a href="#">YouTube</a>
-        <a href="#">X</a>
+        <a href="#">Instagram</a><a href="#">YouTube</a><a href="#">X</a><a href="https://www.amazon.in/vineet-yadav/e/B0H4G7GKY2/" target="_blank">Amazon</a>
       </div>
     </div>
-
     <div class="footer-links">
       <h3>Explore</h3>
-      <a href="stories.html">Stories</a>
-      <a href="books.html">Books</a>
-      <a href="#community">Community</a>
-      <a href="newsletter.html">Newsletter</a>
+      <a href="stories.html">Stories</a><a href="books.html">Books</a><a href="blog.html">Blog</a><a href="newsletter.html">Newsletter</a>
     </div>
-
     <div class="footer-links">
       <h3>Support</h3>
-      <a href="donate.html">Donate</a>
-      <a href="#submit">Submit Story</a>
-      <a href="contact.html">Contact</a>
-      <a href="blog.html">Blog</a>
+      <a href="donate.html">Donate</a><a href="#submit">Submit Story</a><a href="about.html">About</a><a href="contact.html">Contact</a>
     </div>
   </div>
-
-  <div class="copyright">
-    © The Phoenix Whispers · Rise. Transform. Inspire.
-  </div>
+  <div class="copyright">© The Phoenix Whispers · Rise. Transform. Inspire.</div>
 </footer>
 
 <script>
-const navItems = document.querySelectorAll(".nav-item");
-
-navItems.forEach(item => {
-  const button = item.querySelector(".nav-button");
-
-  button.addEventListener("click", function(event){
-    event.stopPropagation();
-
-    navItems.forEach(other => {
-      if(other !== item){
-        other.classList.remove("active");
-      }
-    });
-
+const navItems=document.querySelectorAll(".nav-item");
+navItems.forEach(item=>{
+  const button=item.querySelector(".nav-button");
+  button.addEventListener("click",e=>{
+    e.stopPropagation();
+    navItems.forEach(other=>{if(other!==item)other.classList.remove("active")});
     item.classList.toggle("active");
   });
 });
+document.addEventListener("click",()=>navItems.forEach(item=>item.classList.remove("active")));
 
-document.addEventListener("click", function(){
-  navItems.forEach(item => item.classList.remove("active"));
-});
-
-const reveals = document.querySelectorAll(".reveal");
-
+const reveals=document.querySelectorAll(".reveal");
 function revealOnScroll(){
-  reveals.forEach(section => {
-    const top = section.getBoundingClientRect().top;
-    const windowHeight = window.innerHeight;
-
-    if(top < windowHeight - 80){
-      section.classList.add("active");
-    }
+  reveals.forEach(section=>{
+    const top=section.getBoundingClientRect().top;
+    if(top<window.innerHeight-80)section.classList.add("active");
   });
 }
+window.addEventListener("scroll",revealOnScroll);
+window.addEventListener("load",revealOnScroll);
 
-window.addEventListener("scroll", revealOnScroll);
-window.addEventListener("load", revealOnScroll);
-
-window.addEventListener("load", function(){
-  const loader = document.getElementById("loader");
-  setTimeout(() => {
-    loader.classList.add("hide");
-  }, 900);
+window.addEventListener("load",()=>{
+  setTimeout(()=>document.getElementById("loader").classList.add("hide"),900);
 });
 
-const progressBar = document.getElementById("progress-bar");
-const backToTop = document.getElementById("backToTop");
-
-window.addEventListener("scroll", function(){
-  const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-  const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  const progress = (scrollTop / scrollHeight) * 100;
-
-  progressBar.style.width = progress + "%";
-
-  if(scrollTop > 400){
-    backToTop.style.display = "block";
-  }else{
-    backToTop.style.display = "none";
-  }
+const progressBar=document.getElementById("progress-bar");
+const backToTop=document.getElementById("backToTop");
+window.addEventListener("scroll",()=>{
+  const scrollTop=document.documentElement.scrollTop||document.body.scrollTop;
+  const scrollHeight=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+  progressBar.style.width=(scrollTop/scrollHeight)*100+"%";
+  backToTop.style.display=scrollTop>400?"block":"none";
 });
+backToTop.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
 
-backToTop.addEventListener("click", function(){
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-});
+const embers=document.getElementById("embers");
+for(let i=0;i<38;i++){
+  const ember=document.createElement("span");
+  ember.className="ember";
+  ember.style.left=Math.random()*100+"%";
+  ember.style.animationDuration=5+Math.random()*6+"s";
+  ember.style.animationDelay=Math.random()*5+"s";
+  ember.style.opacity=.25+Math.random()*.65;
+  embers.appendChild(ember);
+}
 </script>
 
 </body>

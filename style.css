@@ -74,3 +74,29 @@ a{text-decoration:none;color:inherit}
   z-index:2000;
   box-shadow:0 0 18px rgba(155,0,0,.5);
 }
+/* ===== Mouse Glow ===== */
+
+#cursor-glow{
+    position:fixed;
+    width:220px;
+    height:220px;
+    border-radius:50%;
+    pointer-events:none;
+    z-index:0;
+
+    background:radial-gradient(
+        circle,
+        rgba(255,180,40,.14),
+        rgba(255,70,0,.05),
+        transparent 70%
+    );
+
+    transform:translate(-50%,-50%);
+    transition:
+        transform .08s linear,
+        opacity .25s ease;
+
+    filter:blur(10px);
+
+    opacity:.75;
+}

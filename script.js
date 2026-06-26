@@ -102,21 +102,21 @@ function initDropdownNavigation(){
 
   if(!navItems.length) return;
 
-  navItems.forEach(item=>{
+  navItems.forEach(item => {
 
-    const button=item.querySelector(".nav-button");
+    const button = item.querySelector(".nav-button");
 
     if(!button) return;
 
-    button.addEventListener("click",e=>{
+    button.addEventListener("click", function(e){
 
+      e.preventDefault();
       e.stopPropagation();
 
-      navItems.forEach(other=>{
-
-        if(other!==item)
+      navItems.forEach(other => {
+        if(other !== item){
           other.classList.remove("active");
-
+        }
       });
 
       item.classList.toggle("active");
@@ -125,18 +125,19 @@ function initDropdownNavigation(){
 
   });
 
-  document.addEventListener("click",()=>{
+  document.addEventListener("click", function(e){
 
-    navItems.forEach(item=>{
+    if(!e.target.closest(".nav-item")){
 
-      item.classList.remove("active");
+      navItems.forEach(item => {
+        item.classList.remove("active");
+      });
 
-    });
+    }
 
   });
 
 }
-
 
 /* ---------- Quote Carousel ---------- */
 

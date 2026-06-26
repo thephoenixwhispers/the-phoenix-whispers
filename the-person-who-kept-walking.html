@@ -6,26 +6,44 @@
 <title>The Person Who Kept Walking | The Phoenix Whispers</title>
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="apple-touch-icon" href="logo.png">
+
 <style>
 *{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{margin:0;background:#070707;color:#f5f0e6;font-family:Georgia,serif}
 a{text-decoration:none;color:inherit}
-header{background:rgba(5,5,5,.95);border-bottom:1px solid #222;padding:8px 7% 0;position:sticky;top:0;z-index:1000}
+
+#loader{position:fixed;inset:0;background:#030303;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:.7s}
+#loader.hide{opacity:0;visibility:hidden}
+#loader img{width:115px;height:115px;object-fit:contain;filter:drop-shadow(0 0 24px rgba(255,80,0,.8));animation:pulse 1.6s infinite alternate}
+#loader h2{margin:18px 0 8px;font-size:34px;letter-spacing:3px;background:linear-gradient(90deg,#9b0000,#ff2a00,#ffcc33,#fff1b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+#loader p{color:#caa24a;letter-spacing:4px}
+@keyframes pulse{from{transform:scale(.94);opacity:.75}to{transform:scale(1.08);opacity:1}}
+
+#progress-bar{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,#8b0000,#ff2a00,#ffcc33);z-index:10000}
+#backToTop{position:fixed;right:22px;bottom:22px;width:46px;height:46px;border:none;border-radius:50%;background:#9b0000;color:#fff;font-size:24px;cursor:pointer;display:none;z-index:2000;box-shadow:0 0 18px rgba(155,0,0,.5)}
+
+header{background:rgba(5,5,5,.94);border-bottom:1px solid #222;padding:8px 7% 0;position:sticky;top:0;z-index:1000;backdrop-filter:blur(10px)}
 .top{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:14px}
-.brand img{width:78px;height:78px;object-fit:contain}
-.brand h1{margin:0;font-size:31px;letter-spacing:4px;background:linear-gradient(90deg,#9b0000,#ff2a00,#ffcc33,#fff1b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.top-links{display:flex;gap:22px;flex-wrap:wrap}
-.top-links a{font-weight:bold;font-size:13px}
+.brand img{width:78px;height:78px;object-fit:contain;filter:drop-shadow(0 0 12px rgba(255,80,0,.35))}
+.brand h1{margin:0;font-size:31px;letter-spacing:4px;line-height:1;background:linear-gradient(90deg,#9b0000,#ff2a00,#ffcc33,#fff1b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.top-links{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.top-links a{font-weight:bold;font-size:13px;color:#f5f0e6}
 .top-links a:hover{color:#ffcc33}
 nav{margin-top:6px;display:flex;justify-content:center;gap:42px;padding:10px 0 12px;border-top:1px solid #111;flex-wrap:wrap}
 nav a{font-weight:bold;font-size:15px}
 nav a:hover{color:#ffcc33}
 
-.hero{padding:80px 8%;background:radial-gradient(circle at center,rgba(255,80,0,.20),transparent 35%),linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.95)),url("hero-logo.png");background-size:contain;background-repeat:no-repeat;background-position:center}
+.hero{padding:85px 8%;position:relative;overflow:hidden;background:radial-gradient(circle at center,rgba(255,80,0,.22),transparent 35%),linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.95)),url("hero-logo.png");background-size:contain;background-repeat:no-repeat;background-position:center}
+.embers{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.ember{position:absolute;bottom:-20px;width:5px;height:5px;background:#ffcc33;border-radius:50%;box-shadow:0 0 15px #ff4b00;animation:rise linear infinite}
+@keyframes rise{0%{transform:translateY(0) scale(.6);opacity:0}20%{opacity:.8}100%{transform:translateY(-750px) scale(1.2);opacity:0}}
+
 .wrap{max-width:1150px;margin:auto}
-.book-hero{display:grid;grid-template-columns:340px 1fr;gap:50px;align-items:center}
-.cover{min-height:480px;background:#111;border:1px solid #4b1c1c;box-shadow:0 0 40px rgba(139,0,0,.35);overflow:hidden}
+.book-hero{position:relative;z-index:2;display:grid;grid-template-columns:350px 1fr;gap:55px;align-items:center}
+.cover{min-height:500px;background:#111;border:1px solid #4b1c1c;box-shadow:0 0 45px rgba(139,0,0,.38);overflow:hidden;transition:.4s}
+.cover:hover{transform:perspective(900px) rotateY(-6deg) translateY(-8px)}
 .cover img{width:100%;height:100%;object-fit:cover}
 .info small{color:#caa24a;letter-spacing:3px;text-transform:uppercase}
 .info h2{font-size:54px;color:#ffcc33;margin:15px 0}
@@ -33,13 +51,22 @@ nav a:hover{color:#ffcc33}
 .stars{color:#ffcc33;font-size:23px;margin:15px 0}
 .meta{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}
 .meta span{border:1px solid #333;color:#caa24a;padding:8px 12px;font-size:13px}
-.btn{display:inline-block;margin:8px 8px 0 0;padding:13px 28px;background:#9b0000;color:white;font-weight:bold}
+
+.formats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:25px 0}
+.formats div{background:#120808;border:1px solid #3a1a1a;padding:16px;transition:.3s}
+.formats div:hover{transform:translateY(-5px);border-color:#8b0000;box-shadow:0 10px 25px rgba(139,0,0,.25)}
+.formats strong{color:#ffcc33;font-size:18px}
+.formats p{margin:8px 0 0;font-size:14px;color:#cfc7b8}
+
+.btn{display:inline-block;margin:8px 8px 0 0;padding:13px 28px;background:#9b0000;color:white;font-weight:bold;transition:.3s}
 .btn.light{background:#f0d27a;color:#170b05}
-.btn:hover{background:#c1121f}
+.btn:hover{background:#c1121f;transform:translateY(-3px)}
+.btn.light:hover{background:#ffdf7e}
 
 .section{padding:75px 8%}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:35px}
-.card{background:#111;border:1px solid #292929;padding:30px}
+.card{background:#111;border:1px solid #292929;padding:30px;transition:.3s}
+.card:hover{transform:translateY(-6px);border-color:#8b0000}
 .card h3{color:#ff3b22;font-size:27px}
 .card p,.card li{color:#cfc7b8;line-height:1.7}
 .title{text-align:center;margin-bottom:40px}
@@ -49,15 +76,34 @@ nav a:hover{color:#ffcc33}
 .quote p{font-size:32px;color:#f5f0e6;font-style:italic;line-height:1.4}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:26px}
 
-footer{background:#030303;border-top:1px solid #222;padding:45px 8%;text-align:center;color:#aaa}
-footer h3{color:#ffcc33}
+.sample{background:#100808;border-top:1px solid #331010;border-bottom:1px solid #331010}
+.sample-box{max-width:850px;margin:auto;background:#111;border:1px solid #333;padding:35px}
+.sample-box p{font-size:18px;color:#d8cbb8;line-height:1.9}
+
+footer{background:#030303;border-top:1px solid #222;padding:55px 8% 25px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:35px;max-width:1100px;margin:auto}
+.footer-logo{display:flex;align-items:center;gap:12px}
+.footer-logo img{width:55px;height:55px;object-fit:contain}
+.footer-logo h3{margin:0;color:#ffcc33;font-size:24px}
+.footer p,.footer-links a{color:#aaa;line-height:1.7;font-size:14px}
+.footer-links a{display:block;margin:8px 0}
+.footer-links a:hover{color:#ffcc33}
+.social{display:flex;gap:12px;margin-top:15px;flex-wrap:wrap}
+.social a{border:1px solid #333;padding:8px 12px;color:#f5f0e6;transition:.3s}
+.social a:hover{background:#8b0000;transform:translateY(-3px)}
+.copyright{text-align:center;color:#777;border-top:1px solid #151515;margin-top:35px;padding-top:22px;font-size:13px}
+
+.reveal{opacity:0;transform:translateY(40px);transition:1s ease}
+.reveal.active{opacity:1;transform:translateY(0)}
 
 @media(max-width:800px){
 header{position:relative;padding:8px 5% 0}
 .brand img{width:62px;height:62px}
 .brand h1{font-size:21px;letter-spacing:2px}
+.top-links{gap:12px}
+.top-links a{font-size:12px}
 nav{justify-content:flex-start;gap:22px}
-.book-hero,.two{grid-template-columns:1fr}
+.book-hero,.two,.footer-grid{grid-template-columns:1fr}
 .info h2{font-size:36px}
 .quote p{font-size:24px}
 }
@@ -66,6 +112,15 @@ nav{justify-content:flex-start;gap:22px}
 
 <body>
 
+<div id="loader">
+  <img src="logo.png" alt="Phoenix Logo">
+  <h2>The Phoenix Whispers</h2>
+  <p>Rise • Transform • Inspire</p>
+</div>
+
+<div id="progress-bar"></div>
+<button id="backToTop">↑</button>
+
 <header>
 <div class="top">
 <div class="brand">
@@ -73,10 +128,10 @@ nav{justify-content:flex-start;gap:22px}
 <h1>The Phoenix Whispers</h1>
 </div>
 <div class="top-links">
-<a href="index.html#newsletter">Sign Up</a>
+<a href="newsletter.html">Sign Up</a>
 <a href="books.html">Shop</a>
-<a href="index.html#blog">Blog</a>
-<a href="index.html#support">Donate</a>
+<a href="blog.html">Blog</a>
+<a href="donate.html">Donate</a>
 <a href="about.html">About</a>
 <a href="contact.html">Contact</a>
 </div>
@@ -92,6 +147,7 @@ nav{justify-content:flex-start;gap:22px}
 </header>
 
 <section class="hero">
+<div class="embers" id="embers"></div>
 <div class="wrap book-hero">
 <div class="cover">
 <img src="the-person-who-kept-walking.png" alt="The Person Who Kept Walking Cover">
@@ -106,10 +162,17 @@ nav{justify-content:flex-start;gap:22px}
 
 <div class="meta">
 <span>By Vineet</span>
-<span>Emotional Fiction</span>
+<span>Published</span>
 <span>Paperback</span>
 <span>Kindle</span>
 <span>English</span>
+<span>Emotional Fiction</span>
+</div>
+
+<div class="formats">
+<div><strong>Paperback</strong><p>Available on Amazon</p></div>
+<div><strong>Kindle</strong><p>Digital edition available</p></div>
+<div><strong>Author</strong><p>Amazon Author Page</p></div>
 </div>
 
 <a class="btn light" href="https://a.co/d/0a8lC6Hp" target="_blank">Buy Paperback</a>
@@ -121,11 +184,11 @@ nav{justify-content:flex-start;gap:22px}
 </div>
 </section>
 
-<section class="quote">
+<section class="quote reveal">
 <p>“Some journeys are not about reaching somewhere. They are about surviving the road.”</p>
 </section>
 
-<section class="section">
+<section class="section reveal">
 <div class="wrap two">
 <div class="card">
 <h3>About The Book</h3>
@@ -146,14 +209,14 @@ nav{justify-content:flex-start;gap:22px}
 </div>
 </section>
 
-<section class="section" id="sample">
+<section class="section sample reveal" id="sample">
 <div class="wrap">
 <div class="title">
 <span>Sample</span>
 <h2>Read A Short Preview</h2>
 </div>
 
-<div class="card">
+<div class="sample-box">
 <p>
 This area will contain a powerful sample from the book. Later, we will replace this placeholder
 with one selected passage from the real book.
@@ -165,7 +228,7 @@ Choose a paragraph that feels emotional, cinematic and promotional. That will ma
 </div>
 </section>
 
-<section class="section">
+<section class="section reveal">
 <div class="wrap">
 <div class="title">
 <span>Why This Book</span>
@@ -173,25 +236,14 @@ Choose a paragraph that feels emotional, cinematic and promotional. That will ma
 </div>
 
 <div class="grid">
-<div class="card">
-<h3>Loneliness</h3>
-<p>A story for people who understand silence and emotional distance.</p>
-</div>
-
-<div class="card">
-<h3>Healing</h3>
-<p>A journey of slowly learning to live with memories and pain.</p>
-</div>
-
-<div class="card">
-<h3>Hope</h3>
-<p>A reminder that even broken people can keep walking.</p>
-</div>
+<div class="card"><h3>Loneliness</h3><p>A story for people who understand silence and emotional distance.</p></div>
+<div class="card"><h3>Healing</h3><p>A journey of slowly learning to live with memories and pain.</p></div>
+<div class="card"><h3>Hope</h3><p>A reminder that even broken people can keep walking.</p></div>
 </div>
 </div>
 </section>
 
-<section class="section">
+<section class="section reveal">
 <div class="wrap two">
 <div class="card">
 <h3>About The Author</h3>
@@ -204,15 +256,87 @@ Choose a paragraph that feels emotional, cinematic and promotional. That will ma
 <p>In The Shadows They Live</p>
 <p>Ashwatthama Ki Diary</p>
 <p>More books coming soon...</p>
+<a class="btn" href="books.html">Explore Books</a>
 </div>
 </div>
 </section>
 
-<footer>
+<footer class="footer">
+<div class="footer-grid">
+<div>
+<div class="footer-logo">
+<img src="logo.png" alt="The Phoenix Whispers Logo">
 <h3>The Phoenix Whispers</h3>
-<p>Rise. Transform. Inspire.</p>
-<p>© The Phoenix Whispers</p>
+</div>
+<p>A home for stories, books, interviews and creative voices that deserve to be heard.</p>
+<div class="social">
+<a href="#">Instagram</a>
+<a href="#">YouTube</a>
+<a href="#">X</a>
+<a href="https://www.amazon.in/vineet-yadav/e/B0H4G7GKY2/" target="_blank">Amazon</a>
+</div>
+</div>
+
+<div class="footer-links">
+<h3>Explore</h3>
+<a href="stories.html">Stories</a>
+<a href="books.html">Books</a>
+<a href="blog.html">Blog</a>
+<a href="newsletter.html">Newsletter</a>
+</div>
+
+<div class="footer-links">
+<h3>Support</h3>
+<a href="donate.html">Donate</a>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+<a href="index.html#submit">Submit Story</a>
+</div>
+</div>
+
+<div class="copyright">
+© The Phoenix Whispers · Rise. Transform. Inspire.
+</div>
 </footer>
+
+<script>
+window.addEventListener("load",()=>{
+  setTimeout(()=>document.getElementById("loader").classList.add("hide"),900);
+});
+
+const progressBar=document.getElementById("progress-bar");
+const backToTop=document.getElementById("backToTop");
+
+window.addEventListener("scroll",()=>{
+  const scrollTop=document.documentElement.scrollTop||document.body.scrollTop;
+  const scrollHeight=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+  progressBar.style.width=(scrollTop/scrollHeight)*100+"%";
+  backToTop.style.display=scrollTop>400?"block":"none";
+});
+
+backToTop.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
+
+const reveals=document.querySelectorAll(".reveal");
+function revealOnScroll(){
+  reveals.forEach(section=>{
+    const top=section.getBoundingClientRect().top;
+    if(top<window.innerHeight-80)section.classList.add("active");
+  });
+}
+window.addEventListener("scroll",revealOnScroll);
+window.addEventListener("load",revealOnScroll);
+
+const embers=document.getElementById("embers");
+for(let i=0;i<28;i++){
+  const ember=document.createElement("span");
+  ember.className="ember";
+  ember.style.left=Math.random()*100+"%";
+  ember.style.animationDuration=5+Math.random()*6+"s";
+  ember.style.animationDelay=Math.random()*5+"s";
+  ember.style.opacity=.25+Math.random()*.65;
+  embers.appendChild(ember);
+}
+</script>
 
 </body>
 </html>

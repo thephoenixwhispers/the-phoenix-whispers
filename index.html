@@ -6,6 +6,7 @@
 <title>The Phoenix Whispers</title>
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="apple-touch-icon" href="logo.png">
+
 <style>
 *{box-sizing:border-box}
 
@@ -19,6 +20,83 @@ body{
 
 a{text-decoration:none;color:inherit}
 
+/* LOADER + PROGRESS */
+#loader{
+  position:fixed;
+  inset:0;
+  background:#030303;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+  transition:opacity .7s ease,visibility .7s ease;
+}
+
+#loader.hide{
+  opacity:0;
+  visibility:hidden;
+}
+
+#loader img{
+  width:120px;
+  height:120px;
+  object-fit:contain;
+  filter:drop-shadow(0 0 22px rgba(255,80,0,.75));
+  animation:loaderPulse 1.6s infinite alternate;
+}
+
+#loader h2{
+  margin:18px 0 8px;
+  font-size:34px;
+  letter-spacing:3px;
+  background:linear-gradient(90deg,#9b0000,#ff2a00,#ffcc33,#fff1b8);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+#loader p{
+  color:#caa24a;
+  letter-spacing:4px;
+}
+
+@keyframes loaderPulse{
+  from{transform:scale(.95);opacity:.75}
+  to{transform:scale(1.08);opacity:1}
+}
+
+#progress-bar{
+  position:fixed;
+  top:0;
+  left:0;
+  height:4px;
+  width:0%;
+  background:linear-gradient(90deg,#8b0000,#ff2a00,#ffcc33);
+  z-index:10000;
+}
+
+#backToTop{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  width:46px;
+  height:46px;
+  border:none;
+  border-radius:50%;
+  background:#9b0000;
+  color:white;
+  font-size:24px;
+  cursor:pointer;
+  display:none;
+  z-index:2000;
+  box-shadow:0 0 18px rgba(155,0,0,.5);
+}
+
+#backToTop:hover{
+  background:#c1121f;
+}
+
+/* HEADER */
 header{
   background:rgba(5,5,5,.94);
   border-bottom:1px solid #222;
@@ -123,6 +201,7 @@ nav{
 
 .dropdown a:hover{background:#8b0000}
 
+/* HERO */
 .hero{
   min-height:760px;
   position:relative;
@@ -343,18 +422,12 @@ nav{
   box-shadow:0 25px 55px rgba(139,0,0,.45);
 }
 
-.book-cover h3{
-  font-size:34px;
-  line-height:1.1;
-  color:#ffcc33;
-}
-
-  .book-cover img{
+.book-cover img{
   width:100%;
   height:100%;
   object-fit:cover;
 }
-  
+
 .book-info h2{
   font-size:46px;
   color:#ffcc33;
@@ -544,6 +617,15 @@ footer{
 
 <body>
 
+<div id="loader">
+  <img src="logo.png" alt="Phoenix Logo">
+  <h2>The Phoenix Whispers</h2>
+  <p>Rise • Transform • Inspire</p>
+</div>
+
+<div id="progress-bar"></div>
+<button id="backToTop">↑</button>
+
 <header>
   <div class="top">
     <div class="brand">
@@ -593,8 +675,8 @@ footer{
     <div class="nav-item">
       <button class="nav-button">Support The Phoenix ▼</button>
       <div class="dropdown">
-       <a href="donate.html">Donate</a>
-       <a href="donate.html">Support Us</a>
+        <a href="donate.html">Donate</a>
+        <a href="donate.html">Support Us</a>
         <a href="newsletter.html">Join Newsletter</a>
       </div>
     </div>
@@ -654,8 +736,9 @@ footer{
 <section class="section book reveal" id="books">
   <div class="book-wrap">
     <div class="book-cover">
-  <img src="the-person-who-kept-walking.png" alt="The Person Who Kept Walking Book Cover">
-  </div>
+      <img src="the-person-who-kept-walking.png" alt="The Person Who Kept Walking Book Cover">
+    </div>
+
     <div class="book-info">
       <h2>The Person Who Kept Walking</h2>
       <p>
@@ -664,30 +747,19 @@ footer{
       </p>
 
       <div class="book-meta">
+        <span>⭐⭐⭐⭐⭐</span>
+        <span>Published</span>
+        <span>Paperback</span>
+        <span>Kindle Edition</span>
+        <span>English</span>
+        <span>Emotional Fiction</span>
+        <span>By Vineet</span>
+      </div>
 
-<span>⭐⭐⭐⭐⭐</span>
-
-<span>Published</span>
-
-<span>Paperback</span>
-
-<span>Kindle Edition</span>
-
-<span>English</span>
-
-<span>Emotional Fiction</span>
-
-<span>By Vineet</span>
-
-</div>
-
-     <a class="btn light" href="https://a.co/d/0a8lC6Hp" target="_blank">Buy Paperback</a>
-
-     <a class="btn" href="https://amzn.in/d/0gR9ecc2" target="_blank">Buy Kindle</a>
-
-     <a class="btn" href="https://www.amazon.in/vineet-yadav/e/B0H4G7GKY2/" target="_blank">Author Page</a>
-
-     <a class="btn" href="the-person-who-kept-walking.html">Read More</a>
+      <a class="btn light" href="https://a.co/d/0a8lC6Hp" target="_blank">Buy Paperback</a>
+      <a class="btn" href="https://amzn.in/d/0gR9ecc2" target="_blank">Buy Kindle</a>
+      <a class="btn" href="https://www.amazon.in/vineet-yadav/e/B0H4G7GKY2/" target="_blank">Author Page</a>
+      <a class="btn" href="the-person-who-kept-walking.html">Read More</a>
     </div>
   </div>
 </section>
@@ -818,6 +890,37 @@ function revealOnScroll(){
 
 window.addEventListener("scroll", revealOnScroll);
 window.addEventListener("load", revealOnScroll);
+
+window.addEventListener("load", function(){
+  const loader = document.getElementById("loader");
+  setTimeout(() => {
+    loader.classList.add("hide");
+  }, 900);
+});
+
+const progressBar = document.getElementById("progress-bar");
+const backToTop = document.getElementById("backToTop");
+
+window.addEventListener("scroll", function(){
+  const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+  const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const progress = (scrollTop / scrollHeight) * 100;
+
+  progressBar.style.width = progress + "%";
+
+  if(scrollTop > 400){
+    backToTop.style.display = "block";
+  }else{
+    backToTop.style.display = "none";
+  }
+});
+
+backToTop.addEventListener("click", function(){
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+});
 </script>
 
 </body>

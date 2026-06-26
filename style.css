@@ -315,3 +315,35 @@ footer{
     font-size:14px;
   }
 }
+/* ===== Dropdown Fix ===== */
+
+.nav-item{
+  position:relative;
+}
+
+.dropdown{
+  display:none;
+  position:absolute;
+  top:32px;
+  left:0;
+  min-width:250px;
+  background:#111;
+  border:1px solid #333;
+  z-index:9999;
+}
+
+.nav-item.active .dropdown{
+  display:block;
+}
+
+.dropdown a{
+  display:block;
+  padding:13px 16px;
+  color:#f5f0e6;
+  border-bottom:1px solid #222;
+  font-size:14px;
+}
+
+.dropdown a:hover{
+  background:#8b0000;
+}

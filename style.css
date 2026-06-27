@@ -520,3 +520,83 @@ body.light-mode footer{
     grid-column:1;
   }
 }
+
+/* ===== Phoenix Universe ===== */
+
+.phoenix-universe{
+  background:
+    radial-gradient(circle at center,rgba(139,0,0,.18),transparent 45%),
+    #080808;
+  border-top:1px solid #222;
+  border-bottom:1px solid #222;
+}
+
+.universe-intro{
+  max-width:760px;
+  margin:0 auto 45px;
+  text-align:center;
+  color:#d8cbb8;
+  font-size:18px;
+  line-height:1.7;
+}
+
+.universe-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:26px;
+  max-width:1100px;
+  margin:auto;
+}
+
+.universe-card{
+  position:relative;
+  overflow:hidden;
+  background:#111;
+  border:1px solid #292929;
+  padding:32px;
+  min-height:230px;
+  transition:.35s;
+}
+
+.universe-card::before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  background:linear-gradient(135deg,rgba(255,204,51,.22),rgba(155,0,0,.2),transparent 60%);
+  opacity:0;
+  transition:.35s;
+}
+
+.universe-card:hover::before{
+  opacity:1;
+}
+
+.universe-card:hover{
+  transform:translateY(-8px);
+  border-color:#8b0000;
+  box-shadow:0 18px 40px rgba(139,0,0,.28);
+}
+
+.universe-icon{
+  position:relative;
+  z-index:2;
+  font-size:46px;
+  margin-bottom:18px;
+}
+
+.universe-card h3{
+  position:relative;
+  z-index:2;
+  color:#ffcc33;
+  font-size:27px;
+  margin:0 0 12px;
+}
+
+.universe-card p{
+  position:relative;
+  z-index:2;
+  color:#cfc7b8;
+  line-height:1.7;
+  margin:0;
+}
+

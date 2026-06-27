@@ -695,3 +695,40 @@ if(globalSearchInput && globalSearchResults){
 
 }
 
+// =============================
+// Featured Stories Slider
+// =============================
+
+const slides = document.querySelectorAll(".featured-slider .slide");
+const prevBtn = document.querySelector(".featured-slider .prev");
+const nextBtn = document.querySelector(".featured-slider .next");
+
+let currentSlide = 0;
+
+function showSlide(index){
+  if(!slides.length) return;
+
+  slides.forEach(slide => slide.classList.remove("active"));
+
+  currentSlide = (index + slides.length) % slides.length;
+
+  slides[currentSlide].classList.add("active");
+}
+
+if(slides.length){
+  if(prevBtn){
+    prevBtn.addEventListener("click", () => {
+      showSlide(currentSlide - 1);
+    });
+  }
+
+  if(nextBtn){
+    nextBtn.addEventListener("click", () => {
+      showSlide(currentSlide + 1);
+    });
+  }
+
+  setInterval(() => {
+    showSlide(currentSlide + 1);
+  }, 5000);
+}

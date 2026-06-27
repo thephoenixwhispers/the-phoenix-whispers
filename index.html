@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>The Phoenix Whispers</title>
-  <meta name="description" content="The Phoenix Whispers is an independent storytelling platform by Vineet Yadav featuring books, emotional stories, creative writing and reflections.">
 
+<meta name="description" content="The Phoenix Whispers is an independent storytelling platform by Vineet Yadav featuring books, emotional stories, creative writing and reflections.">
 <meta name="keywords" content="The Phoenix Whispers, Vineet Yadav, The Person Who Kept Walking, stories, books, author, fiction, literature">
-
 <meta name="author" content="Vineet Yadav">
 
 <meta property="og:title" content="The Phoenix Whispers">
@@ -20,14 +20,14 @@
 <meta name="twitter:title" content="The Phoenix Whispers">
 <meta name="twitter:description" content="Stories that rise from ashes.">
 <meta name="twitter:image" content="https://thephoenixwhispers.github.io/the-phoenix-whispers/logo.png">
+
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="apple-touch-icon" href="logo.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#8b0000">
+<link rel="stylesheet" href="style.css">
 
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#8b0000">
-  <link rel="stylesheet" href="style.css">
-
-  <script type="application/ld+json">
+<script type="application/ld+json">
 {
   "@context":"https://schema.org",
   "@type":"Person",
@@ -60,6 +60,7 @@
       <img src="logo.png" alt="The Phoenix Whispers Logo">
       <h1>The Phoenix Whispers</h1>
     </div>
+
     <div class="top-links">
       <a href="newsletter.html">Sign Up</a>
       <a href="books.html">Shop</a>
@@ -71,33 +72,140 @@
   </div>
 
   <nav>
-    <div class="nav-item"><button class="nav-button">Stories ▼</button><div class="dropdown">
-      <a href="stories.html">Read Stories</a><a href="stories.html">Story Library</a><a href="#submit">Submit Your Story</a><a href="books.html">Books</a>
-    </div></div>
-    <div class="nav-item"><button class="nav-button">Community ▼</button><div class="dropdown">
-      <a href="#community">Community</a><a href="newsletter.html">Newsletter</a><a href="#submit">Share Your Voice</a>
-    </div></div>
-    <div class="nav-item"><button class="nav-button">Phoenix Works ▼</button><div class="dropdown">
-      <a href="books.html">Books</a><a href="blog.html">Blog</a><a href="#projects">Creative Projects</a>
-    </div></div>
-    <div class="nav-item"><button class="nav-button">Support The Phoenix ▼</button><div class="dropdown">
-      <a href="donate.html">Donate</a><a href="donate.html">Support Us</a><a href="newsletter.html">Join Newsletter</a>
-    </div></div>
+    <div class="nav-item">
+      <button class="nav-button">Stories ▼</button>
+      <div class="dropdown">
+        <a href="stories.html">Read Stories</a>
+        <a href="story-reader.html">Reader Mode</a>
+        <a href="#site-search">Search Library</a>
+        <a href="#submit">Submit Your Story</a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <button class="nav-button">Books ▼</button>
+      <div class="dropdown">
+        <a href="books.html">Book Library</a>
+        <a href="the-person-who-kept-walking.html">The Person Who Kept Walking</a>
+        <a href="https://a.co/d/0a8lC6Hp" target="_blank">Buy Paperback</a>
+        <a href="https://amzn.in/d/0gR9ecc2" target="_blank">Buy Kindle</a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <button class="nav-button">Community ▼</button>
+      <div class="dropdown">
+        <a href="#phoenix-universe">Phoenix Universe</a>
+        <a href="newsletter.html">Newsletter</a>
+        <a href="contact.html">Contact</a>
+        <a href="donate.html">Support</a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <button class="nav-button">Phoenix Works ▼</button>
+      <div class="dropdown">
+        <a href="blog.html">Blog</a>
+        <a href="#phoenix-timeline">Timeline</a>
+        <a href="#featured-slider">Featured Stories</a>
+        <a href="about.html">About The Phoenix</a>
+      </div>
+    </div>
   </nav>
 </header>
 
 <section class="hero">
   <div class="embers" id="embers"></div>
+
   <div class="hero-content">
     <span class="hero-label">The Phoenix Whispers</span>
     <h2>Stories That Rise From Ashes</h2>
     <p>Books. Stories. Community. Creativity.</p>
+
     <a class="btn light" href="stories.html">Read Stories</a>
-    <a class="btn" href="#submit">Submit Story</a>
+    <a class="btn" href="books.html">Explore Books</a>
+    <a class="btn" href="story-reader.html">Reader Mode</a>
   </div>
 </section>
 
-  <section class="section reveal phoenix-timeline-section" id="phoenix-timeline">
+<section class="section reveal featured-slider-section" id="featured-slider">
+  <div class="section-title">
+    <span>Featured</span>
+    <h2>Stories In The Firelight</h2>
+  </div>
+
+  <div class="featured-slider">
+    <button class="slider-btn prev" type="button">‹</button>
+
+    <div class="slide active">
+      <div class="slide-icon">📖</div>
+      <div class="slide-content">
+        <small>Published Book</small>
+        <h3>The Person Who Kept Walking</h3>
+        <p>An emotional journey through loneliness, memory, healing and the courage to keep moving forward.</p>
+        <a class="btn light" href="the-person-who-kept-walking.html">Read More</a>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-icon">🕯️</div>
+      <div class="slide-content">
+        <small>Real Stories Project</small>
+        <h3>In The Shadows They Live</h3>
+        <p>Real voices from ordinary people carrying extraordinary truths in the corners of society.</p>
+        <a class="btn" href="stories.html">Explore</a>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-icon">🔥</div>
+      <div class="slide-content">
+        <small>Upcoming Hindi Thriller</small>
+        <h3>Ashwatthama Ki Diary</h3>
+        <p>A dark psychological mystery where mythology, obsession and reality begin to blur.</p>
+        <a class="btn" href="books.html">Coming Soon</a>
+      </div>
+    </div>
+
+    <button class="slider-btn next" type="button">›</button>
+  </div>
+</section>
+
+<section class="section book reveal" id="featured-book">
+  <div class="book-wrap">
+    <div class="book-cover">
+      <img src="the-person-who-kept-walking.png" alt="The Person Who Kept Walking Book Cover">
+    </div>
+
+    <div class="book-info">
+      <span class="hero-label">Featured Book</span>
+      <h2>The Person Who Kept Walking</h2>
+      <p>A deeply emotional book about loneliness, memory, healing and the quiet strength of a person who refuses to stop walking even when life feels heavy.</p>
+
+      <div class="book-meta">
+        <span>⭐⭐⭐⭐⭐</span>
+        <span>Published</span>
+        <span>Paperback</span>
+        <span>Kindle Edition</span>
+        <span>English</span>
+        <span>Emotional Fiction</span>
+        <span>By Vineet</span>
+      </div>
+
+      <div class="formats">
+        <div><strong>Paperback</strong><p>Available on Amazon</p></div>
+        <div><strong>Kindle</strong><p>Digital edition available</p></div>
+        <div><strong>Author</strong><p>Amazon Author Page</p></div>
+      </div>
+
+      <a class="btn light" href="https://a.co/d/0a8lC6Hp" target="_blank">Buy Paperback</a>
+      <a class="btn" href="https://amzn.in/d/0gR9ecc2" target="_blank">Buy Kindle</a>
+      <a class="btn" href="the-person-who-kept-walking.html">Book Page</a>
+    </div>
+  </div>
+</section>
+
+<section class="section reveal phoenix-timeline-section" id="phoenix-timeline">
   <div class="section-title">
     <span>Timeline</span>
     <h2>The Phoenix Journey</h2>
@@ -143,7 +251,8 @@
     </div>
   </div>
 </section>
-  <section class="section reveal phoenix-universe" id="phoenix-universe">
+
+<section class="section reveal phoenix-universe" id="phoenix-universe">
   <div class="section-title">
     <span>Universe</span>
     <h2>The Phoenix Universe</h2>
@@ -191,8 +300,8 @@
     </a>
   </div>
 </section>
-  
-  <section class="section reveal" id="site-search">
+
+<section class="section reveal" id="site-search">
   <div class="section-title">
     <span>Search</span>
     <h2>Find Stories, Books And Posts</h2>
@@ -204,45 +313,48 @@
 
   <div class="search-results" id="globalSearchResults"></div>
 </section>
-  
+
 <section class="section reveal" id="stories">
   <div class="section-title">
     <span>This Week's Collection</span>
     <h2>Voices We Couldn’t Stop Thinking About</h2>
   </div>
+
   <div class="story-grid">
-    <div class="story-card"><div class="story-image">📖</div><div class="story-content"><small>Book · Emotional Fiction</small><h3>The Person Who Kept Walking</h3><p>A story of silence, pain, hope and the courage to continue even when life feels heavy.</p><a class="read-link" href="the-person-who-kept-walking.html">Read More →</a></div></div>
-    <div class="story-card"><div class="story-image">🕯️</div><div class="story-content"><small>Interview Project</small><h3>In The Shadows They Live</h3><p>Real voices from ordinary people carrying extraordinary truths in the corners of society.</p><a class="read-link" href="stories.html">Explore →</a></div></div>
-    <div class="story-card"><div class="story-image">🔥</div><div class="story-content"><small>Hindi Thriller</small><h3>Ashwatthama Ki Diary</h3><p>A dark psychological mystery where mythology, obsession and reality begin to blur.</p><a class="read-link" href="books.html">Coming Soon →</a></div></div>
+    <div class="story-card">
+      <div class="story-image">📖</div>
+      <div class="story-content">
+        <small>Book · Emotional Fiction</small>
+        <h3>The Person Who Kept Walking</h3>
+        <p>A story of silence, pain, hope and the courage to continue even when life feels heavy.</p>
+        <a class="read-link" href="the-person-who-kept-walking.html">Read More →</a>
+      </div>
+    </div>
+
+    <div class="story-card">
+      <div class="story-image">🕯️</div>
+      <div class="story-content">
+        <small>Interview Project</small>
+        <h3>In The Shadows They Live</h3>
+        <p>Real voices from ordinary people carrying extraordinary truths in the corners of society.</p>
+        <a class="read-link" href="stories.html">Explore →</a>
+      </div>
+    </div>
+
+    <div class="story-card">
+      <div class="story-image">🔥</div>
+      <div class="story-content">
+        <small>Hindi Thriller</small>
+        <h3>Ashwatthama Ki Diary</h3>
+        <p>A dark psychological mystery where mythology, obsession and reality begin to blur.</p>
+        <a class="read-link" href="books.html">Coming Soon →</a>
+      </div>
+    </div>
   </div>
 </section>
 
 <section class="quote reveal">
-  <p id="quoteText">“Some stories do not ask to be perfect. They only ask to be heard.”</p>
-</section>
-
-<section class="section book reveal" id="books">
-  <div class="book-wrap">
-    <div class="book-cover">
-      <img src="the-person-who-kept-walking.png" alt="The Person Who Kept Walking Book Cover">
-    </div>
-    <div class="book-info">
-      <h2>The Person Who Kept Walking</h2>
-      <p>A deeply emotional book about loneliness, memory, healing and the quiet strength of a person who refuses to stop walking even when life feels heavy.</p>
-      <div class="book-meta">
-        <span>⭐⭐⭐⭐⭐</span><span>Published</span><span>Paperback</span><span>Kindle Edition</span><span>English</span><span>Emotional Fiction</span><span>By Vineet</span>
-      </div>
-      <div class="formats">
-        <div><strong>Paperback</strong><p>Available on Amazon</p></div>
-        <div><strong>Kindle</strong><p>Digital edition available</p></div>
-        <div><strong>Author</strong><p>Amazon Author Page</p></div>
-      </div>
-      <a class="btn light" href="https://a.co/d/0a8lC6Hp" target="_blank">Buy Paperback</a>
-      <a class="btn" href="https://amzn.in/d/0gR9ecc2" target="_blank">Buy Kindle</a>
-      <a class="btn" href="https://www.amazon.in/vineet-yadav/e/B0H4G7GKY2/" target="_blank">Author Page</a>
-      <a class="btn" href="the-person-who-kept-walking.html">Read More</a>
-    </div>
-  </div>
+  <p id="quoteText">Some stories do not ask to be perfect. They only ask to be heard.</p>
 </section>
 
 <section class="section stats reveal">
@@ -258,6 +370,7 @@
     <span>Community</span>
     <h2>A Home For Readers, Writers And Dreamers</h2>
   </div>
+
   <div class="grid">
     <div class="card"><h3>Readers</h3><p>Discover emotional and powerful stories that stay with you.</p></div>
     <div class="card"><h3>Writers</h3><p>Share your stories, poems, memories and creative thoughts.</p></div>
@@ -270,9 +383,21 @@
     <span>From The Blog</span>
     <h2>Behind The Phoenix</h2>
   </div>
+
   <div class="grid">
-    <div class="blog-card"><small>Coming Soon</small><h3>Why I Created The Phoenix Whispers</h3><p>The story behind the name, the idea, and the dream.</p><a class="read-link" href="blog.html">Read Blog →</a></div>
-    <div class="blog-card"><small>Coming Soon</small><h3>Behind The Person Who Kept Walking</h3><p>How the book began and what it means.</p><a class="read-link" href="blog.html">Read Blog →</a></div>
+    <div class="blog-card">
+      <small>Coming Soon</small>
+      <h3>Why I Created The Phoenix Whispers</h3>
+      <p>The story behind the name, the idea, and the dream.</p>
+      <a class="read-link" href="blog.html">Read Blog →</a>
+    </div>
+
+    <div class="blog-card">
+      <small>Coming Soon</small>
+      <h3>Behind The Person Who Kept Walking</h3>
+      <p>How the book began and what it means.</p>
+      <a class="read-link" href="blog.html">Read Blog →</a>
+    </div>
   </div>
 </section>
 
@@ -281,21 +406,10 @@
     <span>Submit</span>
     <h2>Share Your Story</h2>
   </div>
+
   <div class="card">
     <p>Soon you will be able to submit your real stories, poems and creative writing here. For now, this section is a placeholder.</p>
     <a class="btn" href="mailto:your-email@example.com">Email Your Story</a>
-  </div>
-</section>
-
-<section class="section reveal" id="support">
-  <div class="section-title">
-    <span>Support</span>
-    <h2>Support The Phoenix</h2>
-  </div>
-  <div class="grid">
-    <div class="card"><h3>Donate</h3><p>Support future stories, books and creative projects.</p><a class="btn" href="donate.html">Donate</a></div>
-    <div class="card"><h3>Buy Books</h3><p>The best support is reading, reviewing and sharing the books.</p><a class="btn light" href="books.html">Shop Books</a></div>
-    <div class="card"><h3>Share</h3><p>Share The Phoenix Whispers with readers and writers.</p><a class="btn" href="contact.html">Contact</a></div>
   </div>
 </section>
 
@@ -304,6 +418,7 @@
     <h2>One Story, Every Week</h2>
     <p>Get updates about books, stories and new creative projects.</p>
   </div>
+
   <form>
     <input type="email" placeholder="Your email address">
     <button type="button">Subscribe</button>
@@ -318,20 +433,35 @@
         <h3>The Phoenix Whispers</h3>
       </div>
       <p>A home for stories, books, interviews and creative voices that deserve to be heard.</p>
+
       <div class="social">
-        <a href="#">Instagram</a><a href="#">YouTube</a><a href="#">X</a><a href="https://www.amazon.in/vineet-yadav/e/B0H4G7GKY2/" target="_blank">Amazon</a>
+        <a href="#">Instagram</a>
+        <a href="#">YouTube</a>
+        <a href="#">X</a>
+        <a href="https://www.amazon.in/vineet-yadav/e/B0H4G7GKY2/" target="_blank">Amazon</a>
       </div>
     </div>
+
     <div class="footer-links">
       <h3>Explore</h3>
-      <a href="stories.html">Stories</a><a href="books.html">Books</a><a href="blog.html">Blog</a><a href="newsletter.html">Newsletter</a>
+      <a href="stories.html">Stories</a>
+      <a href="books.html">Books</a>
+      <a href="blog.html">Blog</a>
+      <a href="newsletter.html">Newsletter</a>
     </div>
+
     <div class="footer-links">
       <h3>Support</h3>
-      <a href="donate.html">Donate</a><a href="#submit">Submit Story</a><a href="about.html">About</a><a href="contact.html">Contact</a>
+      <a href="donate.html">Donate</a>
+      <a href="#submit">Submit Story</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
     </div>
   </div>
-  <div class="copyright">© The Phoenix Whispers · Rise. Transform. Inspire.</div>
+
+  <div class="copyright">
+    © The Phoenix Whispers · Rise. Transform. Inspire.
+  </div>
 </footer>
 
 <script src="script.js"></script>

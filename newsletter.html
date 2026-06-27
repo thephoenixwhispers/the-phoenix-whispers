@@ -3,135 +3,273 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Newsletter | The Phoenix Whispers</title>
+
+<meta name="description" content="Join The Phoenix Whispers newsletter for book updates, stories, creative notes and reflections.">
+<meta name="author" content="Vineet Yadav">
+
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="apple-touch-icon" href="logo.png">
-  <link rel="manifest" href="manifest.json">
+<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#8b0000">
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#070707;color:#f5f0e6;font-family:Georgia,serif}
-a{text-decoration:none;color:inherit}
-
-header{background:rgba(5,5,5,.95);border-bottom:1px solid #222;padding:8px 7% 0;position:sticky;top:0;z-index:1000}
-.top{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:14px}
-.brand img{width:78px;height:78px;object-fit:contain}
-.brand h1{margin:0;font-size:31px;letter-spacing:4px;background:linear-gradient(90deg,#9b0000,#ff2a00,#ffcc33,#fff1b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.top-links{display:flex;gap:22px;flex-wrap:wrap}
-.top-links a{font-weight:bold;font-size:13px}
-.top-links a:hover{color:#ffcc33}
-nav{margin-top:6px;display:flex;justify-content:center;gap:42px;padding:10px 0 12px;border-top:1px solid #111;flex-wrap:wrap}
-nav a{font-weight:bold;font-size:15px}
-nav a:hover{color:#ffcc33}
-
-.hero{
-  min-height:420px;
-  background:radial-gradient(circle at center,rgba(255,80,0,.22),transparent 35%),linear-gradient(rgba(0,0,0,.18),rgba(0,0,0,.92)),url("hero-logo.png");
-  background-size:contain;background-repeat:no-repeat;background-position:center;
-  display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 20px;
-}
-.hero span{color:#ffcc33;letter-spacing:4px;text-transform:uppercase;font-size:13px}
-.hero h2{font-size:56px;margin:16px 0;text-shadow:0 4px 18px black}
-.hero p{max-width:760px;margin:auto;font-size:20px;color:#d8cbb8;line-height:1.6}
-
-.section{padding:75px 8%}
-.wrap{max-width:1000px;margin:auto}
-.signup{
-  background:linear-gradient(135deg,#7b0000,#250000);
-  border:1px solid #4b1c1c;
-  padding:42px;
+.newsletter-live-wrap{
+  max-width:1050px;
+  margin:auto;
   display:grid;
-  grid-template-columns:1.2fr 1fr;
-  gap:32px;
+  grid-template-columns:1fr 1.1fr;
+  gap:35px;
   align-items:center;
 }
-.signup h2{color:#ffcc33;font-size:40px;margin:0 0 12px}
-.signup p{color:#f1dfc2;line-height:1.7}
-input{width:100%;padding:15px;border:none;margin-bottom:12px}
-button{width:100%;padding:15px;border:none;background:#ffcc33;font-weight:bold;cursor:pointer}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:26px;margin-top:45px}
-.card{background:#111;border:1px solid #292929;padding:28px}
-.card h3{color:#ff3b22;font-size:25px}
-.card p{color:#cfc7b8;line-height:1.7}
 
-footer{background:#030303;border-top:1px solid #222;padding:45px 8%;text-align:center;color:#aaa}
-footer h3{color:#ffcc33}
+.newsletter-info,
+.newsletter-form-card{
+  background:#111;
+  border:1px solid #292929;
+  padding:34px;
+  box-shadow:0 0 35px rgba(139,0,0,.16);
+}
+
+.newsletter-info h3,
+.newsletter-form-card h3{
+  color:#ffcc33;
+  font-size:32px;
+  margin-top:0;
+}
+
+.newsletter-info p{
+  color:#cfc7b8;
+  line-height:1.7;
+}
+
+.newsletter-points{
+  margin-top:22px;
+  display:grid;
+  gap:14px;
+}
+
+.newsletter-point{
+  border:1px solid #333;
+  padding:14px;
+  color:#d8cbb8;
+  background:#0b0b0b;
+}
+
+.newsletter-form-card input{
+  width:100%;
+  padding:15px;
+  margin:10px 0;
+  background:#080808;
+  border:1px solid #333;
+  color:white;
+  font-family:Georgia,serif;
+}
+
+.newsletter-form-card input:focus{
+  outline:none;
+  border-color:#8b0000;
+}
+
+#newsletterStatus{
+  margin-top:15px;
+  color:#ffcc33;
+  line-height:1.6;
+}
+
+.newsletter-note{
+  font-size:14px;
+  color:#aaa;
+  line-height:1.6;
+  margin-top:15px;
+}
 
 @media(max-width:800px){
-  header{position:relative;padding:8px 5% 0}
-  .brand img{width:62px;height:62px}
-  .brand h1{font-size:21px;letter-spacing:2px}
-  nav{justify-content:flex-start;gap:22px}
-  .hero h2{font-size:38px}
-  .signup{grid-template-columns:1fr}
+  .newsletter-live-wrap{
+    grid-template-columns:1fr;
+  }
 }
 </style>
-  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<header>
-<div class="top">
-  <div class="brand">
-    <img src="logo.png" alt="The Phoenix Whispers Logo">
-    <h1>The Phoenix Whispers</h1>
-  </div>
-
-  <div class="top-links">
-    <a href="newsletter.html">Sign Up</a>
-    <a href="books.html">Shop</a>
-    <a href="blog.html">Blog</a>
-    <a href="donate.html">Donate</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-  </div>
+<div id="loader">
+  <img src="logo.png" alt="Phoenix Logo">
+  <h2>The Phoenix Whispers</h2>
+  <p>Rise • Transform • Inspire</p>
 </div>
 
-<nav>
-  <a href="index.html">Home</a>
-  <a href="stories.html">Stories</a>
-  <a href="books.html">Books</a>
-  <a href="about.html">About</a>
-  <a href="contact.html">Contact</a>
-</nav>
+<div id="progress-bar"></div>
+<button id="backToTop">↑</button>
+
+<header>
+  <div class="top">
+    <div class="brand">
+      <img src="logo.png" alt="The Phoenix Whispers Logo">
+      <h1>The Phoenix Whispers</h1>
+    </div>
+
+    <div class="top-links">
+      <a href="newsletter.html">Sign Up</a>
+      <a href="books.html">Shop</a>
+      <a href="blog.html">Blog</a>
+      <a href="donate.html">Donate</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="stories.html">Stories</a>
+    <a href="books.html">Books</a>
+    <a href="blog.html">Blog</a>
+    <a href="about.html">About</a>
+  </nav>
 </header>
 
 <section class="hero">
-  <div>
-    <span>Newsletter</span>
-    <h2>One Story, Every Week</h2>
-    <p>A quiet letter for readers who love books, stories, emotions and creative journeys.</p>
+  <div class="embers" id="embers"></div>
+  <div class="hero-content">
+    <span class="hero-label">Newsletter</span>
+    <h2>The Phoenix Letter</h2>
+    <p>Book updates, story notes, creative thoughts and behind-the-scenes letters.</p>
   </div>
 </section>
+<section class="section reveal">
+  <div class="section-title">
+    <span>Join</span>
+    <h2>Subscribe To The Phoenix Letter</h2>
+  </div>
 
-<section class="section">
-  <div class="wrap signup">
-    <div>
-      <h2>Join The Phoenix Letter</h2>
-      <p>Get updates about new stories, books, blog posts, author notes and creative projects.</p>
-      <p>For now, this form is a placeholder. Later we will connect Mailchimp, Brevo, Formspree or Google Form.</p>
+  <div class="newsletter-live-wrap">
+    <div class="newsletter-info">
+      <h3>What You’ll Receive</h3>
+      <p>The Phoenix Letter is for readers who want to stay close to the books, stories and creative journey of The Phoenix Whispers.</p>
+
+      <div class="newsletter-points">
+        <div class="newsletter-point">📖 Book updates and release notes</div>
+        <div class="newsletter-point">🔥 New stories and creative projects</div>
+        <div class="newsletter-point">🦅 Behind-the-scenes writing journey</div>
+        <div class="newsletter-point">✉️ Occasional letters, not spam</div>
+      </div>
     </div>
 
-    <form>
-      <input type="email" placeholder="Your email address">
-      <button type="button">Subscribe</button>
-    </form>
-  </div>
+    <div class="newsletter-form-card">
+      <h3>Join The List</h3>
 
-  <div class="wrap grid">
-    <div class="card"><h3>Weekly Story</h3><p>One hand-picked story or thought every week.</p></div>
-    <div class="card"><h3>Book Updates</h3><p>Launch news, samples, quotes and behind-the-scenes writing updates.</p></div>
-    <div class="card"><h3>Creative Notes</h3><p>Personal notes about writing, reading, publishing and building The Phoenix.</p></div>
+      <form id="newsletterForm">
+        <input type="email" name="email" placeholder="Your email address" required>
+        <input type="hidden" name="time" id="newsletterTime">
+
+        <button class="btn light" type="submit" id="newsletterBtn">Subscribe</button>
+      </form>
+
+      <p id="newsletterStatus"></p>
+      <p class="newsletter-note">Your email will only be used for updates from The Phoenix Whispers.</p>
+    </div>
   </div>
 </section>
 
-<footer>
-  <h3>The Phoenix Whispers</h3>
-  <p>Rise. Transform. Inspire.</p>
-  <p>© The Phoenix Whispers</p>
+<section class="section reveal">
+  <div class="section-title">
+    <span>Why Join?</span>
+    <h2>Stay Close To The Fire</h2>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h3>For Readers</h3>
+      <p>Get updates when new stories, essays and book-related notes are published.</p>
+    </div>
+
+    <div class="card">
+      <h3>For Writers</h3>
+      <p>Follow the writing process, publishing journey and creative reflections.</p>
+    </div>
+
+    <div class="card">
+      <h3>For Dreamers</h3>
+      <p>Stay connected with the growing Phoenix universe of books, stories and ideas.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">
+        <img src="logo.png" alt="The Phoenix Whispers Logo">
+        <h3>The Phoenix Whispers</h3>
+      </div>
+      <p>A home for stories, books, interviews and creative voices that deserve to be heard.</p>
+
+      <div class="social">
+        <a href="#">Instagram</a>
+        <a href="#">YouTube</a>
+        <a href="#">X</a>
+        <a href="https://www.amazon.in/vineet-yadav/e/B0H4G7GKY2/" target="_blank">Amazon</a>
+      </div>
+    </div>
+
+    <div class="footer-links">
+      <h3>Explore</h3>
+      <a href="index.html">Home</a>
+      <a href="stories.html">Stories</a>
+      <a href="books.html">Books</a>
+      <a href="blog.html">Blog</a>
+    </div>
+
+    <div class="footer-links">
+      <h3>Support</h3>
+      <a href="donate.html">Donate</a>
+      <a href="newsletter.html">Newsletter</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+
+  <div class="copyright">© The Phoenix Whispers · Rise. Transform. Inspire.</div>
 </footer>
+
 <script src="script.js"></script>
+
+<script>
+emailjs.init("vdm5Fy-wHMW6rKjE_");
+
+const newsletterForm = document.getElementById("newsletterForm");
+const newsletterStatus = document.getElementById("newsletterStatus");
+const newsletterBtn = document.getElementById("newsletterBtn");
+const newsletterTime = document.getElementById("newsletterTime");
+
+newsletterForm.addEventListener("submit", function(e){
+  e.preventDefault();
+
+  newsletterTime.value = new Date().toLocaleString();
+
+  newsletterBtn.innerText = "Subscribing...";
+  newsletterBtn.disabled = true;
+  newsletterStatus.innerText = "";
+
+  emailjs.sendForm("service_77o3juk", "template_riovdrc", this)
+    .then(function(){
+      newsletterStatus.innerText = "You are subscribed. Welcome to The Phoenix Letter.";
+      newsletterForm.reset();
+      newsletterBtn.innerText = "Subscribe";
+      newsletterBtn.disabled = false;
+    }, function(error){
+      newsletterStatus.innerText = "Subscription failed. Please try again later.";
+      newsletterBtn.innerText = "Subscribe";
+      newsletterBtn.disabled = false;
+      console.log(error);
+    });
+});
+</script>
+
 </body>
 </html>

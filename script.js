@@ -1,6 +1,5 @@
 // =======================================
-// THE PHOENIX WHISPERS — GLOBAL SCRIPT
-// Part 1: Core, Loader, Progress, BackTop
+// THE PHOENIX WHISPERS — SCRIPT V2
 // =======================================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -15,6 +14,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initMouseGlow();
   initBookHover3D();
   initReaderTools();
+  initGlobalSearch();
+  initFeaturedSlider();
 });
 
 /* ---------- Loader ---------- */
@@ -36,7 +37,7 @@ function initProgressBar(){
   const progressBar = document.getElementById("progress-bar");
   if(!progressBar) return;
 
-  window.addEventListener("scroll", () => {
+  function updateProgress(){
     const scrollTop =
       document.documentElement.scrollTop ||
       document.body.scrollTop;
@@ -49,7 +50,10 @@ function initProgressBar(){
 
     progressBar.style.width =
       (scrollTop / scrollHeight) * 100 + "%";
-  });
+  }
+
+  window.addEventListener("scroll", updateProgress);
+  updateProgress();
 }
 
 /* ---------- Back To Top ---------- */
@@ -58,10 +62,12 @@ function initBackToTop(){
   const backToTop = document.getElementById("backToTop");
   if(!backToTop) return;
 
-  window.addEventListener("scroll", () => {
+  function toggleBackToTop(){
     backToTop.style.display =
       window.scrollY > 400 ? "block" : "none";
-  });
+  }
+
+  window.addEventListener("scroll", toggleBackToTop);
 
   backToTop.addEventListener("click", () => {
     window.scrollTo({
@@ -69,6 +75,8 @@ function initBackToTop(){
       behavior:"smooth"
     });
   });
+
+  toggleBackToTop();
 }
 
 /* ---------- Reveal Animation ---------- */
@@ -80,6 +88,7 @@ function initRevealAnimation(){
   function revealOnScroll(){
     reveals.forEach(section => {
       const top = section.getBoundingClientRect().top;
+
       if(top < window.innerHeight - 80){
         section.classList.add("active");
       }
@@ -90,11 +99,7 @@ function initRevealAnimation(){
   window.addEventListener("load", revealOnScroll);
   revealOnScroll();
 }
-/* =======================================
-   Part 2 : Dropdown + Quote + Counters
-=======================================*/
-
-/* ---------- Navigation Dropdown ---------- */
+/* ---------- Dropdown Navigation ---------- */
 
 function initDropdownNavigation(){
 
@@ -139,46 +144,48 @@ function initDropdownNavigation(){
 
 }
 
+
 /* ---------- Quote Carousel ---------- */
 
 function initQuoteCarousel(){
 
-  const quote=document.getElementById("quoteText");
+  const quote = document.getElementById("quoteText");
 
   if(!quote) return;
 
-  const quotes=[
+  const quotes = [
 
-"Some stories do not ask to be perfect. They only ask to be heard.",
+    "Some stories do not ask to be perfect. They only ask to be heard.",
 
-"Some journeys are not about reaching somewhere. They are about surviving the road.",
+    "Some journeys are not about reaching somewhere. They are about surviving the road.",
 
-"Not every voice is loud. Some survive as whispers.",
+    "Not every voice is loud. Some survive as whispers.",
 
-"The phoenix remembers the fire but still chooses to fly.",
+    "The phoenix remembers the fire but still chooses to fly.",
 
-"Stories heal people long after they are written.",
+    "Stories heal people long after they are written.",
 
-"Every scar deserves to become a story."
+    "Every scar deserves to become a story."
 
   ];
 
-  let current=0;
+  let current = 0;
 
-  setInterval(()=>{
+  setInterval(() => {
 
-    quote.style.opacity=0;
+    quote.style.opacity = 0;
 
-    setTimeout(()=>{
+    setTimeout(() => {
 
       current++;
 
-      if(current>=quotes.length)
-        current=0;
+      if(current >= quotes.length){
+        current = 0;
+      }
 
-      quote.innerText=quotes[current];
+      quote.innerText = quotes[current];
 
-      quote.style.opacity=1;
+      quote.style.opacity = 1;
 
     },350);
 
@@ -191,45 +198,45 @@ function initQuoteCarousel(){
 
 function initCounters(){
 
-  const counters=document.querySelectorAll("[data-count]");
+  const counters = document.querySelectorAll("[data-count]");
 
   if(!counters.length) return;
 
-  let started=false;
+  let started = false;
 
   function animate(){
 
     if(started) return;
 
-    const stats=document.querySelector(".stats");
+    const stats = document.querySelector(".stats");
 
     if(!stats) return;
 
-    if(stats.getBoundingClientRect().top<window.innerHeight-120){
+    if(stats.getBoundingClientRect().top < window.innerHeight - 120){
 
-      started=true;
+      started = true;
 
-      counters.forEach(counter=>{
+      counters.forEach(counter => {
 
-        const target=parseInt(counter.dataset.count);
+        const target = parseInt(counter.dataset.count);
 
-        let current=0;
+        let current = 0;
 
-        const increment=Math.max(1,Math.ceil(target/60));
+        const increment = Math.max(1, Math.ceil(target / 60));
 
-        const timer=setInterval(()=>{
+        const timer = setInterval(() => {
 
-          current+=increment;
+          current += increment;
 
-          if(current>=target){
+          if(current >= target){
 
-            current=target;
+            current = target;
 
             clearInterval(timer);
 
           }
 
-          counter.innerText=current;
+          counter.innerText = current;
 
         },30);
 
@@ -239,15 +246,11 @@ function initCounters(){
 
   }
 
-  window.addEventListener("scroll",animate);
+  window.addEventListener("scroll", animate);
 
   animate();
 
 }
-/* =======================================
-   Part 3 : Embers + Mouse Glow + 3D Hover
-=======================================*/
-
 /* ---------- Floating Embers ---------- */
 
 function initEmbers(){
@@ -262,7 +265,7 @@ function initEmbers(){
 
   const count = window.innerWidth < 800 ? 18 : 38;
 
-  for(let i=0;i<count;i++){
+  for(let i = 0; i < count; i++){
 
     const ember = document.createElement("span");
 
@@ -362,6 +365,59 @@ function initBookHover3D(){
 }
 
 
+/* ---------- Featured Stories Slider ---------- */
+
+function initFeaturedSlider(){
+
+  const slides = document.querySelectorAll(".featured-slider .slide");
+
+  const prevBtn = document.querySelector(".featured-slider .prev");
+
+  const nextBtn = document.querySelector(".featured-slider .next");
+
+  if(!slides.length) return;
+
+  let currentSlide = 0;
+
+  function showSlide(index){
+
+    slides.forEach(slide => slide.classList.remove("active"));
+
+    currentSlide = (index + slides.length) % slides.length;
+
+    slides[currentSlide].classList.add("active");
+
+  }
+
+  if(prevBtn){
+
+    prevBtn.addEventListener("click", () => {
+
+      showSlide(currentSlide - 1);
+
+    });
+
+  }
+
+  if(nextBtn){
+
+    nextBtn.addEventListener("click", () => {
+
+      showSlide(currentSlide + 1);
+
+    });
+
+  }
+
+  setInterval(() => {
+
+    showSlide(currentSlide + 1);
+
+  },5000);
+
+}
+
+
 /* ---------- Button Ripple Effect ---------- */
 
 document.addEventListener("click", e => {
@@ -373,15 +429,10 @@ document.addEventListener("click", e => {
   const ripple = document.createElement("span");
 
   ripple.style.position = "absolute";
-
   ripple.style.borderRadius = "50%";
-
   ripple.style.transform = "scale(0)";
-
   ripple.style.animation = "ripple .6s linear";
-
   ripple.style.background = "rgba(255,255,255,.35)";
-
   ripple.style.pointerEvents = "none";
 
   const rect = button.getBoundingClientRect();
@@ -404,14 +455,10 @@ document.addEventListener("click", e => {
 
     ripple.remove();
 
-  }, 650);
+  },650);
 
 });
-/* =======================================
-   Part 4 : Reader Tools + Utilities
-=======================================*/
-
-/* ---------- Reader Mode ---------- */
+/* ---------- Reader Tools ---------- */
 
 function initReaderTools(){
 
@@ -476,7 +523,7 @@ window.decreaseFont = function(){
 }
 
 
-/* ---------- Dark / Light Mode ---------- */
+/* ---------- Light / Dark Reader Mode ---------- */
 
 window.toggleTheme = function(){
 
@@ -489,9 +536,148 @@ window.toggleTheme = function(){
 
 window.copyLink = function(){
 
-  navigator.clipboard.writeText(window.location.href);
+  if(navigator.clipboard){
 
-  alert("Story link copied!");
+    navigator.clipboard.writeText(window.location.href);
+
+    alert("Story link copied!");
+
+  }else{
+
+    alert("Copy not supported in this browser.");
+
+  }
+
+}
+
+
+/* ---------- Global Live Search ---------- */
+
+function initGlobalSearch(){
+
+  const searchData = [
+    {
+      title: "The Person Who Kept Walking",
+      type: "Book",
+      description: "An emotional fiction book about loneliness, memory, healing and the courage to keep walking.",
+      url: "the-person-who-kept-walking.html",
+      keywords: "walking book loneliness healing emotional fiction vineet"
+    },
+    {
+      title: "Books",
+      type: "Page",
+      description: "Explore published and upcoming books from The Phoenix Whispers.",
+      url: "books.html",
+      keywords: "books paperback kindle author amazon"
+    },
+    {
+      title: "Story Library",
+      type: "Stories",
+      description: "A collection of stories, interviews, poems and creative voices.",
+      url: "stories.html",
+      keywords: "stories interview poems real voices library"
+    },
+    {
+      title: "In The Shadows They Live",
+      type: "Project",
+      description: "A real-life interview based story project about unseen lives and hidden struggles.",
+      url: "stories.html",
+      keywords: "interview shadows real stories people society"
+    },
+    {
+      title: "Ashwatthama Ki Diary",
+      type: "Upcoming Book",
+      description: "A Hindi psychological thriller where mythology, obsession and reality begin to blur.",
+      url: "books.html",
+      keywords: "ashwatthama diary hindi thriller mythology mystery"
+    },
+    {
+      title: "Behind The Phoenix",
+      type: "Blog",
+      description: "Blog posts about writing, books, publishing and the journey behind The Phoenix Whispers.",
+      url: "blog.html",
+      keywords: "blog writing phoenix journey publishing"
+    },
+    {
+      title: "About Vineet",
+      type: "About",
+      description: "Learn about Vineet Yadav and the mission behind The Phoenix Whispers.",
+      url: "about.html",
+      keywords: "vineet yadav author about founder"
+    },
+    {
+      title: "Donate",
+      type: "Support",
+      description: "Support The Phoenix Whispers and future creative projects.",
+      url: "donate.html",
+      keywords: "donate support phoenix project"
+    },
+    {
+      title: "Contact",
+      type: "Contact",
+      description: "Contact The Phoenix Whispers for submissions, collaborations and questions.",
+      url: "contact.html",
+      keywords: "contact email message collaboration submit"
+    }
+  ];
+
+  const input = document.getElementById("globalSearchInput");
+
+  const resultsBox = document.getElementById("globalSearchResults");
+
+  if(!input || !resultsBox) return;
+
+  input.addEventListener("input", () => {
+
+    const query = input.value.toLowerCase().trim();
+
+    resultsBox.innerHTML = "";
+
+    if(query.length < 2){
+      return;
+    }
+
+    const results = searchData.filter(item => {
+
+      return (
+        item.title.toLowerCase().includes(query) ||
+        item.type.toLowerCase().includes(query) ||
+        item.description.toLowerCase().includes(query) ||
+        item.keywords.toLowerCase().includes(query)
+      );
+
+    });
+
+    if(results.length === 0){
+
+      resultsBox.innerHTML = `
+        <div class="search-result-card">
+          <h3>No results found</h3>
+          <p>Try searching for book, walking, phoenix, interview or story.</p>
+        </div>
+      `;
+
+      return;
+
+    }
+
+    results.forEach(item => {
+
+      const card = document.createElement("div");
+
+      card.className = "search-result-card";
+
+      card.innerHTML = `
+        <h3>${item.title}</h3>
+        <p><strong>${item.type}</strong> · ${item.description}</p>
+        <a href="${item.url}">Open →</a>
+      `;
+
+      resultsBox.appendChild(card);
+
+    });
+
+  });
 
 }
 
@@ -502,9 +688,9 @@ const lazyImages = document.querySelectorAll("img[data-src]");
 
 if(lazyImages.length){
 
-  const observer = new IntersectionObserver(entries=>{
+  const observer = new IntersectionObserver(entries => {
 
-    entries.forEach(entry=>{
+    entries.forEach(entry => {
 
       if(entry.isIntersecting){
 
@@ -522,213 +708,30 @@ if(lazyImages.length){
 
   });
 
-  lazyImages.forEach(img=>observer.observe(img));
+  lazyImages.forEach(img => observer.observe(img));
 
 }
 
 
 /* ---------- Ripple Animation CSS ---------- */
 
-const rippleStyle=document.createElement("style");
+const rippleStyle = document.createElement("style");
 
-rippleStyle.innerHTML=`
-
+rippleStyle.innerHTML = `
 @keyframes ripple{
-
-0%{
-
-transform:scale(0);
-
-opacity:.6;
-
+  0%{transform:scale(0);opacity:.6}
+  100%{transform:scale(4);opacity:0}
 }
-
-100%{
-
-transform:scale(4);
-
-opacity:0;
-
-}
-
-}
-
 `;
 
 document.head.appendChild(rippleStyle);
 
 
-/* ---------- Console ---------- */
+/* ---------- Console Branding ---------- */
 
 console.log(
-
-"%cThe Phoenix Whispers",
-
-"font-size:18px;color:#ffcc33;font-weight:bold"
-
+  "%cThe Phoenix Whispers",
+  "font-size:18px;color:#ffcc33;font-weight:bold"
 );
 
-console.log(
-
-"Website Loaded Successfully."
-
-);
-
-// =============================
-// Global Live Search
-// =============================
-
-const searchData = [
-  {
-    title: "The Person Who Kept Walking",
-    type: "Book",
-    description: "An emotional fiction book about loneliness, memory, healing and the courage to keep walking.",
-    url: "the-person-who-kept-walking.html",
-    keywords: "walking book loneliness healing emotional fiction vineet"
-  },
-  {
-    title: "Books",
-    type: "Page",
-    description: "Explore published and upcoming books from The Phoenix Whispers.",
-    url: "books.html",
-    keywords: "books paperback kindle author amazon"
-  },
-  {
-    title: "Story Library",
-    type: "Stories",
-    description: "A collection of stories, interviews, poems and creative voices.",
-    url: "stories.html",
-    keywords: "stories interview poems real voices library"
-  },
-  {
-    title: "In The Shadows They Live",
-    type: "Project",
-    description: "A real-life interview based story project about unseen lives and hidden struggles.",
-    url: "stories.html",
-    keywords: "interview shadows real stories people society"
-  },
-  {
-    title: "Ashwatthama Ki Diary",
-    type: "Upcoming Book",
-    description: "A Hindi psychological thriller where mythology, obsession and reality begin to blur.",
-    url: "books.html",
-    keywords: "ashwatthama diary hindi thriller mythology mystery"
-  },
-  {
-    title: "Behind The Phoenix",
-    type: "Blog",
-    description: "Blog posts about writing, books, publishing and the journey behind The Phoenix Whispers.",
-    url: "blog.html",
-    keywords: "blog writing phoenix journey publishing"
-  },
-  {
-    title: "About Vineet",
-    type: "About",
-    description: "Learn about Vineet Yadav and the mission behind The Phoenix Whispers.",
-    url: "about.html",
-    keywords: "vineet yadav author about founder"
-  },
-  {
-    title: "Donate",
-    type: "Support",
-    description: "Support The Phoenix Whispers and future creative projects.",
-    url: "donate.html",
-    keywords: "donate support phoenix project"
-  },
-  {
-    title: "Contact",
-    type: "Contact",
-    description: "Contact The Phoenix Whispers for submissions, collaborations and questions.",
-    url: "contact.html",
-    keywords: "contact email message collaboration submit"
-  }
-];
-
-const globalSearchInput = document.getElementById("globalSearchInput");
-const globalSearchResults = document.getElementById("globalSearchResults");
-
-if(globalSearchInput && globalSearchResults){
-
-  globalSearchInput.addEventListener("input", () => {
-
-    const query = globalSearchInput.value.toLowerCase().trim();
-
-    globalSearchResults.innerHTML = "";
-
-    if(query.length < 2){
-      return;
-    }
-
-    const results = searchData.filter(item => {
-      return (
-        item.title.toLowerCase().includes(query) ||
-        item.type.toLowerCase().includes(query) ||
-        item.description.toLowerCase().includes(query) ||
-        item.keywords.toLowerCase().includes(query)
-      );
-    });
-
-    if(results.length === 0){
-      globalSearchResults.innerHTML = `
-        <div class="search-result-card">
-          <h3>No results found</h3>
-          <p>Try searching for book, walking, phoenix, interview or story.</p>
-        </div>
-      `;
-      return;
-    }
-
-    results.forEach(item => {
-      const card = document.createElement("div");
-      card.className = "search-result-card";
-
-      card.innerHTML = `
-        <h3>${item.title}</h3>
-        <p><strong>${item.type}</strong> · ${item.description}</p>
-        <a href="${item.url}">Open →</a>
-      `;
-
-      globalSearchResults.appendChild(card);
-    });
-
-  });
-
-}
-
-// =============================
-// Featured Stories Slider
-// =============================
-
-const slides = document.querySelectorAll(".featured-slider .slide");
-const prevBtn = document.querySelector(".featured-slider .prev");
-const nextBtn = document.querySelector(".featured-slider .next");
-
-let currentSlide = 0;
-
-function showSlide(index){
-  if(!slides.length) return;
-
-  slides.forEach(slide => slide.classList.remove("active"));
-
-  currentSlide = (index + slides.length) % slides.length;
-
-  slides[currentSlide].classList.add("active");
-}
-
-if(slides.length){
-  if(prevBtn){
-    prevBtn.addEventListener("click", () => {
-      showSlide(currentSlide - 1);
-    });
-  }
-
-  if(nextBtn){
-    nextBtn.addEventListener("click", () => {
-      showSlide(currentSlide + 1);
-    });
-  }
-
-  setInterval(() => {
-    showSlide(currentSlide + 1);
-  }, 5000);
-}
+console.log("Website Loaded Successfully.");

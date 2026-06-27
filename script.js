@@ -573,3 +573,125 @@ console.log(
 "Website Loaded Successfully."
 
 );
+
+// =============================
+// Global Live Search
+// =============================
+
+const searchData = [
+  {
+    title: "The Person Who Kept Walking",
+    type: "Book",
+    description: "An emotional fiction book about loneliness, memory, healing and the courage to keep walking.",
+    url: "the-person-who-kept-walking.html",
+    keywords: "walking book loneliness healing emotional fiction vineet"
+  },
+  {
+    title: "Books",
+    type: "Page",
+    description: "Explore published and upcoming books from The Phoenix Whispers.",
+    url: "books.html",
+    keywords: "books paperback kindle author amazon"
+  },
+  {
+    title: "Story Library",
+    type: "Stories",
+    description: "A collection of stories, interviews, poems and creative voices.",
+    url: "stories.html",
+    keywords: "stories interview poems real voices library"
+  },
+  {
+    title: "In The Shadows They Live",
+    type: "Project",
+    description: "A real-life interview based story project about unseen lives and hidden struggles.",
+    url: "stories.html",
+    keywords: "interview shadows real stories people society"
+  },
+  {
+    title: "Ashwatthama Ki Diary",
+    type: "Upcoming Book",
+    description: "A Hindi psychological thriller where mythology, obsession and reality begin to blur.",
+    url: "books.html",
+    keywords: "ashwatthama diary hindi thriller mythology mystery"
+  },
+  {
+    title: "Behind The Phoenix",
+    type: "Blog",
+    description: "Blog posts about writing, books, publishing and the journey behind The Phoenix Whispers.",
+    url: "blog.html",
+    keywords: "blog writing phoenix journey publishing"
+  },
+  {
+    title: "About Vineet",
+    type: "About",
+    description: "Learn about Vineet Yadav and the mission behind The Phoenix Whispers.",
+    url: "about.html",
+    keywords: "vineet yadav author about founder"
+  },
+  {
+    title: "Donate",
+    type: "Support",
+    description: "Support The Phoenix Whispers and future creative projects.",
+    url: "donate.html",
+    keywords: "donate support phoenix project"
+  },
+  {
+    title: "Contact",
+    type: "Contact",
+    description: "Contact The Phoenix Whispers for submissions, collaborations and questions.",
+    url: "contact.html",
+    keywords: "contact email message collaboration submit"
+  }
+];
+
+const globalSearchInput = document.getElementById("globalSearchInput");
+const globalSearchResults = document.getElementById("globalSearchResults");
+
+if(globalSearchInput && globalSearchResults){
+
+  globalSearchInput.addEventListener("input", () => {
+
+    const query = globalSearchInput.value.toLowerCase().trim();
+
+    globalSearchResults.innerHTML = "";
+
+    if(query.length < 2){
+      return;
+    }
+
+    const results = searchData.filter(item => {
+      return (
+        item.title.toLowerCase().includes(query) ||
+        item.type.toLowerCase().includes(query) ||
+        item.description.toLowerCase().includes(query) ||
+        item.keywords.toLowerCase().includes(query)
+      );
+    });
+
+    if(results.length === 0){
+      globalSearchResults.innerHTML = `
+        <div class="search-result-card">
+          <h3>No results found</h3>
+          <p>Try searching for book, walking, phoenix, interview or story.</p>
+        </div>
+      `;
+      return;
+    }
+
+    results.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "search-result-card";
+
+      card.innerHTML = `
+        <h3>${item.title}</h3>
+        <p><strong>${item.type}</strong> · ${item.description}</p>
+        <a href="${item.url}">Open →</a>
+      `;
+
+      globalSearchResults.appendChild(card);
+    });
+
+  });
+
+}
+

@@ -360,3 +360,46 @@ body.light-mode footer{
   #loader h2{font-size:24px;text-align:center}
   .btn{padding:12px 22px;font-size:14px}
 }
+.search-box{
+  max-width:650px;
+  margin:0 auto 28px;
+}
+
+.search-box input{
+  width:100%;
+  padding:16px;
+  background:#111;
+  border:1px solid #333;
+  color:white;
+  font-size:16px;
+  font-family:Georgia,serif;
+}
+
+.search-results{
+  max-width:850px;
+  margin:0 auto;
+  display:grid;
+  gap:14px;
+}
+
+.search-result-card{
+  background:#111;
+  border:1px solid #292929;
+  padding:18px;
+}
+
+.search-result-card h3{
+  margin:0 0 8px;
+  color:#ffcc33;
+}
+
+.search-result-card p{
+  color:#cfc7b8;
+  line-height:1.6;
+  margin:0 0 10px;
+}
+
+.search-result-card a{
+  color:#ffcc33;
+  font-weight:bold;
+}

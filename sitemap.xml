@@ -1,55 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<urlset
-xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://thephoenixwhispers.github.io/the-phoenix-whispers/</loc>
+<lastmod>2026-06-28</lastmod>
+<changefreq>weekly</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
 <loc>https://thephoenixwhispers.github.io/the-phoenix-whispers/stories.html</loc>
+<lastmod>2026-06-28</lastmod>
+<changefreq>weekly</changefreq>
 <priority>0.9</priority>
 </url>
 
 <url>
 <loc>https://thephoenixwhispers.github.io/the-phoenix-whispers/books.html</loc>
+<lastmod>2026-06-28</lastmod>
+<changefreq>weekly</changefreq>
 <priority>0.9</priority>
 </url>
 
 <url>
 <loc>https://thephoenixwhispers.github.io/the-phoenix-whispers/the-person-who-kept-walking.html</loc>
+<lastmod>2026-06-28</lastmod>
+<changefreq>monthly</changefreq>
 <priority>0.9</priority>
 </url>
 
 <url>
 <loc>https://thephoenixwhispers.github.io/the-phoenix-whispers/blog.html</loc>
+<lastmod>2026-06-28</lastmod>
+<changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 
 <url>
 <loc>https://thephoenixwhispers.github.io/the-phoenix-whispers/about.html</loc>
+<lastmod>2026-06-28</lastmod>
+<changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 
 <url>
 <loc>https://thephoenixwhispers.github.io/the-phoenix-whispers/contact.html</loc>
+<lastmod>2026-06-28</lastmod>
+<changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 
 <url>
 <loc>https://thephoenixwhispers.github.io/the-phoenix-whispers/donate.html</loc>
+<lastmod>2026-06-28</lastmod>
+<changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 
 <url>
 <loc>https://thephoenixwhispers.github.io/the-phoenix-whispers/newsletter.html</loc>
+<lastmod>2026-06-28</lastmod>
+<changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
 <loc>https://thephoenixwhispers.github.io/the-phoenix-whispers/story-reader.html</loc>
+<lastmod>2026-06-28</lastmod>
+<changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 

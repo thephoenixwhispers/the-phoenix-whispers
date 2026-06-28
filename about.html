@@ -4,122 +4,37 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>About | The Phoenix Whispers</title>
+
+<meta name="description" content="About Vineet, author and creator of The Phoenix Whispers.">
+<meta name="author" content="Vineet Yadav">
+
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="apple-touch-icon" href="logo.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#8b0000">
+<link rel="stylesheet" href="style.css">
 
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#8b0000">
 <style>
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:#070707;color:#f5f0e6;font-family:Georgia,serif}
-a{text-decoration:none;color:inherit}
-
-#loader{position:fixed;inset:0;background:#030303;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:.7s}
-#loader.hide{opacity:0;visibility:hidden}
-#loader img{width:115px;height:115px;object-fit:contain;filter:drop-shadow(0 0 24px rgba(255,80,0,.8));animation:pulse 1.6s infinite alternate}
-#loader h2{margin:18px 0 8px;font-size:34px;letter-spacing:3px;background:linear-gradient(90deg,#9b0000,#ff2a00,#ffcc33,#fff1b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-#loader p{color:#caa24a;letter-spacing:4px}
-@keyframes pulse{from{transform:scale(.94);opacity:.75}to{transform:scale(1.08);opacity:1}}
-
-#progress-bar{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,#8b0000,#ff2a00,#ffcc33);z-index:10000}
-#backToTop{position:fixed;right:22px;bottom:22px;width:46px;height:46px;border:none;border-radius:50%;background:#9b0000;color:#fff;font-size:24px;cursor:pointer;display:none;z-index:2000;box-shadow:0 0 18px rgba(155,0,0,.5)}
-
-header{background:rgba(5,5,5,.94);border-bottom:1px solid #222;padding:8px 7% 0;position:sticky;top:0;z-index:1000;backdrop-filter:blur(10px)}
-.top{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:14px}
-.brand img{width:78px;height:78px;object-fit:contain;filter:drop-shadow(0 0 12px rgba(255,80,0,.35))}
-.brand h1{margin:0;font-size:31px;letter-spacing:4px;line-height:1;background:linear-gradient(90deg,#9b0000,#ff2a00,#ffcc33,#fff1b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.top-links{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
-.top-links a{font-weight:bold;font-size:13px;color:#f5f0e6}
-.top-links a:hover{color:#ffcc33}
-nav{margin-top:6px;display:flex;justify-content:center;gap:42px;padding:10px 0 12px;border-top:1px solid #111;flex-wrap:wrap}
-nav a{font-weight:bold;font-size:15px}
-nav a:hover{color:#ffcc33}
-
-.hero{min-height:470px;position:relative;overflow:hidden;background:radial-gradient(circle at center,rgba(255,80,0,.25),transparent 35%),linear-gradient(rgba(0,0,0,.18),rgba(0,0,0,.92)),url("hero-logo.png");background-size:contain;background-repeat:no-repeat;background-position:center;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 20px}
-.embers{position:absolute;inset:0;overflow:hidden;pointer-events:none}
-.ember{position:absolute;bottom:-20px;width:5px;height:5px;background:#ffcc33;border-radius:50%;box-shadow:0 0 15px #ff4b00;animation:rise linear infinite}
-@keyframes rise{0%{transform:translateY(0) scale(.6);opacity:0}20%{opacity:.8}100%{transform:translateY(-650px) scale(1.2);opacity:0}}
-.hero-content{position:relative;z-index:2;animation:fadeUp 1.1s ease}
-@keyframes fadeUp{from{opacity:0;transform:translateY(35px)}to{opacity:1;transform:translateY(0)}}
-.hero span{color:#ffcc33;letter-spacing:4px;text-transform:uppercase;font-size:13px}
-.hero h2{font-size:56px;margin:16px 0;text-shadow:0 4px 18px black}
-.hero p{max-width:760px;margin:auto;font-size:20px;color:#d8cbb8;line-height:1.6}
-
-.section{padding:75px 8%}
-.wrap{max-width:1100px;margin:auto}
-.two{display:grid;grid-template-columns:1fr 1.2fr;gap:45px;align-items:center}
-.label{color:#caa24a;letter-spacing:4px;text-transform:uppercase;font-size:13px}
-h2{font-size:42px;color:#ffcc33;margin:12px 0}
-p{color:#d8cbb8;line-height:1.7;font-size:17px}
-
-.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:26px;margin-top:35px}
-.card{background:#111;border:1px solid #292929;padding:28px;transition:.3s}
-.card:hover{transform:translateY(-6px);border-color:#8b0000}
-.card h3{color:#ff3b22;font-size:25px}
-.card p{color:#cfc7b8}
-
-.quote{background:#170707;text-align:center;padding:85px 12%;border-top:1px solid #331010;border-bottom:1px solid #331010}
-.quote p{font-size:34px;font-style:italic;color:#f5f0e6}
-
-.founder{background:#101010;border-top:1px solid #333;border-bottom:1px solid #333}
-.founder-box{display:grid;grid-template-columns:310px 1fr;gap:45px;align-items:center}
-.founder-photo{min-height:340px;border:1px solid #4b1c1c;background:linear-gradient(rgba(0,0,0,.15),rgba(0,0,0,.85)),radial-gradient(circle,#8b0000,#111 65%);display:flex;align-items:center;justify-content:center;font-size:80px;box-shadow:0 0 35px rgba(139,0,0,.25);transition:.4s}
-.founder-photo:hover{transform:translateY(-8px);box-shadow:0 25px 55px rgba(139,0,0,.45)}
-
-.timeline{border-left:2px solid #4b1c1c;margin-top:35px;padding-left:25px}
-.timeline-item{margin-bottom:28px;position:relative}
-.timeline-item::before{content:"";position:absolute;left:-34px;top:4px;width:14px;height:14px;background:#ffcc33;border-radius:50%;box-shadow:0 0 15px #ff4b00}
-.timeline-item h3{color:#ff3b22;margin:0 0 8px;font-size:24px}
-.timeline-item p{margin:0;color:#cfc7b8}
-
-.btn{display:inline-block;margin-top:15px;padding:13px 28px;background:#9b0000;color:white;font-weight:bold;transition:.3s}
-.btn.light{background:#f0d27a;color:#170b05}
-.btn:hover{background:#c1121f;transform:translateY(-3px)}
-
-footer{background:#030303;border-top:1px solid #222;padding:55px 8% 25px}
-.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:35px;max-width:1100px;margin:auto}
-.footer-logo{display:flex;align-items:center;gap:12px}
-.footer-logo img{width:55px;height:55px;object-fit:contain}
-.footer-logo h3{margin:0;color:#ffcc33;font-size:24px}
-.footer p,.footer-links a{color:#aaa;line-height:1.7;font-size:14px}
-.footer-links a{display:block;margin:8px 0}
-.footer-links a:hover{color:#ffcc33}
-.social{display:flex;gap:12px;margin-top:15px;flex-wrap:wrap}
-.social a{border:1px solid #333;padding:8px 12px;color:#f5f0e6;transition:.3s}
-.social a:hover{background:#8b0000;transform:translateY(-3px)}
-.copyright{text-align:center;color:#777;border-top:1px solid #151515;margin-top:35px;padding-top:22px;font-size:13px}
-
-.reveal{opacity:0;transform:translateY(40px);transition:1s ease}
-.reveal.active{opacity:1;transform:translateY(0)}
-
-@media(max-width:800px){
-  header{position:relative;padding:8px 5% 0}
-  .brand img{width:62px;height:62px}
-  .brand h1{font-size:21px;letter-spacing:2px}
-  .top-links{gap:12px}
-  .top-links a{font-size:12px}
-  nav{justify-content:flex-start;gap:22px}
-  .hero h2{font-size:38px}
-  .two,.founder-box,.footer-grid{grid-template-columns:1fr}
-  .quote p{font-size:24px}
-}
+.about-hero-box{max-width:1050px;margin:auto;display:grid;grid-template-columns:260px 1fr;gap:35px;align-items:center}
+.author-photo{width:230px;height:230px;border-radius:50%;object-fit:cover;border:2px solid #8b0000;box-shadow:0 0 35px rgba(139,0,0,.45)}
+.about-panel{background:#111;border:1px solid #292929;padding:32px}
+.about-panel h2{color:#ffcc33;font-size:42px;margin:0 0 10px}
+.about-panel p{color:#d8cbb8;line-height:1.8}
+.badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.badges span{border:1px solid #333;padding:8px 12px;color:#caa24a;font-size:13px}
+.about-text{max-width:900px;margin:auto;background:#111;border:1px solid #292929;padding:35px}
+.about-text p{color:#d8cbb8;line-height:1.9;font-size:18px}
+@media(max-width:800px){.about-hero-box{grid-template-columns:1fr;text-align:center}.author-photo{margin:auto;width:190px;height:190px}}
 </style>
-  <link rel="stylesheet" href="style.css">
 
-  <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-BS8Z15XE0P"></script>
 <script>
-window.dataLayer = window.dataLayer || [];
+window.dataLayer=window.dataLayer||[];
 function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-
-gtag('config', 'G-BS8Z15XE0P');
+gtag('js',new Date());
+gtag('config','G-BS8Z15XE0P');
 </script>
-  
 </head>
-  
 
 <body>
 
@@ -134,12 +49,13 @@ gtag('config', 'G-BS8Z15XE0P');
 
 <header>
   <div class="top">
-    <div class="brand">
+    <a href="index.html" class="brand">
       <img src="logo.png" alt="The Phoenix Whispers Logo">
       <h1>The Phoenix Whispers</h1>
-    </div>
+    </a>
 
     <div class="top-links">
+      <a href="submit-story.html">Share Story</a>
       <a href="newsletter.html">Sign Up</a>
       <a href="books.html">Shop</a>
       <a href="blog.html">Blog</a>
@@ -153,7 +69,7 @@ gtag('config', 'G-BS8Z15XE0P');
     <a href="index.html">Home</a>
     <a href="stories.html">Stories</a>
     <a href="books.html">Books</a>
-    <a href="about.html">About</a>
+    <a href="submit-story.html">Share Your Story</a>
     <a href="contact.html">Contact</a>
   </nav>
 </header>
@@ -161,89 +77,146 @@ gtag('config', 'G-BS8Z15XE0P');
 <section class="hero">
   <div class="embers" id="embers"></div>
   <div class="hero-content">
-    <span>About</span>
-    <h2>Why The Phoenix Whispers Exists</h2>
-    <p>A home for stories, books, interviews and creative voices that rise from silence, pain, memory and hope.</p>
+    <span class="hero-label">About</span>
+    <h2>About Vineet</h2>
+    <p>Author • Storyteller • Creator of The Phoenix Whispers</p>
   </div>
 </section>
 
 <section class="section reveal">
-  <div class="wrap two">
-    <div>
-      <span class="label">Our Story</span>
-      <h2>Built for the voices that deserve to be heard.</h2>
+  <div class="about-hero-box">
+    <img class="author-photo" src="author-photo.jpg" alt="Vineet Author Photo">
+
+    <div class="about-panel">
+      <h2>Vineet</h2>
+      <p>
+        Vineet is an Indian author and the creator of The Phoenix Whispers,
+        a growing space for books, real stories, emotional writing and voices that deserve to be heard.
+      </p>
+
+      <div class="badges">
+        <span>📍 India</span>
+        <span>✍ Author</span>
+        <span>📖 Storyteller</span>
+        <span>🦅 Founder</span>
+        <span>❤️ Story Collector</span>
+      </div>
+
+      <a class="btn light" href="books.html">Explore Books</a>
+      <a class="btn" href="submit-story.html">Share Your Story</a>
     </div>
-    <div>
-      <p>The Phoenix Whispers is a storytelling space created for readers, writers and dreamers. It is not just a website — it is a growing home for emotional stories, real interviews, books, poems and creative works.</p>
-      <p>The phoenix represents rising again. Whispers represent the soft voices that are often ignored. Together, The Phoenix Whispers stands for stories that survive, heal and inspire.</p>
+  </div>
+</section>
+
+<section class="section reveal">
+  <div class="section-title">
+    <span>My Story</span>
+    <h2>Why I Write</h2>
+  </div>
+
+  <div class="about-text">
+    <p>
+      I never wanted to write only to publish books. I wanted to create a place where stories could breathe,
+      where forgotten voices could be heard, and where people could discover that they are not alone.
+    </p>
+
+    <p>
+      My writing often moves around loneliness, memory, healing, silence, hope and the quiet strength people carry inside them.
+      Some stories are loud. Some stories survive only as whispers. The Phoenix Whispers exists for both.
+    </p>
+  </div>
+</section>
+
+<section class="section reveal">
+  <div class="section-title">
+    <span>The Mission</span>
+    <h2>Why The Phoenix Whispers Exists</h2>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Books</h3>
+      <p>To publish emotional and meaningful books that stay with readers beyond the last page.</p>
+    </div>
+
+    <div class="card">
+      <h3>Stories</h3>
+      <p>To collect real stories, interviews, memories and voices that often remain unseen.</p>
+    </div>
+
+    <div class="card">
+      <h3>Community</h3>
+      <p>To build a safe creative space where people can read, write, share and feel heard.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section reveal">
+  <div class="section-title">
+    <span>Projects</span>
+    <h2>Current & Future Works</h2>
+  </div>
+
+  <div class="story-grid">
+    <div class="story-card">
+      <div class="story-image">📖</div>
+      <div class="story-content">
+        <small>Published Book</small>
+        <h3>The Person Who Kept Walking</h3>
+        <p>An emotional fiction book about loneliness, healing and the courage to continue.</p>
+        <a class="read-link" href="the-person-who-kept-walking.html">Book Page →</a>
+      </div>
+    </div>
+
+    <div class="story-card">
+      <div class="story-image">🕯️</div>
+      <div class="story-content">
+        <small>Real Stories Project</small>
+        <h3>In The Shadows They Live</h3>
+        <p>A future collection of real voices from ordinary people carrying extraordinary truths.</p>
+        <a class="read-link" href="stories.html">Explore →</a>
+      </div>
+    </div>
+
+    <div class="story-card">
+      <div class="story-image">🔥</div>
+      <div class="story-content">
+        <small>Upcoming Book</small>
+        <h3>Ashwatthama Ki Diary</h3>
+        <p>A Hindi psychological thriller where mythology, obsession and reality begin to blur.</p>
+        <a class="read-link" href="books.html">Coming Soon →</a>
+      </div>
     </div>
   </div>
 </section>
 
 <section class="quote reveal">
-  <p>“Some voices do not need to be loud. They only need a place where someone listens.”</p>
+  <p>The Phoenix Whispers is more than an author website. It is a home for stories that deserve to rise.</p>
 </section>
 
 <section class="section reveal">
-  <div class="wrap">
-    <span class="label">Mission & Vision</span>
-    <h2>What we want to build</h2>
-
-    <div class="card-grid">
-      <div class="card"><h3>Our Mission</h3><p>To collect and share powerful stories that make people feel less alone.</p></div>
-      <div class="card"><h3>Our Vision</h3><p>To become a creative home for books, interviews, poems, essays and real voices.</p></div>
-      <div class="card"><h3>Our Promise</h3><p>To treat every story with honesty, respect and emotional truth.</p></div>
-    </div>
+  <div class="section-title">
+    <span>Connect</span>
+    <h2>Reach The Phoenix</h2>
   </div>
-</section>
 
-<section class="section founder reveal">
-  <div class="wrap founder-box">
-    <div class="founder-photo">🦅</div>
-
-    <div>
-      <span class="label">Founder</span>
-      <h2>About Vineet</h2>
-      <p>Vineet is an Indian author and creator who explores loneliness, memory, healing, identity and hope through books and stories.</p>
-      <p>His works include <b>The Person Who Kept Walking</b>, and upcoming creative projects like <b>In The Shadows They Live</b> and <b>Ashwatthama Ki Diary</b>.</p>
-      <a class="btn light" href="books.html">Explore Books</a>
+  <div class="grid">
+    <div class="card">
+      <h3>Email</h3>
+      <p>For collaborations, submissions, feedback or questions.</p>
+      <a class="btn light" href="mailto:thephoenixwhispers.official@gmail.com">Email Us</a>
     </div>
-  </div>
-</section>
 
-<section class="section reveal">
-  <div class="wrap">
-    <span class="label">Journey</span>
-    <h2>The Phoenix Timeline</h2>
-
-    <div class="timeline">
-      <div class="timeline-item">
-        <h3>The First Book</h3>
-        <p>The Person Who Kept Walking became the first published work connected to this creative world.</p>
-      </div>
-
-      <div class="timeline-item">
-        <h3>The Phoenix Whispers</h3>
-        <p>A website began as an author page and started growing into a storytelling platform.</p>
-      </div>
-
-      <div class="timeline-item">
-        <h3>Upcoming Projects</h3>
-        <p>Real stories, Hindi thrillers, interviews and community voices will become the next chapters.</p>
-      </div>
+    <div class="card">
+      <h3>Amazon</h3>
+      <p>Visit the Amazon Author Page and explore available books.</p>
+      <a class="btn" href="https://www.amazon.in/vineet-yadav/e/B0H4G7GKY2/" target="_blank">Author Page</a>
     </div>
-  </div>
-</section>
 
-<section class="section reveal">
-  <div class="wrap">
-    <span class="label">Future</span>
-    <h2>What is coming next</h2>
-
-    <div class="card-grid">
-      <div class="card"><h3>Stories</h3><p>Real stories, fictional pieces, poems and interviews will be added regularly.</p></div>
-      <div class="card"><h3>Books</h3><p>All upcoming books and projects will have their own pages and updates.</p></div>
-      <div class="card"><h3>Community</h3><p>A future space where readers and writers can share their voices.</p></div>
+    <div class="card">
+      <h3>Newsletter</h3>
+      <p>Join The Phoenix Letter for updates about books and stories.</p>
+      <a class="btn light" href="newsletter.html">Sign Up</a>
     </div>
   </div>
 </section>
@@ -251,16 +224,18 @@ gtag('config', 'G-BS8Z15XE0P');
 <footer class="footer">
   <div class="footer-grid">
     <div>
-      <div class="footer-logo">
+      <a href="index.html" class="footer-logo">
         <img src="logo.png" alt="The Phoenix Whispers Logo">
         <h3>The Phoenix Whispers</h3>
-      </div>
+      </a>
+
       <p>A home for stories, books, interviews and creative voices that deserve to be heard.</p>
+
       <div class="social">
-        <a href="#">Instagram</a>
-        <a href="#">YouTube</a>
-        <a href="#">X</a>
-        <a href="https://www.amazon.in/vineet-yadav/e/B0H4G7GKY2/" target="_blank">Amazon</a>
+        <a href="#" target="_blank">Instagram</a>
+        <a href="#" target="_blank">YouTube</a>
+        <a href="https://www.amazon.in/vineet-yadav/e/B0H4G7GKY2/" target="_blank">Amazon Author</a>
+        <a href="mailto:thephoenixwhispers.official@gmail.com">Email</a>
       </div>
     </div>
 
@@ -268,6 +243,7 @@ gtag('config', 'G-BS8Z15XE0P');
       <h3>Explore</h3>
       <a href="stories.html">Stories</a>
       <a href="books.html">Books</a>
+      <a href="submit-story.html">Share Your Story</a>
       <a href="blog.html">Blog</a>
       <a href="newsletter.html">Newsletter</a>
     </div>
@@ -277,7 +253,7 @@ gtag('config', 'G-BS8Z15XE0P');
       <a href="donate.html">Donate</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
-      <a href="index.html#submit">Submit Story</a>
+      <a href="mailto:thephoenixwhispers.official@gmail.com">Email Us</a>
     </div>
   </div>
 
@@ -286,7 +262,6 @@ gtag('config', 'G-BS8Z15XE0P');
   </div>
 </footer>
 
-  <script src="script.js"></script>
-
+<script src="script.js"></script>
 </body>
 </html>

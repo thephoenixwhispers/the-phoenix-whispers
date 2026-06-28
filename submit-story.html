@@ -1,1 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Share Your Story | The Phoenix Whispers</title>
+
+<meta name="description" content="Share your story with The Phoenix Whispers. Submit text, audio, video or document links with privacy and publishing permissions.">
+<meta name="author" content="Vineet Yadav">
+
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#8b0000">
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<style>
+.story-submit-wrap{
+  max-width:1120px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:1fr 1.3fr;
+  gap:35px;
+  align-items:start;
+}
+
+.story-trust,
+.story-form-box{
+  background:#111;
+  border:1px solid #292929;
+  padding:34px;
+  box-shadow:0 0 35px rgba(139,0,0,.16);
+}
+
+.story-trust h3,
+.story-form-box h3{
+  color:#ffcc33;
+  font-size:32px;
+  margin-top:0;
+}
+
+.story-trust p{
+  color:#cfc7b8;
+  line-height:1.7;
+}
+
+.trust-list{
+  display:grid;
+  gap:14px;
+  margin-top:22px;
+}
+
+.trust-item{
+  background:#0b0b0b;
+  border:1px solid #333;
+  padding:14px;
+  color:#d8cbb8;
+  line-height:1.6;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.story-form-box input,
+.story-form-box select,
+.story-form-box textarea{
+  width:100%;
+  padding:14px;
+  margin:8px 0;
+  background:#080808;
+  border:1px solid #333;
+  color:white;
+  font-family:Georgia,serif;
+}
+
+.story-form-box textarea{
+  min-height:170px;
+}
+
+.story-form-box input:focus,
+.story-form-box select:focus,
+.story-form-box textarea:focus{
+  outline:none;
+  border-color:#8b0000;
+}
+
+.form-section-title{
+  color:#ffcc33;
+  font-size:22px;
+  margin:28px 0 10px;
+  border-top:1px solid #292929;
+  padding-top:22px;
+}
+
+.checkbox-group{
+  display:grid;
+  gap:10px;
+  margin:12px 0;
+}
+
+.checkbox-group label{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  color:#d8cbb8;
+  line-height:1.5;
+}
+
+.checkbox-group input{
+  width:auto;
+  margin-top:4px;
+}
+
+#storyStatus{
+  margin-top:15px;
+  color:#ffcc33;
+  line-height:1.6;
+}
+
+.small-note{
+  color:#aaa;
+  font-size:14px;
+  line-height:1.6;
+}
+
+.guidelines{
+  background:#100808;
+  border-top:1px solid #331010;
+  border-bottom:1px solid #331010;
+}
+
+@media(max-width:800px){
+  .story-submit-wrap,
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="loader">
+  <img src="logo.png" alt="Phoenix Logo">
+  <h2>The Phoenix Whispers</h2>
+  <p>Rise • Transform • Inspire</p>
+</div>
+
+<div id="progress-bar"></div>
+<button id="backToTop">↑</button>
+
+<header>
+  <div class="top">
+    <a class="brand" href="index.html">
+      <img src="logo.png" alt="The Phoenix Whispers Logo">
+      <h1>The Phoenix Whispers</h1>
+    </a>
+
+    <div class="top-links">
+      <a href="newsletter.html">Sign Up</a>
+      <a href="books.html">Shop</a>
+      <a href="blog.html">Blog</a>
+      <a href="donate.html">Donate</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="stories.html">Stories</a>
+    <a href="books.html">Books</a>
+    <a href="submit-story.html">Share Your Story</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="embers" id="embers"></div>
+  <div class="hero-content">
+    <span class="hero-label">Share Your Story</span>
+    <h2>Your Voice Deserves A Place</h2>
+    <p>Send your story as text, audio, video, PDF or a private file link — with your permissions clearly respected.</p>
+  </div>
+</section>
+
+  <section class="section reveal">
+  <div class="section-title">
+    <span>Submission Portal</span>
+    <h2>Send Your Story Safely</h2>
+  </div>
+
+  <div class="story-submit-wrap">
+    <div class="story-trust">
+      <h3>Before You Share</h3>
+
+      <p>
+        Your story may be personal, emotional, painful, hopeful, simple or extraordinary.
+        You decide how much you want to share and how it may be used.
+      </p>
+
+      <div class="trust-list">
+        <div class="trust-item">🔒 You can stay anonymous.</div>
+        <div class="trust-item">📝 You can choose how much editing is allowed.</div>
+        <div class="trust-item">🎙 You can share text, audio, video or document links.</div>
+        <div class="trust-item">📚 You decide whether it may be used on the website, social media or books.</div>
+        <div class="trust-item">✉️ Your submission goes only to The Phoenix Whispers inbox first.</div>
+      </div>
+
+      <p class="small-note">
+        For audio/video/PDF files, upload your file to Google Drive, Dropbox, OneDrive or YouTube Unlisted,
+        then paste the private link in the form.
+      </p>
+    </div>
+
+    <div class="story-form-box">
+      <h3>Story Submission Form</h3>
+
+      <form id="storyForm">
+
+        <input type="hidden" name="title" value="Story Submission">
+        <input type="hidden" name="time" id="storyTime">
+
+        <div class="form-section-title">Basic Details</div>
+
+        <div class="form-grid">
+          <input type="text" name="name" placeholder="Your Name" required>
+          <input type="email" name="email" placeholder="Your Email" required>
+        </div>
+
+        <div class="form-grid">
+          <input type="text" name="age" placeholder="Age (optional)">
+          <input type="text" name="location" placeholder="City / Country">
+        </div>
+
+        <div class="form-section-title">Story Details</div>
+
+        <select name="story_type" required>
+          <option value="">Select Story Type</option>
+          <option>Personal Story</option>
+          <option>Childhood</option>
+          <option>Family</option>
+          <option>Love</option>
+          <option>Education</option>
+          <option>Career</option>
+          <option>Society</option>
+          <option>Hope / Healing</option>
+          <option>Other</option>
+        </select>
+
+        <textarea name="story_text" placeholder="Write your story here. You can write in English, Hindi or Hinglish." required></textarea>
+
+        <input type="url" name="file_link" placeholder="Audio / Video / PDF / Google Drive link (optional)">
+
+        <p class="small-note">
+          Make sure your file link is accessible. If it is private, allow access to the email inbox used by The Phoenix Whispers.
+        </p>
+
+                <div class="form-section-title">Privacy & Publishing Choice</div>
+
+        <select name="anonymous" required>
+          <option value="">Do you want to stay anonymous?</option>
+          <option>Yes, keep me anonymous</option>
+          <option>No, you may show my identity</option>
+          <option>Contact me before deciding</option>
+        </select>
+
+        <select name="public_name" required>
+          <option value="">How should your name appear?</option>
+          <option>Use my real name</option>
+          <option>Use only my first name</option>
+          <option>Use a changed name</option>
+          <option>Do not show my name</option>
+        </select>
+
+        <div class="form-section-title">Permission Options</div>
+
+        <div class="checkbox-group">
+          <label>
+            <input type="checkbox" name="social_permission" value="Allowed">
+            You may use my story on The Phoenix Whispers website and social media.
+          </label>
+
+          <label>
+            <input type="checkbox" name="book_permission" value="Allowed">
+            You may consider my story for future books or story collections.
+          </label>
+
+          <label>
+            <input type="checkbox" name="contact_permission" value="Allowed">
+            You may contact me before publishing or editing my story.
+          </label>
+
+          <label>
+            <input type="checkbox" name="translation_permission" value="Allowed">
+            You may translate my story while keeping the meaning respectful.
+          </label>
+        </div>
+
+        <select name="editing_permission" required>
+          <option value="">How much editing is allowed?</option>
+          <option>Publish exactly as I submitted it</option>
+          <option>You may fix grammar only</option>
+          <option>You may edit for clarity while preserving meaning</option>
+          <option>Contact me before any major changes</option>
+        </select>
+
+        <div class="form-section-title">Confirmation</div>
+
+        <div class="checkbox-group">
+          <label>
+            <input type="checkbox" name="copyright_confirm" value="Confirmed" required>
+            I confirm that this story is mine or I have permission to share it.
+          </label>
+
+          <label>
+            <input type="checkbox" name="publish_confirm" value="Confirmed" required>
+            I understand that submission does not guarantee publication.
+          </label>
+
+          <label>
+            <input type="checkbox" name="sensitive_confirm" value="Confirmed" required>
+            I understand that The Phoenix Whispers may choose not to publish content that is unsafe, hateful, private, or harmful.
+          </label>
+        </div>
+
+        <button class="btn light" type="submit" id="storyBtn">Submit Story</button>
+      </form>
+
+      <p id="storyStatus"></p>
+    </div>
+  </div>
+</section>
+
+  <section class="section guidelines reveal">
+
+  <div class="section-title">
+    <span>Guidelines</span>
+    <h2>Before You Submit</h2>
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <h3>Be Honest</h3>
+      <p>
+        Share only stories that are true to your experience or that you have permission to tell.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Respect Privacy</h3>
+      <p>
+        Avoid sharing someone else's private information without their consent.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Take Your Time</h3>
+      <p>
+        You don't need to write perfectly. Your voice matters more than perfect grammar.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+
+<footer class="footer">
+
+<div class="footer-grid">
+
+<div>
+
+<div class="footer-logo">
+<img src="logo.png" alt="Logo">
+<h3>The Phoenix Whispers</h3>
+</div>
+
+<p>
+A home for stories that deserve to be heard.
+</p>
+
+<div class="social">
+<a href="#">Instagram</a>
+<a href="#">YouTube</a>
+<a href="#">Amazon</a>
+</div>
+
+</div>
+
+<div class="footer-links">
+<h3>Explore</h3>
+<a href="index.html">Home</a>
+<a href="stories.html">Stories</a>
+<a href="books.html">Books</a>
+<a href="submit-story.html">Share Your Story</a>
+</div>
+
+<div class="footer-links">
+<h3>Support</h3>
+<a href="contact.html">Contact</a>
+<a href="newsletter.html">Newsletter</a>
+<a href="donate.html">Donate</a>
+</div>
+
+</div>
+
+<div class="copyright">
+© The Phoenix Whispers · Every Story Matters.
+</div>
+
+</footer>
+
+<script src="script.js"></script>
+
+<script>
+
+emailjs.init("vdm5Fy-wHMW6rKjE_");
+
+const storyForm=document.getElementById("storyForm");
+const storyBtn=document.getElementById("storyBtn");
+const storyStatus=document.getElementById("storyStatus");
+
+document.getElementById("storyTime").value=
+new Date().toLocaleString();
+
+storyForm.addEventListener("submit",function(e){
+
+e.preventDefault();
+
+storyBtn.disabled=true;
+storyBtn.innerText="Submitting...";
+
+emailjs.sendForm(
+"service_77o3juk",
+"template_kznthhn",
+this
+).then(function(){
+
+storyStatus.innerHTML=
+"✅ Thank you. Your story has been safely received by <strong>The Phoenix Whispers</strong>.";
+
+storyForm.reset();
+
+storyBtn.disabled=false;
+storyBtn.innerText="Submit Story";
+
+document.getElementById("storyTime").value=
+new Date().toLocaleString();
+
+},function(error){
+
+storyStatus.innerHTML=
+"❌ Something went wrong. Please try again later.";
+
+storyBtn.disabled=false;
+storyBtn.innerText="Submit Story";
+
+console.log(error);
+
+});
+
+});
+
+</script>
+
+</body>
+</html>

@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Contact | The Phoenix Whispers</title>
-
-<meta name="description" content="Contact The Phoenix Whispers for story submissions, book questions, collaborations and creative messages.">
+<meta name="description" content="Contact The Phoenix Whispers for story submissions, collaborations, book questions and creative messages.">
 <meta name="author" content="Vineet Yadav">
 
 <link rel="icon" type="image/png" href="logo.png">
@@ -14,39 +13,47 @@
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#8b0000">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BS8Z15XE0P"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-BS8Z15XE0P');
+</script>
+
 <style>
-.contact-live{
-  max-width:1000px;
+.contact-wrap{
+  max-width:1050px;
   margin:auto;
   display:grid;
   grid-template-columns:1fr 1.2fr;
   gap:35px;
 }
 
-.contact-panel,
-.contact-form-box{
+.contact-box{
   background:#111;
   border:1px solid #292929;
-  padding:32px;
+  padding:34px;
+  box-shadow:0 0 35px rgba(139,0,0,.16);
 }
 
-.contact-panel h3,
-.contact-form-box h3{
+.contact-box h3{
   color:#ffcc33;
   font-size:30px;
   margin-top:0;
 }
 
-.contact-panel p{
+.contact-box p{
   color:#cfc7b8;
   line-height:1.7;
 }
 
-.contact-form-box input,
-.contact-form-box textarea{
+.contact-box input,
+.contact-box textarea{
   width:100%;
   padding:15px;
   margin:10px 0;
@@ -56,14 +63,35 @@
   font-family:Georgia,serif;
 }
 
-.contact-form-box textarea{
-  min-height:150px;
+.contact-box textarea{
+  min-height:160px;
 }
 
-.contact-form-box input:focus,
-.contact-form-box textarea:focus{
+.contact-box input:focus,
+.contact-box textarea:focus{
   outline:none;
   border-color:#8b0000;
+}
+
+.contact-methods{
+  display:grid;
+  gap:14px;
+  margin-top:22px;
+}
+
+.contact-method{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  background:#0b0b0b;
+  border:1px solid #333;
+  padding:14px;
+  color:#d8cbb8;
+}
+
+.contact-method i{
+  color:#ffcc33;
+  font-size:22px;
 }
 
 #contactStatus{
@@ -73,21 +101,9 @@
 }
 
 @media(max-width:800px){
-  .contact-live{
-    grid-template-columns:1fr;
-  }
+  .contact-wrap{grid-template-columns:1fr}
 }
 </style>
-  <!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-BS8Z15XE0P"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-
-gtag('config', 'G-BS8Z15XE0P');
-</script>
-  
 </head>
 
 <body>
@@ -103,36 +119,31 @@ gtag('config', 'G-BS8Z15XE0P');
 
 <header>
   <div class="top">
-    <div class="brand">
+    <a href="index.html" class="brand">
       <img src="logo.png" alt="The Phoenix Whispers Logo">
       <h1>The Phoenix Whispers</h1>
-    </div>
+    </a>
 
     <div class="top-links">
-      <a href="newsletter.html">Sign Up</a>
-      <a href="books.html">Shop</a>
-      <a href="blog.html">Blog</a>
-      <a href="donate.html">Donate</a>
+      <a href="index.html">Home</a>
+      <a href="stories.html">Stories</a>
+      <a href="books.html">Books</a>
+      <a href="submit-story.html">Share Story</a>
       <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
     </div>
   </div>
-
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="stories.html">Stories</a>
-    <a href="books.html">Books</a>
-    <a href="blog.html">Blog</a>
-    <a href="about.html">About</a>
-  </nav>
 </header>
 
 <section class="hero">
   <div class="embers" id="embers"></div>
+
   <div class="hero-content">
     <span class="hero-label">Contact</span>
     <h2>Reach The Phoenix</h2>
     <p>For stories, books, collaborations, support or creative conversations.</p>
+
+    <a class="btn light" href="submit-story.html">Share Your Story</a>
+    <a class="btn" href="newsletter.html">Join Newsletter</a>
   </div>
 </section>
 
@@ -142,16 +153,40 @@ gtag('config', 'G-BS8Z15XE0P');
     <h2>Send A Message</h2>
   </div>
 
-  <div class="contact-live">
-    <div class="contact-panel">
-      <h3>Before You Write</h3>
-      <p>You can use this page for story submissions, book questions, collaboration ideas, feedback, reviews, or support-related messages.</p>
-      <p>Your message will be delivered directly to The Phoenix Whispers official email inbox.</p>
-      <a class="btn light" href="stories.html">Explore Stories</a>
-      <a class="btn" href="books.html">Explore Books</a>
+  <div class="contact-wrap">
+
+    <div class="contact-box">
+      <h3>Connect With Us</h3>
+
+      <p>
+        Use this page for story submissions, book questions, collaborations,
+        feedback, interviews or support-related messages.
+      </p>
+
+      <div class="contact-methods">
+        <a class="contact-method" href="mailto:thephoenixwhispers.official@gmail.com">
+          <i class="fa-solid fa-envelope"></i>
+          <span>thephoenixwhispers.official@gmail.com</span>
+        </a>
+
+        <a class="contact-method" href="https://www.instagram.com/thephoenixwhispers/" target="_blank">
+          <i class="fa-brands fa-instagram"></i>
+          <span>Instagram</span>
+        </a>
+
+        <a class="contact-method" href="https://youtube.com/@thephoenixwhispers" target="_blank">
+          <i class="fa-brands fa-youtube"></i>
+          <span>YouTube</span>
+        </a>
+
+        <a class="contact-method" href="https://www.amazon.in/vineet-yadav/e/B0H4G7GKY2/" target="_blank">
+          <i class="fa-brands fa-amazon"></i>
+          <span>Amazon Author Page</span>
+        </a>
+      </div>
     </div>
 
-    <div class="contact-form-box">
+    <div class="contact-box">
       <h3>Contact Form</h3>
 
       <form id="contactForm">
@@ -165,29 +200,33 @@ gtag('config', 'G-BS8Z15XE0P');
 
       <p id="contactStatus"></p>
     </div>
+
   </div>
 </section>
 
 <section class="section reveal">
   <div class="section-title">
-    <span>Quick Links</span>
-    <h2>What Are You Looking For?</h2>
+    <span>Quick Paths</span>
+    <h2>What Do You Need?</h2>
   </div>
 
   <div class="grid">
     <div class="card">
-      <h3>Submit Story</h3>
-      <p>Send real stories, poems, interviews or creative writing ideas.</p>
+      <h3>Submit A Story</h3>
+      <p>Share your story with privacy, publishing and editing choices.</p>
+      <a class="read-link" href="submit-story.html">Submit →</a>
     </div>
 
     <div class="card">
       <h3>Book Questions</h3>
       <p>Ask about books, reviews, collaborations or author-related queries.</p>
+      <a class="read-link" href="books.html">Books →</a>
     </div>
 
     <div class="card">
-      <h3>Support</h3>
-      <p>Support The Phoenix Whispers through books, sharing or donations.</p>
+      <h3>Updates</h3>
+      <p>Join the newsletter for new stories, books and creative notes.</p>
+      <a class="read-link" href="newsletter.html">Newsletter →</a>
     </div>
   </div>
 </section>
@@ -195,17 +234,18 @@ gtag('config', 'G-BS8Z15XE0P');
 <footer class="footer">
   <div class="footer-grid">
     <div>
-      <div class="footer-logo">
+      <a href="index.html" class="footer-logo">
         <img src="logo.png" alt="The Phoenix Whispers Logo">
         <h3>The Phoenix Whispers</h3>
-      </div>
+      </a>
+
       <p>A home for stories, books, interviews and creative voices that deserve to be heard.</p>
 
-      <div class="social">
-        <a href="#">Instagram</a>
-        <a href="#">YouTube</a>
-        <a href="#">X</a>
-        <a href="https://www.amazon.in/vineet-yadav/e/B0H4G7GKY2/" target="_blank">Amazon</a>
+      <div class="social social-icons">
+        <a href="https://www.instagram.com/thephoenixwhispers/" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://youtube.com/@thephoenixwhispers" target="_blank" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        <a href="https://www.amazon.in/vineet-yadav/e/B0H4G7GKY2/" target="_blank" aria-label="Amazon"><i class="fa-brands fa-amazon"></i></a>
+        <a href="mailto:thephoenixwhispers.official@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
       </div>
     </div>
 
@@ -214,19 +254,19 @@ gtag('config', 'G-BS8Z15XE0P');
       <a href="index.html">Home</a>
       <a href="stories.html">Stories</a>
       <a href="books.html">Books</a>
+      <a href="submit-story.html">Share Your Story</a>
       <a href="blog.html">Blog</a>
     </div>
 
     <div class="footer-links">
-      <h3>Support</h3>
-      <a href="donate.html">Donate</a>
-      <a href="newsletter.html">Newsletter</a>
+      <h3>Connect</h3>
       <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
+      <a href="newsletter.html">Newsletter</a>
+      <a href="donate.html">Support</a>
     </div>
   </div>
 
-  <div class="copyright">© The Phoenix Whispers · Rise. Transform. Inspire.</div>
+  <div class="copyright">© 2026 The Phoenix Whispers · Created by Vineet</div>
 </footer>
 
 <script src="script.js"></script>

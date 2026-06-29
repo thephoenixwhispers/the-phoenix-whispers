@@ -138,6 +138,7 @@ async function loadStories(){
         <p>${shortText(story.excerpt || story.content)}</p>
 
         <a class="admin-btn dark" href="../story-reader.html?id=${story.id}" target="_blank">Preview</a>
+        <a class="admin-btn" href="edit-story.html?id=${story.id}">Edit</a>
         <button class="admin-btn red" data-id="${story.id}">Delete</button>
       `;
 

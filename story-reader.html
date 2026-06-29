@@ -3,199 +3,242 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Story Reader | The Phoenix Whispers</title>
+
+<title>Read Story | The Phoenix Whispers</title>
+<meta name="description" content="Read a published story from The Phoenix Whispers.">
+
 <link rel="icon" type="image/png" href="logo.png">
-<link rel="apple-touch-icon" href="logo.png">
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#8b0000">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
 <style>
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:#070707;color:#f5f0e6;font-family:Georgia,serif}
-body.light-mode{background:#f6efe2;color:#190f0a}
-a{text-decoration:none;color:inherit}
+.reader-wrap{
+  max-width:880px;
+  margin:auto;
+  padding:80px 8%;
+}
 
-#progress-bar{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,#8b0000,#ff2a00,#ffcc33);z-index:10000}
+.reader-card{
+  background:#111;
+  border:1px solid #292929;
+  padding:38px;
+  box-shadow:0 0 35px rgba(139,0,0,.18);
+}
 
-header{background:rgba(5,5,5,.94);border-bottom:1px solid #222;padding:14px 7%;position:sticky;top:0;z-index:1000;backdrop-filter:blur(10px)}
-body.light-mode header{background:#fff7ea;border-bottom:1px solid #d8c3a0}
-.top{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:12px}
-.brand img{width:58px;height:58px;object-fit:contain}
-.brand h1{margin:0;font-size:24px;letter-spacing:3px;background:linear-gradient(90deg,#9b0000,#ff2a00,#ffcc33);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.nav{display:flex;gap:18px;flex-wrap:wrap;font-weight:bold;font-size:14px}
-.nav a:hover{color:#ffcc33}
+.reader-card h1{
+  color:#ffcc33;
+  font-size:46px;
+  margin:10px 0 12px;
+}
 
-.reader-hero{padding:70px 8% 45px;text-align:center;background:radial-gradient(circle at center,rgba(255,80,0,.18),transparent 35%),linear-gradient(rgba(0,0,0,.1),rgba(0,0,0,.88)),url("hero-logo.png");background-size:contain;background-repeat:no-repeat;background-position:center}
-body.light-mode .reader-hero{background:#fff2dc}
-.reader-hero span{color:#ffcc33;letter-spacing:4px;text-transform:uppercase;font-size:13px}
-.reader-hero h2{font-size:52px;max-width:900px;margin:16px auto;text-shadow:0 4px 18px black}
-body.light-mode .reader-hero h2{text-shadow:none;color:#4a170e}
-.reader-hero p{color:#d8cbb8;font-size:18px}
-body.light-mode .reader-hero p{color:#5d4633}
+.reader-meta{
+  color:#caa24a;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  font-size:13px;
+  margin-bottom:25px;
+}
 
-.toolbar{position:sticky;top:88px;z-index:900;background:#101010;border-top:1px solid #222;border-bottom:1px solid #222;padding:12px 8%;display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
-body.light-mode .toolbar{background:#fff7ea;border-color:#d8c3a0}
-.toolbar button,.toolbar a{border:1px solid #333;background:#080808;color:#f5f0e6;padding:9px 14px;cursor:pointer;font-family:Georgia,serif}
-body.light-mode .toolbar button,body.light-mode .toolbar a{background:#fff;color:#29170e;border-color:#d8c3a0}
-.toolbar button:hover,.toolbar a:hover{background:#8b0000;color:white}
+.reader-img{
+  width:100%;
+  max-height:430px;
+  object-fit:cover;
+  margin:20px 0;
+  border:1px solid #333;
+}
 
-.reader-wrap{max-width:850px;margin:auto;padding:70px 24px}
-.story-meta{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;color:#caa24a;font-size:14px;margin-bottom:35px}
-.article{font-size:21px;line-height:1.9}
-.article p{margin:0 0 28px}
-.article .dropcap::first-letter{font-size:70px;float:left;line-height:.8;color:#ffcc33;padding-right:10px}
-.article blockquote{border-left:3px solid #8b0000;margin:45px 0;padding:18px 24px;background:#120808;color:#f5f0e6;font-size:27px;font-style:italic;line-height:1.5}
-body.light-mode .article blockquote{background:#fff7ea;color:#3b2114}
+.reader-content{
+  color:#e6d8c4;
+  line-height:1.9;
+  font-size:20px;
+  white-space:pre-line;
+}
 
-.reader-actions{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:60px;border-top:1px solid #333;padding-top:30px}
-body.light-mode .reader-actions{border-color:#d8c3a0}
-.btn{display:inline-block;padding:13px 26px;background:#9b0000;color:white;font-weight:bold}
-.btn.light{background:#f0d27a;color:#170b05}
+.reader-actions{
+  margin-top:30px;
+}
 
-footer{text-align:center;border-top:1px solid #222;padding:35px;color:#aaa}
-body.light-mode footer{border-color:#d8c3a0;color:#5d4633}
+.media-link{
+  display:inline-block;
+  margin:15px 0;
+  color:#ffcc33;
+  font-weight:bold;
+}
 
 @media(max-width:800px){
-  .brand h1{font-size:18px}
-  .reader-hero h2{font-size:34px}
-  .toolbar{top:0}
-  .article{font-size:18px}
+  .reader-card{padding:24px}
+  .reader-card h1{font-size:34px}
+  .reader-content{font-size:18px}
 }
 </style>
-  <link rel="stylesheet" href="style.css">
-
-  <!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-BS8Z15XE0P"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-
-gtag('config', 'G-BS8Z15XE0P');
-</script>
-  
 </head>
 
 <body>
 
+<div id="loader">
+  <img src="logo.png" alt="Phoenix Logo">
+  <h2>The Phoenix Whispers</h2>
+  <p>Rise • Transform • Inspire</p>
+</div>
+
 <div id="progress-bar"></div>
+<button id="backToTop">↑</button>
 
 <header>
   <div class="top">
-    <div class="brand">
+    <a href="index.html" class="brand">
       <img src="logo.png" alt="The Phoenix Whispers Logo">
       <h1>The Phoenix Whispers</h1>
-    </div>
+    </a>
 
-    <div class="nav">
+    <div class="top-links">
       <a href="index.html">Home</a>
       <a href="stories.html">Stories</a>
       <a href="books.html">Books</a>
-      <a href="blog.html">Blog</a>
+      <a href="submit-story.html">Share Story</a>
+      <a href="about.html">About</a>
     </div>
   </div>
 </header>
 
-<section class="reader-hero">
-  <span>Reader Mode</span>
-  <h2>The Story That Kept Walking</h2>
-  <p>By Vineet · Emotional Fiction · <span id="readingTime">Calculating...</span></p>
-</section>
-
-<div class="toolbar">
-  <button onclick="decreaseFont()">A−</button>
-  <button onclick="increaseFont()">A+</button>
-  <button onclick="toggleTheme()">Light / Dark</button>
-  <button onclick="copyLink()">Copy Link</button>
-  <a href="stories.html">Back to Stories</a>
-</div>
-
 <main class="reader-wrap">
-  <div class="story-meta">
-    <span>Reading Experience</span>
-    <span>Progress Enabled</span>
-    <span>Font Controls</span>
-  </div>
-
-  <article class="article" id="article">
-    <p class="dropcap">
-      Some stories do not begin with a storm. Some begin with a quiet step — the kind nobody hears,
-      the kind nobody claps for, the kind a person takes when they have no idea where life is taking them.
-    </p>
-
-    <p>
-      This page is a premium reading sample placeholder. Later, we will replace this with an actual
-      excerpt from <b>The Person Who Kept Walking</b> or with any real story you want to publish on
-      The Phoenix Whispers.
-    </p>
-
-    <blockquote>
-      “Some journeys are not about reaching somewhere. They are about surviving the road.”
-    </blockquote>
-
-    <p>
-      The goal of this page is simple: to make reading feel beautiful. No distractions. No heavy layout.
-      Just text, silence, breathing space, and the feeling that the reader has entered a world made for stories.
-    </p>
-
-    <p>
-      Future stories can use this same reader format. We can create separate pages for interviews, poems,
-      real-life stories, letters, essays, and book excerpts.
-    </p>
-
-    <p>
-      This page includes a scroll progress bar, reading time, font size controls, light and dark reading mode,
-      and a copy-link button. Later, we can add share buttons, next story, previous story, bookmarks and likes.
-    </p>
-  </article>
-
-  <div class="reader-actions">
-    <a class="btn light" href="the-person-who-kept-walking.html">Book Page</a>
-    <a class="btn" href="stories.html">Next Story</a>
+  <div class="reader-card" id="readerBox">
+    <p>Loading story...</p>
   </div>
 </main>
 
-<footer>
-  © The Phoenix Whispers · Rise. Transform. Inspire.
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <a href="index.html" class="footer-logo">
+        <img src="logo.png" alt="The Phoenix Whispers Logo">
+        <h3>The Phoenix Whispers</h3>
+      </a>
+
+      <p>A home for stories, books, interviews and creative voices that deserve to be heard.</p>
+
+      <div class="social social-icons">
+        <a href="https://www.instagram.com/thephoenixwhispers/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://youtube.com/@thephoenixwhispers" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+        <a href="https://www.amazon.in/vineet-yadav/e/B0H4G7GKY2/" target="_blank"><i class="fa-brands fa-amazon"></i></a>
+        <a href="mailto:thephoenixwhispers.official@gmail.com"><i class="fa-solid fa-envelope"></i></a>
+      </div>
+    </div>
+
+    <div class="footer-links">
+      <h3>Explore</h3>
+      <a href="index.html">Home</a>
+      <a href="stories.html">Stories</a>
+      <a href="books.html">Books</a>
+      <a href="submit-story.html">Share Your Story</a>
+    </div>
+
+    <div class="footer-links">
+      <h3>Connect</h3>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="donate.html">Support</a>
+    </div>
+  </div>
+
+  <div class="copyright">© 2026 The Phoenix Whispers · Created by Vineet</div>
 </footer>
 
-<script>
-const progressBar=document.getElementById("progress-bar");
+<script src="script.js"></script>
 
-window.addEventListener("scroll",()=>{
-  const scrollTop=document.documentElement.scrollTop||document.body.scrollTop;
-  const scrollHeight=document.documentElement.scrollHeight-document.documentElement.clientHeight;
-  progressBar.style.width=(scrollTop/scrollHeight)*100+"%";
-});
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-let fontSize=21;
-function increaseFont(){
-  fontSize+=2;
-  document.getElementById("article").style.fontSize=fontSize+"px";
+const firebaseConfig = {
+  apiKey: "AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
+  authDomain: "the-phoenix-whispers.firebaseapp.com",
+  projectId: "the-phoenix-whispers",
+  storageBucket: "the-phoenix-whispers.firebasestorage.app",
+  messagingSenderId: "60939247464",
+  appId: "1:60939247464:web:a6b49dc2cf938a939480dd",
+  measurementId: "G-JRTWDK1XVF"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const readerBox = document.getElementById("readerBox");
+const params = new URLSearchParams(window.location.search);
+const storyId = params.get("id");
+
+function escapeHTML(str){
+  return String(str || "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;");
 }
-function decreaseFont(){
-  if(fontSize>15){
-    fontSize-=2;
-    document.getElementById("article").style.fontSize=fontSize+"px";
+
+async function loadStory(){
+  if(!storyId){
+    readerBox.innerHTML = `
+      <h1>Story Not Found</h1>
+      <p class="reader-content">No story ID was provided.</p>
+      <a class="btn light" href="stories.html">Back To Stories</a>
+    `;
+    return;
+  }
+
+  try{
+    const ref = doc(db, "stories", storyId);
+    const snap = await getDoc(ref);
+
+    if(!snap.exists()){
+      readerBox.innerHTML = `
+        <h1>Story Not Found</h1>
+        <p class="reader-content">This story does not exist or may have been removed.</p>
+        <a class="btn light" href="stories.html">Back To Stories</a>
+      `;
+      return;
+    }
+
+    const story = snap.data();
+
+    if(story.status !== "published"){
+      readerBox.innerHTML = `
+        <h1>Unavailable</h1>
+        <p class="reader-content">This story is not published yet.</p>
+        <a class="btn light" href="stories.html">Back To Stories</a>
+      `;
+      return;
+    }
+
+    document.title = story.title + " | The Phoenix Whispers";
+
+    readerBox.innerHTML = `
+      <span class="hero-label">${escapeHTML(story.category || "Story")}</span>
+      <h1>${escapeHTML(story.title)}</h1>
+      <div class="reader-meta">By ${escapeHTML(story.authorName || "Anonymous")}</div>
+
+      ${story.imageUrl ? `<img class="reader-img" src="${escapeHTML(story.imageUrl)}" alt="${escapeHTML(story.title)}">` : ""}
+
+      ${story.mediaUrl ? `<a class="media-link" href="${escapeHTML(story.mediaUrl)}" target="_blank"><i class="fa-solid fa-link"></i> Open attached media</a>` : ""}
+
+      <div class="reader-content">${escapeHTML(story.content)}</div>
+
+      <div class="reader-actions">
+        <a class="btn light" href="stories.html">Back To Stories</a>
+        <a class="btn" href="submit-story.html">Share Your Story</a>
+      </div>
+    `;
+
+  }catch(error){
+    console.error(error);
+    readerBox.innerHTML = `
+      <h1>Error</h1>
+      <p class="reader-content">Could not load this story. Check Firebase rules.</p>
+      <a class="btn light" href="stories.html">Back To Stories</a>
+    `;
   }
 }
-function toggleTheme(){
-  document.body.classList.toggle("light-mode");
-}
-function copyLink(){
-  navigator.clipboard.writeText(window.location.href);
-  alert("Story link copied!");
-}
 
-function calculateReadingTime(){
-  const text=document.getElementById("article").innerText;
-  const words=text.trim().split(/\s+/).length;
-  const minutes=Math.max(1,Math.ceil(words/200));
-  document.getElementById("readingTime").innerText=minutes+" min read";
-}
-calculateReadingTime();
+loadStory();
 </script>
-<script src="script.js"></script>
+
 </body>
 </html>

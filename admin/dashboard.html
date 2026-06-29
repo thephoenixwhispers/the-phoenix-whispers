@@ -13,9 +13,17 @@
 .admin-shell{min-height:100vh;background:#070707;color:#f5f0e6}
 .admin-header{display:flex;justify-content:space-between;align-items:center;padding:18px 7%;border-bottom:1px solid #222;background:#050505}
 .admin-brand{display:flex;align-items:center;gap:12px}
-.admin-brand img{width:52px}
-.admin-brand h1{color:#ffcc33;font-size:24px;margin:0}
-.admin-main{padding:45px 7%}
+.admin-brand img{width:54px}
+.admin-brand h1{color:#ffcc33;font-size:25px;margin:0}
+.admin-main{padding:45px 7%;max-width:1200px;margin:auto}
+.admin-hero{background:radial-gradient(circle at right,rgba(139,0,0,.35),#111 65%);border:1px solid #331010;padding:32px;margin-bottom:28px}
+.admin-hero h2{font-size:42px;color:#ffcc33;margin:8px 0}
+.admin-hero p{color:#cfc7b8;line-height:1.7}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px;margin:28px 0}
+.stat-box{background:#111;border:1px solid #292929;padding:24px}
+.stat-box i{color:#ffcc33;font-size:27px}
+.stat-box h3{font-size:34px;color:#ffcc33;margin:12px 0 4px}
+.stat-box p{color:#aaa;margin:0}
 .admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px}
 .admin-card{background:#111;border:1px solid #292929;padding:28px;transition:.3s}
 .admin-card:hover{transform:translateY(-6px);border-color:#8b0000;box-shadow:0 15px 35px rgba(139,0,0,.25)}
@@ -24,7 +32,8 @@
 .admin-card p{color:#cfc7b8;line-height:1.6}
 .admin-btn{padding:12px 20px;background:#f0d27a;color:#170b05;border:none;font-weight:bold;cursor:pointer;font-family:Georgia,serif}
 .admin-btn.red{background:#9b0000;color:white}
-.admin-status{color:#cfc7b8;margin-top:10px}
+.admin-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+#userStatus,#statusLine{color:#cfc7b8}
 </style>
 </head>
 
@@ -32,10 +41,10 @@
 <div class="admin-shell">
 
 <header class="admin-header">
-  <div class="admin-brand">
+  <a class="admin-brand" href="dashboard.html">
     <img src="../logo.png" alt="Logo">
-    <h1>Phoenix Admin</h1>
-  </div>
+    <h1>Phoenix Studio</h1>
+  </a>
 
   <button class="admin-btn red" id="logoutBtn">
     <i class="fa-solid fa-right-from-bracket"></i> Logout
@@ -43,53 +52,92 @@
 </header>
 
 <main class="admin-main">
-  <span class="hero-label">Dashboard</span>
-  <h2 style="font-size:42px;color:#ffcc33;margin:10px 0;">Welcome To Phoenix Studio</h2>
-  <p class="admin-status" id="userStatus">Checking login...</p>
 
-  <div class="admin-grid" style="margin-top:35px;">
+  <section class="admin-hero">
+    <span class="hero-label">Dashboard</span>
+    <h2>Welcome To Phoenix Studio</h2>
+    <p id="userStatus">Checking login...</p>
+
+    <div class="admin-actions">
+      <a class="admin-btn" href="new-story.html"><i class="fa-solid fa-plus"></i> New Story</a>
+      <a class="admin-btn" href="submissions.html"><i class="fa-solid fa-inbox"></i> Review Submissions</a>
+      <a class="admin-btn" href="../stories.html" target="_blank"><i class="fa-solid fa-eye"></i> View Website</a>
+    </div>
+  </section>
+
+  <section class="stats-grid">
+    <div class="stat-box">
+      <i class="fa-solid fa-book-open"></i>
+      <h3 id="totalStories">0</h3>
+      <p>Total Stories</p>
+    </div>
+
+    <div class="stat-box">
+      <i class="fa-solid fa-paper-plane"></i>
+      <h3 id="publishedStories">0</h3>
+      <p>Published Stories</p>
+    </div>
+
+    <div class="stat-box">
+      <i class="fa-solid fa-clock"></i>
+      <h3 id="pendingSubmissions">0</h3>
+      <p>Pending Submissions</p>
+    </div>
+
+    <div class="stat-box">
+      <i class="fa-solid fa-feather"></i>
+      <h3 id="draftStories">0</h3>
+      <p>Draft Stories</p>
+    </div>
+  </section>
+
+  <p id="statusLine">Loading dashboard data...</p>
+
+  <section class="admin-grid" style="margin-top:28px;">
     <a class="admin-card" href="new-story.html">
       <i class="fa-solid fa-pen-nib"></i>
       <h3>New Story</h3>
-      <p>Publish a story with title, category, author choice and media links.</p>
+      <p>Publish a new story directly to the website.</p>
     </a>
 
     <a class="admin-card" href="manage-stories.html">
-  <i class="fa-solid fa-list-check"></i>
-  <h3>Manage Stories</h3>
-  <p>View, preview and delete published or draft stories.</p>
-</a>
+      <i class="fa-solid fa-list-check"></i>
+      <h3>Manage Stories</h3>
+      <p>Preview, edit, delete and manage published or draft stories.</p>
+    </a>
+
+    <a class="admin-card" href="submissions.html">
+      <i class="fa-solid fa-inbox"></i>
+      <h3>Story Submissions</h3>
+      <p>Review stories submitted by readers and approve them for publishing.</p>
+    </a>
 
     <a class="admin-card" href="#">
       <i class="fa-solid fa-book"></i>
       <h3>Books</h3>
-      <p>Manage books, links, descriptions and upcoming projects.</p>
+      <p>Coming soon: manage books, links and upcoming projects.</p>
     </a>
 
     <a class="admin-card" href="#">
       <i class="fa-solid fa-newspaper"></i>
       <h3>Blog</h3>
-      <p>Create author notes, behind-the-scenes posts and updates.</p>
+      <p>Coming soon: create author notes and website updates.</p>
     </a>
-    <a class="admin-card" href="submissions.html">
-  <i class="fa-solid fa-inbox"></i>
-  <h3>Story Submissions</h3>
-  <p>Review, approve, publish or delete stories submitted by readers.</p>
-</a>
 
     <a class="admin-card" href="#">
-      <i class="fa-solid fa-inbox"></i>
-      <h3>Messages</h3>
-      <p>Future contact and story submissions inbox.</p>
+      <i class="fa-solid fa-gear"></i>
+      <h3>Settings</h3>
+      <p>Coming soon: manage featured content and website settings.</p>
     </a>
-  </div>
-</main>
+  </section>
 
+</main>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
@@ -105,18 +153,17 @@ const ADMIN_EMAIL = "thephoenixwhispers.official@gmail.com";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-
-const userStatus = document.getElementById("userStatus");
-const logoutBtn = document.getElementById("logoutBtn");
+const db = getFirestore(app);
 
 await setPersistence(auth, browserLocalPersistence);
 
+const userStatus = document.getElementById("userStatus");
+const logoutBtn = document.getElementById("logoutBtn");
+const statusLine = document.getElementById("statusLine");
+
 onAuthStateChanged(auth, async (user) => {
   if(!user){
-    userStatus.innerText = "Not logged in. Redirecting...";
-    setTimeout(() => {
-      window.location.href = "index.html";
-    }, 1200);
+    window.location.href = "index.html";
     return;
   }
 
@@ -127,12 +174,47 @@ onAuthStateChanged(auth, async (user) => {
   }
 
   userStatus.innerText = "Logged in as " + user.email;
+  loadDashboard();
 });
 
 logoutBtn.addEventListener("click", async () => {
   await signOut(auth);
   window.location.href = "index.html";
 });
+
+async function loadDashboard(){
+  try{
+    const storiesSnap = await getDocs(collection(db, "stories"));
+    const submissionsSnap = await getDocs(collection(db, "submissions"));
+
+    let total = 0;
+    let published = 0;
+    let drafts = 0;
+
+    storiesSnap.forEach(doc => {
+      total++;
+      const data = doc.data();
+      if(data.status === "published") published++;
+      if(data.status === "draft") drafts++;
+    });
+
+    let pending = 0;
+    submissionsSnap.forEach(doc => {
+      const data = doc.data();
+      if(data.status === "pending") pending++;
+    });
+
+    document.getElementById("totalStories").innerText = total;
+    document.getElementById("publishedStories").innerText = published;
+    document.getElementById("draftStories").innerText = drafts;
+    document.getElementById("pendingSubmissions").innerText = pending;
+
+    statusLine.innerText = "Dashboard updated successfully.";
+  }catch(error){
+    console.error(error);
+    statusLine.innerText = "Could not load dashboard data.";
+  }
+}
 </script>
 
 </body>

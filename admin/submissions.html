@@ -1,1 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Submissions | Phoenix Admin</title>
 
+<link rel="icon" href="../logo.png">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+.admin-shell{min-height:100vh;background:#070707;color:#f5f0e6}
+.admin-header{display:flex;justify-content:space-between;align-items:center;padding:18px 7%;border-bottom:1px solid #222;background:#050505}
+.admin-brand{display:flex;align-items:center;gap:12px}
+.admin-brand img{width:52px}.admin-brand h1{color:#ffcc33;font-size:24px;margin:0}
+.admin-main{padding:45px 7%;max-width:1100px;margin:auto}
+.item{background:#111;border:1px solid #292929;padding:22px;margin:16px 0}
+.item h3{color:#ffcc33;margin:0 0 8px}.item p{color:#cfc7b8}
+.admin-btn{padding:10px 16px;background:#f0d27a;color:#170b05;border:none;font-weight:bold;cursor:pointer;font-family:Georgia,serif;margin:6px}
+.admin-btn.red{background:#9b0000;color:white}.admin-btn.dark{background:#222;color:#f5f0e6}
+</style>
+</head>
+
+<body>
+<div class="admin-shell">
+<header class="admin-header">
+<a class="admin-brand" href="dashboard.html"><img src="../logo.png"><h1>Phoenix Admin</h1></a>
+<button class="admin-btn red" id="logoutBtn">Logout</button>
+</header>
+
+<main class="admin-main">
+<span class="hero-label">Inbox</span>
+<h2 style="font-size:42px;color:#ffcc33;margin:10px 0;">Story Submissions</h2>
+<a class="admin-btn dark" href="dashboard.html">Dashboard</a>
+<p id="status" style="color:#ffcc33;margin-top:20px;">Loading submissions...</p>
+<div id="list"></div>
+</main>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getAuth,onAuthStateChanged,signOut,setPersistence,browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+import { getFirestore,collection,getDocs,deleteDoc,doc,addDoc,serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
+  authDomain: "the-phoenix-whispers.firebaseapp.com",
+  projectId: "the-phoenix-whispers",
+  storageBucket: "the-phoenix-whispers.firebasestorage.app",
+  messagingSenderId: "60939247464",
+  appId: "1:60939247464:web:a6b49dc2cf938a939480dd",
+  measurementId: "G-JRTWDK1XVF"
+};
+
+const ADMIN_EMAIL="thephoenixwhispers.official@gmail.com";
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+await setPersistence(auth,browserLocalPersistence);
+
+const statusBox=document.getElementById("status");
+const list=document.getElementById("list");
+const logoutBtn=document.getElementById("logoutBtn");
+
+onAuthStateChanged(auth,async user=>{
+if(!user){window.location.href="index.html";return}
+if(user.email!==ADMIN_EMAIL){await signOut(auth);window.location.href="index.html";return}
+loadSubmissions();
+});
+
+logoutBtn.addEventListener("click",async()=>{await signOut(auth);window.location.href="index.html"});
+
+function shortText(t,l=160){return t&&t.length>l?t.substring(0,l)+"...":(t||"")}
+
+function makeSlug(text){
+return text.toLowerCase().trim().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+}
+
+async function loadSubmissions(){
+try{
+const snap=await getDocs(collection(db,"submissions"));
+let items=[];
+snap.forEach(d=>items.push({id:d.id,...d.data()}));
+
+items.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+statusBox.innerText=items.length+" submissions found.";
+list.innerHTML="";
+
+if(items.length===0){
+list.innerHTML='<div class="item"><p>No submissions yet.</p></div>';
+return;
+}
+
+items.forEach(s=>{
+const div=document.createElement("div");
+div.className="item";
+div.innerHTML=`
+<h3>${s.title||"Untitled"}</h3>
+<p><strong>By:</strong> ${s.name||"Unknown"} · <strong>Email:</strong> ${s.email||"No email"} · <strong>Status:</strong> ${s.status||"pending"}</p>
+<p><strong>Choice:</strong> ${s.authorChoice||"Not set"} · <strong>Category:</strong> ${s.category||"Story"}</p>
+<p>${shortText(s.excerpt||s.content)}</p>
+<button class="admin-btn" data-publish="${s.id}">Approve & Publish</button>
+<button class="admin-btn red" data-delete="${s.id}">Delete</button>
+`;
+list.appendChild(div);
+});
+
+document.querySelectorAll("[data-delete]").forEach(btn=>{
+btn.addEventListener("click",async()=>{
+if(!confirm("Delete this submission?"))return;
+await deleteDoc(doc(db,"submissions",btn.dataset.delete));
+loadSubmissions();
+});
+});
+
+document.querySelectorAll("[data-publish]").forEach(btn=>{
+btn.addEventListener("click",async()=>{
+const sub=items.find(x=>x.id===btn.dataset.publish);
+if(!sub)return;
+
+const authorName =
+sub.authorChoice==="Keep me anonymous" ? "Anonymous" : (sub.name||"Anonymous");
+
+await addDoc(collection(db,"stories"),{
+title:sub.title||"Untitled",
+slug:makeSlug(sub.title||"untitled"),
+authorName,
+category:sub.category||"Story",
+status:"published",
+imageUrl:"",
+mediaUrl:sub.mediaUrl||"",
+excerpt:sub.excerpt||"",
+content:sub.content||"",
+createdBy:"submission",
+createdAt:serverTimestamp(),
+updatedAt:serverTimestamp()
+});
+
+await deleteDoc(doc(db,"submissions",sub.id));
+alert("Published successfully.");
+loadSubmissions();
+});
+});
+
+}catch(e){
+console.error(e);
+statusBox.innerText="Failed to load submissions.";
+}
+}
+</script>
+</body>
+</html>

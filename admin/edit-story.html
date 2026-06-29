@@ -1,1 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Story | Phoenix Admin</title>
 
+<link rel="icon" href="../logo.png">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+.admin-shell{min-height:100vh;background:#070707;color:#f5f0e6}
+.admin-header{display:flex;justify-content:space-between;align-items:center;padding:18px 7%;border-bottom:1px solid #222;background:#050505}
+.admin-brand{display:flex;align-items:center;gap:12px}
+.admin-brand img{width:52px}
+.admin-brand h1{color:#ffcc33;font-size:24px;margin:0}
+.admin-main{padding:45px 7%;max-width:1050px;margin:auto}
+.story-form{background:#111;border:1px solid #292929;padding:32px;box-shadow:0 0 35px rgba(139,0,0,.18)}
+.story-form input,.story-form select,.story-form textarea{
+width:100%;padding:14px;margin:9px 0;background:#080808;border:1px solid #333;color:white;font-family:Georgia,serif
+}
+.story-form textarea{min-height:220px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.admin-btn{padding:13px 22px;background:#f0d27a;color:#170b05;border:none;font-weight:bold;cursor:pointer;font-family:Georgia,serif;margin-top:12px}
+.admin-btn.red{background:#9b0000;color:white}
+#status{color:#ffcc33;margin-top:16px}
+@media(max-width:800px){.form-grid{grid-template-columns:1fr}}
+</style>
+</head>
+
+<body>
+<div class="admin-shell">
+
+<header class="admin-header">
+  <a class="admin-brand" href="dashboard.html">
+    <img src="../logo.png" alt="Logo">
+    <h1>Phoenix Admin</h1>
+  </a>
+
+  <button class="admin-btn red" id="logoutBtn">Logout</button>
+</header>
+
+<main class="admin-main">
+  <span class="hero-label">Edit</span>
+  <h2 style="font-size:42px;color:#ffcc33;margin:10px 0;">Edit Story</h2>
+
+  <form class="story-form" id="storyForm">
+    <div class="form-grid">
+      <input type="text" id="title" placeholder="Story Title" required>
+      <input type="text" id="authorName" placeholder="Author Name / Anonymous" required>
+    </div>
+
+    <div class="form-grid">
+      <select id="category" required>
+        <option>Hope</option>
+        <option>Family</option>
+        <option>Education</option>
+        <option>Society</option>
+        <option>Love</option>
+        <option>Anonymous</option>
+        <option>Personal</option>
+        <option>Other</option>
+      </select>
+
+      <select id="statusField" required>
+        <option value="published">Published</option>
+        <option value="draft">Draft</option>
+      </select>
+    </div>
+
+    <input type="url" id="imageUrl" placeholder="Cover Image URL / Google Drive image link optional">
+    <input type="url" id="mediaUrl" placeholder="Audio / Video / PDF / Drive link optional">
+
+    <textarea id="excerpt" placeholder="Short excerpt / preview" required></textarea>
+    <textarea id="content" placeholder="Full story text" required></textarea>
+
+    <button class="admin-btn" type="submit" id="saveBtn">
+      <i class="fa-solid fa-floppy-disk"></i> Save Changes
+    </button>
+
+    <a class="admin-btn red" href="manage-stories.html">Cancel</a>
+
+    <p id="status">Loading story...</p>
+  </form>
+</main>
+
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+import { getFirestore, doc, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
+  authDomain: "the-phoenix-whispers.firebaseapp.com",
+  projectId: "the-phoenix-whispers",
+  storageBucket: "the-phoenix-whispers.firebasestorage.app",
+  messagingSenderId: "60939247464",
+  appId: "1:60939247464:web:a6b49dc2cf938a939480dd",
+  measurementId: "G-JRTWDK1XVF"
+};
+
+const ADMIN_EMAIL = "thephoenixwhispers.official@gmail.com";
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+await setPersistence(auth, browserLocalPersistence);
+
+const params = new URLSearchParams(window.location.search);
+const storyId = params.get("id");
+
+const storyForm = document.getElementById("storyForm");
+const saveBtn = document.getElementById("saveBtn");
+const statusBox = document.getElementById("status");
+const logoutBtn = document.getElementById("logoutBtn");
+
+onAuthStateChanged(auth, async (user) => {
+  if(!user){
+    window.location.href = "index.html";
+    return;
+  }
+
+  if(user.email !== ADMIN_EMAIL){
+    await signOut(auth);
+    window.location.href = "index.html";
+    return;
+  }
+
+  loadStory();
+});
+
+logoutBtn.addEventListener("click", async () => {
+  await signOut(auth);
+  window.location.href = "index.html";
+});
+
+function makeSlug(text){
+  return text.toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g,"-")
+    .replace(/^-+|-+$/g,"");
+}
+
+async function loadStory(){
+  if(!storyId){
+    statusBox.innerText = "No story ID found.";
+    return;
+  }
+
+  const ref = doc(db, "stories", storyId);
+  const snap = await getDoc(ref);
+
+  if(!snap.exists()){
+    statusBox.innerText = "Story not found.";
+    return;
+  }
+
+  const story = snap.data();
+
+  document.getElementById("title").value = story.title || "";
+  document.getElementById("authorName").value = story.authorName || "";
+  document.getElementById("category").value = story.category || "Other";
+  document.getElementById("statusField").value = story.status || "draft";
+  document.getElementById("imageUrl").value = story.imageUrl || "";
+  document.getElementById("mediaUrl").value = story.mediaUrl || "";
+  document.getElementById("excerpt").value = story.excerpt || "";
+  document.getElementById("content").value = story.content || "";
+
+  statusBox.innerText = "Story loaded.";
+}
+
+storyForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  if(!storyId){
+    statusBox.innerText = "No story ID found.";
+    return;
+  }
+
+  saveBtn.disabled = true;
+  saveBtn.innerText = "Saving...";
+
+  const title = document.getElementById("title").value.trim();
+
+  try{
+    await updateDoc(doc(db, "stories", storyId), {
+      title,
+      slug: makeSlug(title),
+      authorName: document.getElementById("authorName").value.trim(),
+      category: document.getElementById("category").value,
+      status: document.getElementById("statusField").value,
+      imageUrl: document.getElementById("imageUrl").value.trim(),
+      mediaUrl: document.getElementById("mediaUrl").value.trim(),
+      excerpt: document.getElementById("excerpt").value.trim(),
+      content: document.getElementById("content").value.trim(),
+      updatedAt: serverTimestamp()
+    });
+
+    statusBox.innerText = "✅ Story updated successfully.";
+  }catch(error){
+    console.error(error);
+    statusBox.innerText = "❌ Failed to update story.";
+  }
+
+  saveBtn.disabled = false;
+  saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Save Changes';
+});
+</script>
+
+</body>
+</html>

@@ -5,23 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Stories | The Phoenix Whispers</title>
-<meta name="description" content="Read emotional stories, real voices, anonymous experiences and creative projects from The Phoenix Whispers.">
+<meta name="description" content="Read stories published on The Phoenix Whispers.">
 <meta name="author" content="Vineet Yadav">
 
 <link rel="icon" type="image/png" href="logo.png">
-<link rel="apple-touch-icon" href="logo.png">
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#8b0000">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-BS8Z15XE0P"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-BS8Z15XE0P');
-</script>
 </head>
 
 <body>
@@ -43,9 +32,9 @@ gtag('config', 'G-BS8Z15XE0P');
     </a>
 
     <div class="top-links">
-      <a href="submit-story.html">Share Story</a>
+      <a href="index.html">Home</a>
       <a href="books.html">Books</a>
-      <a href="blog.html">Blog</a>
+      <a href="submit-story.html">Share Story</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
     </div>
@@ -57,48 +46,22 @@ gtag('config', 'G-BS8Z15XE0P');
   <div class="hero-content">
     <span class="hero-label">Story Library</span>
     <h2>Stories That Deserve To Be Heard</h2>
-    <p>Read real voices, fictional pieces, anonymous memories and creative projects from The Phoenix Whispers.</p>
+    <p>Published stories from The Phoenix Whispers.</p>
 
     <a class="btn light" href="submit-story.html">Share Your Story</a>
-    <a class="btn" href="story-reader.html">Reader Mode</a>
+    <a class="btn" href="admin/">Admin</a>
   </div>
 </section>
 
 <section class="section reveal">
   <div class="section-title">
-    <span>Featured</span>
-    <h2>Featured Stories & Projects</h2>
+    <span>Live Library</span>
+    <h2>Published Stories</h2>
   </div>
 
-  <div class="story-grid">
-    <div class="story-card">
-      <div class="story-image">📖</div>
-      <div class="story-content">
-        <small>Book · Public</small>
-        <h3>The Person Who Kept Walking</h3>
-        <p>An emotional journey through loneliness, memory, healing and the courage to keep moving forward.</p>
-        <a class="read-link" href="the-person-who-kept-walking.html">Read More →</a>
-      </div>
-    </div>
-
-    <div class="story-card">
-      <div class="story-image">🕯️</div>
-      <div class="story-content">
-        <small>Real Stories Project</small>
-        <h3>In The Shadows They Live</h3>
-        <p>A future collection of real voices from ordinary people carrying extraordinary truths.</p>
-        <a class="read-link" href="submit-story.html">Share Yours →</a>
-      </div>
-    </div>
-
-    <div class="story-card">
-      <div class="story-image">🙈</div>
-      <div class="story-content">
-        <small>Anonymous Stories</small>
-        <h3>Stories Without Names</h3>
-        <p>A safe space for people who want their voice heard without revealing their identity.</p>
-        <a class="read-link" href="submit-story.html">Submit Anonymous →</a>
-      </div>
+  <div class="story-grid" id="liveStories">
+    <div class="card">
+      <p>Loading stories...</p>
     </div>
   </div>
 </section>
@@ -119,27 +82,10 @@ gtag('config', 'G-BS8Z15XE0P');
   </div>
 </section>
 
-<section class="section reveal">
-  <div class="section-title">
-    <span>Coming Soon</span>
-    <h2>Community Stories</h2>
-  </div>
-
-  <div class="card">
-    <p>
-      Soon, approved stories submitted by readers will appear here.
-      Some may be public, some anonymous, and some may become part of future Phoenix projects.
-    </p>
-
-    <a class="btn light" href="submit-story.html">Share Your Story</a>
-    <a class="btn" href="newsletter.html">Join Newsletter</a>
-  </div>
-</section>
-
 <section class="newsletter reveal">
   <div>
-    <h2>Want To Know When New Stories Arrive?</h2>
-    <p>Join The Phoenix Letter for updates about new stories, books and creative projects.</p>
+    <h2>Want New Stories?</h2>
+    <p>Join The Phoenix Letter for updates about stories, books and creative projects.</p>
   </div>
 
   <form action="newsletter.html">
@@ -159,10 +105,10 @@ gtag('config', 'G-BS8Z15XE0P');
       <p>A home for stories, books, interviews and creative voices that deserve to be heard.</p>
 
       <div class="social social-icons">
-        <a href="https://www.instagram.com/thephoenixwhispers/" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        <a href="https://youtube.com/@thephoenixwhispers" target="_blank" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-        <a href="https://www.amazon.in/vineet-yadav/e/B0H4G7GKY2/" target="_blank" aria-label="Amazon"><i class="fa-brands fa-amazon"></i></a>
-        <a href="mailto:thephoenixwhispers.official@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+        <a href="https://www.instagram.com/thephoenixwhispers/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://youtube.com/@thephoenixwhispers" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+        <a href="https://www.amazon.in/vineet-yadav/e/B0H4G7GKY2/" target="_blank"><i class="fa-brands fa-amazon"></i></a>
+        <a href="mailto:thephoenixwhispers.official@gmail.com"><i class="fa-solid fa-envelope"></i></a>
       </div>
     </div>
 
@@ -186,5 +132,99 @@ gtag('config', 'G-BS8Z15XE0P');
 </footer>
 
 <script src="script.js"></script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
+  authDomain: "the-phoenix-whispers.firebaseapp.com",
+  projectId: "the-phoenix-whispers",
+  storageBucket: "the-phoenix-whispers.firebasestorage.app",
+  messagingSenderId: "60939247464",
+  appId: "1:60939247464:web:a6b49dc2cf938a939480dd",
+  measurementId: "G-JRTWDK1XVF"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const liveStories = document.getElementById("liveStories");
+
+function shortText(text, limit = 170){
+  if(!text) return "";
+  return text.length > limit ? text.substring(0, limit) + "..." : text;
+}
+
+async function loadStories(){
+  try{
+    const snapshot = await getDocs(collection(db, "stories"));
+
+    let stories = [];
+
+    snapshot.forEach(doc => {
+      stories.push({
+        id: doc.id,
+        ...doc.data()
+      });
+    });
+
+    stories = stories
+      .filter(story => story.status === "published")
+      .sort((a,b) => {
+        const aTime = a.createdAt?.seconds || 0;
+        const bTime = b.createdAt?.seconds || 0;
+        return bTime - aTime;
+      });
+
+    if(stories.length === 0){
+      liveStories.innerHTML = `
+        <div class="card">
+          <h3>No stories yet</h3>
+          <p>Published stories will appear here soon.</p>
+          <a class="btn light" href="submit-story.html">Share Your Story</a>
+        </div>
+      `;
+      return;
+    }
+
+    liveStories.innerHTML = "";
+
+    stories.forEach(story => {
+      const card = document.createElement("div");
+      card.className = "story-card";
+
+      const imagePart = story.imageUrl
+        ? `<img src="${story.imageUrl}" alt="${story.title}" style="width:100%;height:185px;object-fit:cover;">`
+        : `<div class="story-image">📖</div>`;
+
+      card.innerHTML = `
+        ${imagePart}
+        <div class="story-content">
+          <small>${story.category || "Story"} · ${story.authorName || "Anonymous"}</small>
+          <h3>${story.title}</h3>
+          <p>${shortText(story.excerpt || story.content)}</p>
+          <a class="read-link" href="story-reader.html?id=${story.id}">Read Story →</a>
+        </div>
+      `;
+
+      liveStories.appendChild(card);
+    });
+
+  }catch(error){
+    console.error(error);
+    liveStories.innerHTML = `
+      <div class="card">
+        <h3>Stories could not load</h3>
+        <p>Check Firebase rules or internet connection.</p>
+      </div>
+    `;
+  }
+}
+
+loadStories();
+</script>
+
 </body>
 </html>

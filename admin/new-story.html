@@ -88,16 +88,16 @@ width:100%;padding:14px;margin:9px 0;background:#080808;border:1px solid #333;co
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "PASTE_YOUR_API_KEY_HERE",
+  apiKey: "AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
   authDomain: "the-phoenix-whispers.firebaseapp.com",
   projectId: "the-phoenix-whispers",
   storageBucket: "the-phoenix-whispers.firebasestorage.app",
   messagingSenderId: "60939247464",
-  appId: "PASTE_YOUR_APP_ID_HERE",
+  appId: "1:60939247464:web:a6b49dc2cf938a939480dd",
   measurementId: "G-JRTWDK1XVF"
 };
 
@@ -107,6 +107,8 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+await setPersistence(auth, browserLocalPersistence);
+
 const storyForm = document.getElementById("storyForm");
 const publishBtn = document.getElementById("publishBtn");
 const statusBox = document.getElementById("status");
@@ -114,19 +116,23 @@ const logoutBtn = document.getElementById("logoutBtn");
 
 let currentUser = null;
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
   if(!user){
-    window.location.href = "index.html";
+    statusBox.innerText = "Checking login...";
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 1200);
     return;
   }
 
   if(user.email !== ADMIN_EMAIL){
-    signOut(auth);
+    await signOut(auth);
     window.location.href = "index.html";
     return;
   }
 
   currentUser = user;
+  statusBox.innerText = "Logged in as " + user.email;
 });
 
 logoutBtn.addEventListener("click", async () => {
@@ -145,7 +151,7 @@ storyForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   if(!currentUser){
-    statusBox.innerText = "Login required.";
+    statusBox.innerText = "Login still loading. Wait 2 seconds and try again.";
     return;
   }
 

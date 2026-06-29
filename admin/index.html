@@ -1,1 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phoenix Admin | The Phoenix Whispers</title>
 
+<link rel="icon" href="../logo.png">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+.admin-page{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:radial-gradient(circle at center,rgba(139,0,0,.35),#050505 65%);
+  padding:30px;
+}
+.admin-box{
+  max-width:440px;
+  width:100%;
+  background:#111;
+  border:1px solid #331010;
+  padding:36px;
+  text-align:center;
+  box-shadow:0 0 45px rgba(139,0,0,.35);
+}
+.admin-box img{
+  width:92px;
+  filter:drop-shadow(0 0 20px rgba(255,80,0,.7));
+}
+.admin-box h1{
+  color:#ffcc33;
+  margin:18px 0 8px;
+}
+.admin-box p{
+  color:#cfc7b8;
+  line-height:1.7;
+}
+.admin-btn{
+  width:100%;
+  margin-top:18px;
+  padding:14px;
+  background:#f0d27a;
+  color:#170b05;
+  border:none;
+  font-weight:bold;
+  cursor:pointer;
+  font-family:Georgia,serif;
+}
+.admin-btn:hover{
+  background:#ffdf7e;
+}
+#adminStatus{
+  margin-top:16px;
+  color:#ffcc33;
+}
+</style>
+</head>
+
+<body>
+
+<div class="admin-page">
+  <div class="admin-box">
+    <img src="../logo.png" alt="Phoenix Logo">
+    <h1>Phoenix Admin</h1>
+    <p>Login to manage stories, books, posts and future Phoenix content.</p>
+
+    <button class="admin-btn" id="loginBtn">
+      <i class="fa-brands fa-google"></i> Login with Google
+    </button>
+
+    <p id="adminStatus"></p>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
+  authDomain: "the-phoenix-whispers.firebaseapp.com",
+  projectId: "the-phoenix-whispers",
+  storageBucket: "the-phoenix-whispers.firebasestorage.app",
+  messagingSenderId: "60939247464",
+  appId: "1:60939247464:web:a6b49dc2cf938a939480dd",
+  measurementId: "G-JRTWDK1XVF"
+};
+
+const ADMIN_EMAIL = "thephoenixwhispers.official@gmail.com";
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+const loginBtn = document.getElementById("loginBtn");
+const statusBox = document.getElementById("adminStatus");
+
+loginBtn.addEventListener("click", async () => {
+  try {
+    statusBox.innerText = "Opening Google login...";
+
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    if(user.email !== ADMIN_EMAIL){
+      await signOut(auth);
+      statusBox.innerText = "Access denied. This admin panel is private.";
+      return;
+    }
+
+    statusBox.innerText = "Login successful. Dashboard coming next.";
+    setTimeout(() => {
+      window.location.href = "dashboard.html";
+    }, 900);
+
+  } catch(error) {
+    console.error(error);
+    statusBox.innerText = "Login failed. Check Firebase settings.";
+  }
+});
+</script>
+
+</body>
+</html>

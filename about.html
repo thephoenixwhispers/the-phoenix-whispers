@@ -3,37 +3,200 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About | The Phoenix Whispers</title>
 
-<meta name="description" content="About Vineet, author and creator of The Phoenix Whispers.">
+<title>About Vineet | The Phoenix Whispers</title>
+
+<meta name="description" content="Meet Vineet Yadav, author and creator of The Phoenix Whispers, a home for books, real stories and creative voices.">
+<meta name="keywords" content="Vineet Yadav, The Phoenix Whispers, author, books, stories, The Person Who Kept Walking">
 <meta name="author" content="Vineet Yadav">
+
+<meta property="og:title" content="About Vineet | The Phoenix Whispers">
+<meta property="og:description" content="The journey, mission and vision behind The Phoenix Whispers.">
+<meta property="og:image" content="https://thephoenixwhispers.github.io/the-phoenix-whispers/author-photo.png">
+<meta property="og:type" content="profile">
+<meta property="og:url" content="https://thephoenixwhispers.github.io/the-phoenix-whispers/about.html">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="About Vineet | The Phoenix Whispers">
+<meta name="twitter:description" content="Author, storyteller and creator of The Phoenix Whispers.">
+<meta name="twitter:image" content="https://thephoenixwhispers.github.io/the-phoenix-whispers/author-photo.png">
 
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="apple-touch-icon" href="logo.png">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#8b0000">
 <link rel="stylesheet" href="style.css">
-
-<style>
-.about-hero-box{max-width:1050px;margin:auto;display:grid;grid-template-columns:260px 1fr;gap:35px;align-items:center}
-.author-photo{width:230px;height:230px;border-radius:50%;object-fit:cover;border:2px solid #8b0000;box-shadow:0 0 35px rgba(139,0,0,.45)}
-.about-panel{background:#111;border:1px solid #292929;padding:32px}
-.about-panel h2{color:#ffcc33;font-size:42px;margin:0 0 10px}
-.about-panel p{color:#d8cbb8;line-height:1.8}
-.badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-.badges span{border:1px solid #333;padding:8px 12px;color:#caa24a;font-size:13px}
-.about-text{max-width:900px;margin:auto;background:#111;border:1px solid #292929;padding:35px}
-.about-text p{color:#d8cbb8;line-height:1.9;font-size:18px}
-@media(max-width:800px){.about-hero-box{grid-template-columns:1fr;text-align:center}.author-photo{margin:auto;width:190px;height:190px}}
-</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-BS8Z15XE0P"></script>
 <script>
-window.dataLayer=window.dataLayer||[];
+window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());
-gtag('config','G-BS8Z15XE0P');
+gtag('js', new Date());
+gtag('config', 'G-BS8Z15XE0P');
 </script>
+
+<style>
+.about-hero{
+  min-height:680px;
+  background:
+    radial-gradient(circle at 50% 20%,rgba(255,80,0,.18),transparent 35%),
+    linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.9)),
+    #070707;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:120px 8% 80px;
+  position:relative;
+  overflow:hidden;
+}
+
+.about-hero-content{
+  max-width:900px;
+  position:relative;
+  z-index:2;
+}
+
+.about-hero h2{
+  font-size:58px;
+  margin:12px 0;
+  color:#ffcc33;
+}
+
+.about-hero p{
+  color:#e2d2b5;
+  font-size:21px;
+  line-height:1.7;
+}
+
+.author-profile{
+  display:grid;
+  grid-template-columns:360px 1fr;
+  gap:45px;
+  max-width:1120px;
+  margin:auto;
+  align-items:center;
+}
+
+.author-photo-card{
+  background:#111;
+  border:1px solid #3a1a1a;
+  padding:18px;
+  box-shadow:0 0 40px rgba(139,0,0,.28);
+}
+
+.author-photo-card img{
+  width:100%;
+  display:block;
+  border:1px solid #2b2b2b;
+}
+
+.author-info h2{
+  color:#ffcc33;
+  font-size:44px;
+  margin:0 0 16px;
+}
+
+.author-info p{
+  color:#d8cbb8;
+  line-height:1.8;
+  font-size:17px;
+}
+
+.about-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin:22px 0;
+}
+
+.about-tags span{
+  border:1px solid #333;
+  color:#caa24a;
+  padding:9px 13px;
+  font-size:13px;
+}
+
+.about-quote{
+  background:#170707;
+  border-top:1px solid #331010;
+  border-bottom:1px solid #331010;
+  text-align:center;
+  padding:80px 12%;
+}
+
+.about-quote p{
+  font-size:32px;
+  line-height:1.5;
+  color:#f5f0e6;
+  font-style:italic;
+}
+
+.about-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:26px;
+}
+
+.about-card{
+  background:#111;
+  border:1px solid #292929;
+  padding:30px;
+  transition:.35s;
+}
+
+.about-card:hover{
+  transform:translateY(-6px);
+  border-color:#8b0000;
+  box-shadow:0 15px 35px rgba(139,0,0,.22);
+}
+
+.about-card h3{
+  color:#ffcc33;
+  font-size:26px;
+}
+
+.about-card p{
+  color:#cfc7b8;
+  line-height:1.7;
+}
+
+.about-social{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+  margin-top:22px;
+}
+
+.about-social a{
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  background:#111;
+  border:1px solid #333;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#ffcc33;
+  font-size:21px;
+  transition:.3s;
+}
+
+.about-social a:hover{
+  transform:translateY(-5px);
+  border-color:#8b0000;
+  box-shadow:0 0 22px rgba(255,80,0,.45);
+}
+
+@media(max-width:800px){
+  .about-hero h2{font-size:38px}
+  .about-hero p{font-size:18px}
+  .author-profile{grid-template-columns:1fr}
+  .author-info h2{font-size:34px}
+  .about-quote p{font-size:24px}
+}
+</style>
 </head>
 
 <body>
@@ -55,106 +218,159 @@ gtag('config','G-BS8Z15XE0P');
     </a>
 
     <div class="top-links">
+      <a href="stories.html">Stories</a>
+      <a href="books.html">Books</a>
       <a href="submit-story.html">Share Story</a>
-      <a href="newsletter.html">Sign Up</a>
-      <a href="books.html">Shop</a>
-      <a href="blog.html">Blog</a>
-      <a href="donate.html">Donate</a>
-      <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
     </div>
   </div>
-
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="stories.html">Stories</a>
-    <a href="books.html">Books</a>
-    <a href="submit-story.html">Share Your Story</a>
-    <a href="contact.html">Contact</a>
-  </nav>
 </header>
 
-<section class="hero">
+<section class="about-hero">
+
   <div class="embers" id="embers"></div>
-  <div class="hero-content">
-    <span class="hero-label">About</span>
-    <h2>About Vineet</h2>
-    <p>Author • Storyteller • Creator of The Phoenix Whispers</p>
-  </div>
-</section>
 
-<section class="section reveal">
-  <div class="about-hero-box">
-    <img class="author-photo" src="author-photo.png" alt="Vineet Author Photo">
+  <div class="about-hero-content">
 
-    <div class="about-panel">
-      <h2>Vineet</h2>
-      <p>
-        Vineet is an Indian author and the creator of The Phoenix Whispers,
-        a growing space for books, real stories, emotional writing and voices that deserve to be heard.
-      </p>
+    <span class="hero-label">About The Author</span>
 
-      <div class="badges">
-        <span>📍 India</span>
-        <span>✍ Author</span>
-        <span>📖 Storyteller</span>
-        <span>🦅 Founder</span>
-        <span>❤️ Story Collector</span>
-      </div>
-
-      <a class="btn light" href="books.html">Explore Books</a>
-      <a class="btn" href="submit-story.html">Share Your Story</a>
-    </div>
-  </div>
-</section>
-
-<section class="section reveal">
-  <div class="section-title">
-    <span>My Story</span>
-    <h2>Why I Write</h2>
-  </div>
-
-  <div class="about-text">
-    <p>
-      I never wanted to write only to publish books. I wanted to create a place where stories could breathe,
-      where forgotten voices could be heard, and where people could discover that they are not alone.
-    </p>
+    <h2>Every Story Begins With Someone Who Chose To Listen.</h2>
 
     <p>
-      My writing often moves around loneliness, memory, healing, silence, hope and the quiet strength people carry inside them.
-      Some stories are loud. Some stories survive only as whispers. The Phoenix Whispers exists for both.
+      I don't write because I have all the answers.
+      I write because stories deserve to be remembered.
+      The Phoenix Whispers was born from a simple belief—
+      every life carries a story worth telling.
     </p>
+
   </div>
+
 </section>
 
 <section class="section reveal">
+
+<div class="author-profile">
+
+<div class="author-photo-card">
+
+<img src="author-photo.png" alt="Vineet Yadav">
+
+</div>
+
+<div class="author-info">
+
+<span class="hero-label">
+Author
+</span>
+
+<h2>Hi, I'm Vineet.</h2>
+
+<p>
+
+I'm an independent Indian author and the creator of
+<strong>The Phoenix Whispers.</strong>
+
+What began as a personal journey of writing slowly became
+a mission to preserve real emotions, forgotten memories,
+untold experiences and voices that often remain unheard.
+
+</p>
+
+<p>
+
+I believe stories have the power to connect strangers,
+heal invisible wounds and remind us that none of us are
+truly alone.
+
+Whether it is fiction, interviews or true experiences,
+my goal is always the same—
+
+<strong>to tell stories honestly.</strong>
+
+</p>
+
+<div class="about-tags">
+
+<span>Author</span>
+
+<span>Storyteller</span>
+
+<span>Creative Writer</span>
+
+<span>Interview Project</span>
+
+<span>Books</span>
+
+<span>The Phoenix Whispers</span>
+
+</div>
+
+<div class="about-social">
+
+<a href="https://www.instagram.com/thephoenixwhispers/" target="_blank">
+<i class="fa-brands fa-instagram"></i>
+</a>
+
+<a href="https://youtube.com/@thephoenixwhispers" target="_blank">
+<i class="fa-brands fa-youtube"></i>
+</a>
+
+<a href="https://www.amazon.in/vineet-yadav/e/B0H4G7GKY2/" target="_blank">
+<i class="fa-brands fa-amazon"></i>
+</a>
+
+<a href="mailto:thephoenixwhispers.official@gmail.com">
+<i class="fa-solid fa-envelope"></i>
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="about-quote reveal">
+
+<p>
+
+“Every person has a story.
+
+Every story deserves a home.”
+
+</p>
+
+</section>
+
+  <section class="section reveal">
   <div class="section-title">
-    <span>The Mission</span>
+    <span>Mission</span>
     <h2>Why The Phoenix Whispers Exists</h2>
   </div>
 
-  <div class="grid">
-    <div class="card">
-      <h3>Books</h3>
-      <p>To publish emotional and meaningful books that stay with readers beyond the last page.</p>
+  <div class="about-grid">
+    <div class="about-card">
+      <h3>To Listen</h3>
+      <p>Many people carry stories they never get to tell. The Phoenix Whispers is built to listen to those voices with respect.</p>
     </div>
 
-    <div class="card">
-      <h3>Stories</h3>
-      <p>To collect real stories, interviews, memories and voices that often remain unseen.</p>
+    <div class="about-card">
+      <h3>To Preserve</h3>
+      <p>Stories, memories and emotions can disappear with time. This platform exists to preserve them before they fade.</p>
     </div>
 
-    <div class="card">
-      <h3>Community</h3>
-      <p>To build a safe creative space where people can read, write, share and feel heard.</p>
+    <div class="about-card">
+      <h3>To Share</h3>
+      <p>Some stories can help others feel seen. When shared carefully, a story can become someone else's strength.</p>
     </div>
   </div>
 </section>
 
 <section class="section reveal">
   <div class="section-title">
-    <span>Projects</span>
-    <h2>Current & Future Works</h2>
+    <span>Books</span>
+    <h2>Current & Upcoming Work</h2>
   </div>
 
   <div class="story-grid">
@@ -163,8 +379,8 @@ gtag('config','G-BS8Z15XE0P');
       <div class="story-content">
         <small>Published Book</small>
         <h3>The Person Who Kept Walking</h3>
-        <p>An emotional fiction book about loneliness, healing and the courage to continue.</p>
-        <a class="read-link" href="the-person-who-kept-walking.html">Book Page →</a>
+        <p>An emotional fiction book about loneliness, memory, healing and the courage to keep moving forward.</p>
+        <a class="read-link" href="the-person-who-kept-walking.html">View Book →</a>
       </div>
     </div>
 
@@ -181,87 +397,108 @@ gtag('config','G-BS8Z15XE0P');
     <div class="story-card">
       <div class="story-image">🔥</div>
       <div class="story-content">
-        <small>Upcoming Book</small>
+        <small>Upcoming Hindi Thriller</small>
         <h3>Ashwatthama Ki Diary</h3>
-        <p>A Hindi psychological thriller where mythology, obsession and reality begin to blur.</p>
+        <p>A psychological mystery where mythology, obsession and reality begin to blur.</p>
         <a class="read-link" href="books.html">Coming Soon →</a>
       </div>
     </div>
   </div>
 </section>
 
-<section class="quote reveal">
-  <p>The Phoenix Whispers is more than an author website. It is a home for stories that deserve to rise.</p>
-</section>
-
 <section class="section reveal">
   <div class="section-title">
-    <span>Connect</span>
-    <h2>Reach The Phoenix</h2>
+    <span>Vision</span>
+    <h2>The Future Of The Phoenix</h2>
   </div>
 
-  <div class="grid">
-    <div class="card">
-      <h3>Email</h3>
-      <p>For collaborations, submissions, feedback or questions.</p>
-      <a class="btn light" href="mailto:thephoenixwhispers.official@gmail.com">Email Us</a>
-    </div>
+  <div class="card">
+    <p>
+      The Phoenix Whispers is growing into a home for books, real-life stories,
+      interviews, poems, essays, audio voices and creative memories.
+      The dream is to build a platform where people can read stories, share their own,
+      and become part of a larger archive of human experiences.
+    </p>
 
-    <div class="card">
-      <h3>Amazon</h3>
-      <p>Visit the Amazon Author Page and explore available books.</p>
-      <a class="btn" href="https://www.amazon.in/vineet-yadav/e/B0H4G7GKY2/" target="_blank">Author Page</a>
-    </div>
-
-    <div class="card">
-      <h3>Newsletter</h3>
-      <p>Join The Phoenix Letter for updates about books and stories.</p>
-      <a class="btn light" href="newsletter.html">Sign Up</a>
-    </div>
+    <a class="btn light" href="submit-story.html">Share Your Story</a>
+    <a class="btn" href="stories.html">Read Stories</a>
   </div>
 </section>
 
-<footer class="footer">
+  <footer class="footer">
+
   <div class="footer-grid">
+
     <div>
+
       <a href="index.html" class="footer-logo">
         <img src="logo.png" alt="The Phoenix Whispers Logo">
         <h3>The Phoenix Whispers</h3>
       </a>
 
-      <p>A home for stories, books, interviews and creative voices that deserve to be heard.</p>
+      <p>
+        A home for stories, books, interviews and creative voices
+        that deserve to be heard.
+      </p>
 
-      <div class="social">
-        <a href="#" target="_blank">Instagram</a>
-        <a href="#" target="_blank">YouTube</a>
-        <a href="https://www.amazon.in/vineet-yadav/e/B0H4G7GKY2/" target="_blank">Amazon Author</a>
-        <a href="mailto:thephoenixwhispers.official@gmail.com">Email</a>
+      <div class="social social-icons">
+
+        <a href="https://www.instagram.com/thephoenixwhispers/" target="_blank" aria-label="Instagram">
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+
+        <a href="https://youtube.com/@thephoenixwhispers" target="_blank" aria-label="YouTube">
+          <i class="fa-brands fa-youtube"></i>
+        </a>
+
+        <a href="https://www.amazon.in/vineet-yadav/e/B0H4G7GKY2/" target="_blank" aria-label="Amazon">
+          <i class="fa-brands fa-amazon"></i>
+        </a>
+
+        <a href="mailto:thephoenixwhispers.official@gmail.com" aria-label="Email">
+          <i class="fa-solid fa-envelope"></i>
+        </a>
+
       </div>
+
     </div>
 
     <div class="footer-links">
+
       <h3>Explore</h3>
+
       <a href="stories.html">Stories</a>
       <a href="books.html">Books</a>
       <a href="submit-story.html">Share Your Story</a>
       <a href="blog.html">Blog</a>
       <a href="newsletter.html">Newsletter</a>
+
     </div>
 
     <div class="footer-links">
-      <h3>Support</h3>
-      <a href="donate.html">Donate</a>
+
+      <h3>Connect</h3>
+
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
-      <a href="mailto:thephoenixwhispers.official@gmail.com">Email Us</a>
+      <a href="donate.html">Support</a>
+
     </div>
+
   </div>
 
   <div class="copyright">
-    © The Phoenix Whispers · Rise. Transform. Inspire.
+
+    © 2026 The Phoenix Whispers · Created by Vineet
+
   </div>
+
 </footer>
 
 <script src="script.js"></script>
+
 </body>
 </html>
+
+
+

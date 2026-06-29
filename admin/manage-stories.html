@@ -1,1 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manage Stories | Phoenix Admin</title>
 
+<link rel="icon" href="../logo.png">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+.admin-shell{min-height:100vh;background:#070707;color:#f5f0e6}
+.admin-header{display:flex;justify-content:space-between;align-items:center;padding:18px 7%;border-bottom:1px solid #222;background:#050505}
+.admin-brand{display:flex;align-items:center;gap:12px}
+.admin-brand img{width:52px}
+.admin-brand h1{color:#ffcc33;font-size:24px;margin:0}
+.admin-main{padding:45px 7%;max-width:1100px;margin:auto}
+.story-admin-card{background:#111;border:1px solid #292929;padding:22px;margin:16px 0}
+.story-admin-card h3{color:#ffcc33;margin:0 0 8px}
+.story-admin-card p{color:#cfc7b8}
+.admin-btn{padding:10px 16px;background:#f0d27a;color:#170b05;border:none;font-weight:bold;cursor:pointer;font-family:Georgia,serif;margin:6px}
+.admin-btn.red{background:#9b0000;color:white}
+.admin-btn.dark{background:#222;color:#f5f0e6}
+</style>
+</head>
+
+<body>
+<div class="admin-shell">
+
+<header class="admin-header">
+  <a class="admin-brand" href="dashboard.html">
+    <img src="../logo.png" alt="Logo">
+    <h1>Phoenix Admin</h1>
+  </a>
+
+  <button class="admin-btn red" id="logoutBtn">Logout</button>
+</header>
+
+<main class="admin-main">
+  <span class="hero-label">Admin</span>
+  <h2 style="font-size:42px;color:#ffcc33;margin:10px 0;">Manage Stories</h2>
+
+  <a class="admin-btn" href="new-story.html">+ New Story</a>
+  <a class="admin-btn dark" href="dashboard.html">Dashboard</a>
+
+  <p id="status" style="color:#ffcc33;margin-top:20px;">Loading stories...</p>
+
+  <div id="storiesList"></div>
+</main>
+
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+import { getFirestore, collection, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "PASTE_YOUR_API_KEY_HERE",
+  authDomain: "the-phoenix-whispers.firebaseapp.com",
+  projectId: "the-phoenix-whispers",
+  storageBucket: "the-phoenix-whispers.firebasestorage.app",
+  messagingSenderId: "60939247464",
+  appId: "PASTE_YOUR_APP_ID_HERE",
+  measurementId: "G-JRTWDK1XVF"
+};
+
+const ADMIN_EMAIL = "thephoenixwhispers.official@gmail.com";
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+await setPersistence(auth, browserLocalPersistence);
+
+const statusBox = document.getElementById("status");
+const storiesList = document.getElementById("storiesList");
+const logoutBtn = document.getElementById("logoutBtn");
+
+onAuthStateChanged(auth, async (user) => {
+  if(!user){
+    window.location.href = "index.html";
+    return;
+  }
+
+  if(user.email !== ADMIN_EMAIL){
+    await signOut(auth);
+    window.location.href = "index.html";
+    return;
+  }
+
+  loadStories();
+});
+
+logoutBtn.addEventListener("click", async () => {
+  await signOut(auth);
+  window.location.href = "index.html";
+});
+
+function shortText(text, limit=140){
+  if(!text) return "";
+  return text.length > limit ? text.substring(0, limit) + "..." : text;
+}
+
+async function loadStories(){
+  try{
+    const snapshot = await getDocs(collection(db, "stories"));
+    let stories = [];
+
+    snapshot.forEach(docSnap => {
+      stories.push({
+        id: docSnap.id,
+        ...docSnap.data()
+      });
+    });
+
+    stories.sort((a,b) => {
+      const aTime = a.createdAt?.seconds || 0;
+      const bTime = b.createdAt?.seconds || 0;
+      return bTime - aTime;
+    });
+
+    statusBox.innerText = stories.length + " stories found.";
+    storiesList.innerHTML = "";
+
+    if(stories.length === 0){
+      storiesList.innerHTML = `<div class="story-admin-card"><p>No stories yet.</p></div>`;
+      return;
+    }
+
+    stories.forEach(story => {
+      const card = document.createElement("div");
+      card.className = "story-admin-card";
+      card.innerHTML = `
+        <h3>${story.title || "Untitled"}</h3>
+        <p><strong>Status:</strong> ${story.status || "unknown"} · <strong>Category:</strong> ${story.category || "Story"} · <strong>Author:</strong> ${story.authorName || "Anonymous"}</p>
+        <p>${shortText(story.excerpt || story.content)}</p>
+
+        <a class="admin-btn dark" href="../story-reader.html?id=${story.id}" target="_blank">Preview</a>
+        <button class="admin-btn red" data-id="${story.id}">Delete</button>
+      `;
+
+      storiesList.appendChild(card);
+    });
+
+    document.querySelectorAll("button[data-id]").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        const id = btn.dataset.id;
+        const confirmDelete = confirm("Delete this story permanently?");
+        if(!confirmDelete) return;
+
+        await deleteDoc(doc(db, "stories", id));
+        statusBox.innerText = "Story deleted.";
+        loadStories();
+      });
+    });
+
+  }catch(error){
+    console.error(error);
+    statusBox.innerText = "Failed to load stories. Check Firestore rules.";
+  }
+}
+
+</script>
+</body>
+</html>

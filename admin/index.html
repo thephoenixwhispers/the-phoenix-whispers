@@ -78,7 +78,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, setPersistence, browserLocalPersistence, signOut } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
@@ -86,7 +86,7 @@ const firebaseConfig = {
   projectId: "the-phoenix-whispers",
   storageBucket: "the-phoenix-whispers.firebasestorage.app",
   messagingSenderId: "60939247464",
-  appId: "1:60939247464:web:a6b49dc2cf938a939480dd",
+  appId:"1:60939247464:web:a6b49dc2cf938a939480dd",
   measurementId: "G-JRTWDK1XVF"
 };
 
@@ -98,6 +98,8 @@ const provider = new GoogleAuthProvider();
 
 const loginBtn = document.getElementById("loginBtn");
 const statusBox = document.getElementById("adminStatus");
+
+await setPersistence(auth, browserLocalPersistence);
 
 loginBtn.addEventListener("click", async () => {
   try {
@@ -112,10 +114,8 @@ loginBtn.addEventListener("click", async () => {
       return;
     }
 
-    statusBox.innerText = "Login successful. Dashboard coming next.";
-    setTimeout(() => {
-      window.location.href = "dashboard.html";
-    }, 900);
+    statusBox.innerText = "Login successful. Opening dashboard...";
+    window.location.href = "dashboard.html";
 
   } catch(error) {
     console.error(error);
@@ -123,6 +123,5 @@ loginBtn.addEventListener("click", async () => {
   }
 });
 </script>
-
 </body>
 </html>

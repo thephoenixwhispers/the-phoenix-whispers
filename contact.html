@@ -15,7 +15,6 @@
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-BS8Z15XE0P"></script>
 <script>
@@ -271,34 +270,73 @@ gtag('config', 'G-BS8Z15XE0P');
 
 <script src="script.js"></script>
 
-<script>
-emailjs.init("vdm5Fy-wHMW6rKjE_");
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
+  authDomain: "the-phoenix-whispers.firebaseapp.com",
+  projectId: "the-phoenix-whispers",
+  storageBucket: "the-phoenix-whispers.firebasestorage.app",
+  messagingSenderId: "60939247464",
+  appId: "1:60939247464:web:a6b49dc2cf938a939480dd",
+  measurementId: "G-JRTWDK1XVF"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 const contactForm = document.getElementById("contactForm");
 const contactStatus = document.getElementById("contactStatus");
 const sendBtn = document.getElementById("sendBtn");
 
-contactForm.addEventListener("submit", function(e){
-  e.preventDefault();
+contactForm.addEventListener("submit", async (e) => {
 
-  sendBtn.innerText = "Sending...";
-  sendBtn.disabled = true;
-  contactStatus.innerText = "";
+    e.preventDefault();
 
-  emailjs.sendForm("service_77o3juk", "template_kznthhn", this)
-    .then(function(){
-      contactStatus.innerText = "Message sent successfully. Thank you for reaching The Phoenix.";
-      contactForm.reset();
-      sendBtn.innerText = "Send Message";
-      sendBtn.disabled = false;
-    }, function(error){
-      contactStatus.innerText = "Message failed. Please try again later.";
-      sendBtn.innerText = "Send Message";
-      sendBtn.disabled = false;
-      console.log(error);
-    });
+    sendBtn.disabled = true;
+    sendBtn.innerText = "Sending...";
+    contactStatus.innerText = "";
+
+    try{
+
+        await addDoc(collection(db,"messages"),{
+
+            name: contactForm.name.value.trim(),
+            email: contactForm.email.value.trim(),
+            subject: contactForm.title.value.trim(),
+            message: contactForm.message.value.trim(),
+
+            status:"unread",
+
+            createdAt:serverTimestamp()
+
+        });
+
+        contactStatus.innerHTML="✅ Message sent successfully. Thank you for contacting The Phoenix Whispers.";
+
+        contactForm.reset();
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        contactStatus.innerHTML="❌ Failed to send message.";
+
+    }
+
+    sendBtn.disabled=false;
+    sendBtn.innerText="Send Message";
+
 });
 </script>
-
 </body>
 </html>

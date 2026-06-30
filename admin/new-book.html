@@ -1,1 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Book | Phoenix Admin</title>
 
+<link rel="icon" href="../logo.png">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+.admin-shell{min-height:100vh;background:#070707;color:#f5f0e6}
+.admin-header{display:flex;justify-content:space-between;align-items:center;padding:18px 7%;border-bottom:1px solid #222;background:#050505}
+.admin-brand{display:flex;align-items:center;gap:12px}.admin-brand img{width:52px}.admin-brand h1{color:#ffcc33;font-size:24px;margin:0}
+.admin-main{padding:45px 7%;max-width:1050px;margin:auto}
+.book-form{background:#111;border:1px solid #292929;padding:32px;box-shadow:0 0 35px rgba(139,0,0,.18)}
+.book-form input,.book-form select,.book-form textarea{width:100%;padding:14px;margin:9px 0;background:#080808;border:1px solid #333;color:white;font-family:Georgia,serif}
+.book-form textarea{min-height:180px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.admin-btn{padding:13px 22px;background:#f0d27a;color:#170b05;border:none;font-weight:bold;cursor:pointer;font-family:Georgia,serif;margin-top:12px}
+.admin-btn.red{background:#9b0000;color:white}
+#status{color:#ffcc33;margin-top:16px}
+@media(max-width:800px){.form-grid{grid-template-columns:1fr}}
+</style>
+</head>
+
+<body>
+<div class="admin-shell">
+
+<header class="admin-header">
+  <a class="admin-brand" href="dashboard.html">
+    <img src="../logo.png" alt="Logo">
+    <h1>Phoenix Admin</h1>
+  </a>
+  <button class="admin-btn red" id="logoutBtn">Logout</button>
+</header>
+
+<main class="admin-main">
+  <span class="hero-label">Books</span>
+  <h2 style="font-size:42px;color:#ffcc33;margin:10px 0;">New Book</h2>
+
+  <form class="book-form" id="bookForm">
+
+    <div class="form-grid">
+      <input type="text" id="title" placeholder="Book Title" required>
+      <input type="text" id="author" placeholder="Author Name" value="Vineet" required>
+    </div>
+
+    <input type="text" id="subtitle" placeholder="Subtitle / Tagline">
+    <input type="url" id="coverImage" placeholder="Cover Image URL">
+
+    <textarea id="description" placeholder="Book Description" required></textarea>
+
+    <div class="form-grid">
+      <input type="text" id="language" placeholder="Language" value="English">
+      <input type="text" id="statusField" placeholder="Status: published / upcoming / draft" value="published">
+    </div>
+
+    <div class="form-grid">
+      <input type="text" id="pages" placeholder="Pages">
+      <input type="text" id="price" placeholder="Price">
+    </div>
+
+    <input type="text" id="isbn" placeholder="ISBN optional">
+
+    <input type="url" id="amazonPaperback" placeholder="Amazon Paperback Link">
+    <input type="url" id="amazonKindle" placeholder="Amazon Kindle Link">
+    <input type="url" id="goodreadsLink" placeholder="Goodreads Link optional">
+    <input type="url" id="storygraphLink" placeholder="StoryGraph Link optional">
+
+    <select id="featured">
+      <option value="false">Not Featured</option>
+      <option value="true">Featured Book</option>
+    </select>
+
+    <button class="admin-btn" type="submit" id="saveBtn">
+      <i class="fa-solid fa-book"></i> Save Book
+    </button>
+
+    <a class="admin-btn red" href="dashboard.html">Cancel</a>
+
+    <p id="status"></p>
+  </form>
+</main>
+
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getAuth,onAuthStateChanged,signOut,setPersistence,browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+import { getFirestore,collection,addDoc,serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+const firebaseConfig={
+apiKey:"AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
+authDomain:"the-phoenix-whispers.firebaseapp.com",
+projectId:"the-phoenix-whispers",
+storageBucket:"the-phoenix-whispers.firebasestorage.app",
+messagingSenderId:"60939247464",
+appId:"1:60939247464:web:a6b49dc2cf938a939480dd",
+measurementId:"G-JRTWDK1XVF"
+};
+
+const ADMIN_EMAIL="thephoenixwhispers.official@gmail.com";
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+
+await setPersistence(auth,browserLocalPersistence);
+
+const form=document.getElementById("bookForm");
+const saveBtn=document.getElementById("saveBtn");
+const statusBox=document.getElementById("status");
+const logoutBtn=document.getElementById("logoutBtn");
+
+let currentUser=null;
+
+onAuthStateChanged(auth,async user=>{
+if(!user){location.href="index.html";return}
+if(user.email!==ADMIN_EMAIL){await signOut(auth);location.href="index.html";return}
+currentUser=user;
+});
+
+logoutBtn.addEventListener("click",async()=>{
+await signOut(auth);
+location.href="index.html";
+});
+
+function makeSlug(text){
+return text.toLowerCase().trim().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+}
+
+form.addEventListener("submit",async e=>{
+e.preventDefault();
+
+if(!currentUser){
+statusBox.innerText="Login required.";
+return;
+}
+
+saveBtn.disabled=true;
+saveBtn.innerText="Saving...";
+
+const title=document.getElementById("title").value.trim();
+
+const book={
+title,
+slug:makeSlug(title),
+author:document.getElementById("author").value.trim(),
+subtitle:document.getElementById("subtitle").value.trim(),
+coverImage:document.getElementById("coverImage").value.trim(),
+description:document.getElementById("description").value.trim(),
+language:document.getElementById("language").value.trim(),
+status:document.getElementById("statusField").value.trim(),
+pages:document.getElementById("pages").value.trim(),
+price:document.getElementById("price").value.trim(),
+isbn:document.getElementById("isbn").value.trim(),
+amazonPaperback:document.getElementById("amazonPaperback").value.trim(),
+amazonKindle:document.getElementById("amazonKindle").value.trim(),
+goodreadsLink:document.getElementById("goodreadsLink").value.trim(),
+storygraphLink:document.getElementById("storygraphLink").value.trim(),
+featured:document.getElementById("featured").value==="true",
+createdBy:currentUser.email,
+createdAt:serverTimestamp(),
+updatedAt:serverTimestamp()
+};
+
+try{
+await addDoc(collection(db,"books"),book);
+statusBox.innerText="✅ Book saved successfully.";
+form.reset();
+document.getElementById("author").value="Vineet";
+document.getElementById("language").value="English";
+document.getElementById("statusField").value="published";
+}catch(error){
+console.error(error);
+statusBox.innerText="❌ Failed to save book. Check Firestore rules.";
+}
+
+saveBtn.disabled=false;
+saveBtn.innerHTML='<i class="fa-solid fa-book"></i> Save Book';
+});
+</script>
+</body>
+</html>

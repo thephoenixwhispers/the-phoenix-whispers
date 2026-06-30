@@ -1,1 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Edit Book | Phoenix Admin</title>
+
+<link rel="icon" href="../logo.png">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+
+body{
+margin:0;
+background:#070707;
+color:#f5f0e6;
+font-family:Georgia,serif;
+}
+
+.admin-shell{
+min-height:100vh;
+}
+
+.admin-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px 7%;
+background:#050505;
+border-bottom:1px solid #222;
+}
+
+.admin-brand{
+display:flex;
+align-items:center;
+gap:12px;
+text-decoration:none;
+}
+
+.admin-brand img{
+width:52px;
+}
+
+.admin-brand h1{
+margin:0;
+color:#ffcc33;
+font-size:24px;
+}
+
+.admin-main{
+padding:45px 7%;
+max-width:1100px;
+margin:auto;
+}
+
+.editor-card{
+background:#111;
+border:1px solid #292929;
+padding:30px;
+}
+
+.form-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+}
+
+.editor-card input,
+.editor-card textarea,
+.editor-card select{
+
+width:100%;
+padding:14px;
+margin:10px 0;
+background:#080808;
+border:1px solid #333;
+color:white;
+font-family:Georgia,serif;
+
+}
+
+.editor-card textarea{
+min-height:180px;
+resize:vertical;
+}
+
+.editor-card h2{
+color:#ffcc33;
+margin-top:0;
+}
+
+.btn{
+padding:12px 20px;
+border:none;
+cursor:pointer;
+font-weight:bold;
+font-family:Georgia,serif;
+margin-right:10px;
+margin-top:15px;
+}
+
+.gold{
+background:#f0d27a;
+color:#170b05;
+}
+
+.red{
+background:#8b0000;
+color:white;
+}
+
+#status{
+margin-top:20px;
+color:#ffcc33;
+}
+
+@media(max-width:800px){
+
+.form-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="admin-shell">
+
+<header class="admin-header">
+
+<a class="admin-brand" href="dashboard.html">
+
+<img src="../logo.png">
+
+<h1>Phoenix Admin</h1>
+
+</a>
+
+<div>
+
+<a class="btn gold" href="manage-books.html">
+
+<i class="fa-solid fa-arrow-left"></i>
+
+Back
+
+</a>
+
+</div>
+
+</header>
+
+<main class="admin-main">
+
+<div class="editor-card">
+
+<h2>Edit Book</h2>
+
+<form id="editBookForm">
+
+<div class="form-grid">
+
+<input
+id="title"
+type="text"
+placeholder="Book Title"
+required>
+
+<input
+id="author"
+type="text"
+placeholder="Author"
+required>
+
+</div>
+
+<input
+id="subtitle"
+type="text"
+placeholder="Subtitle">
+
+<input
+id="coverImage"
+type="url"
+placeholder="Cover Image URL">
+
+<textarea
+id="description"
+placeholder="Description"
+required></textarea>
+
+<div class="form-grid">
+
+<input
+id="language"
+type="text"
+placeholder="Language">
+
+<input
+id="statusField"
+type="text"
+placeholder="published / upcoming / draft">
+
+</div>
+
+<div class="form-grid">
+
+<input
+id="pages"
+type="text"
+placeholder="Pages">
+
+<input
+id="price"
+type="text"
+placeholder="Price">
+
+</div>
+
+<input
+id="isbn"
+type="text"
+placeholder="ISBN">
+
+<input
+id="amazonPaperback"
+type="url"
+placeholder="Amazon Paperback Link">
+
+<input
+id="amazonKindle"
+type="url"
+placeholder="Amazon Kindle Link">
+
+<input
+id="goodreadsLink"
+type="url"
+placeholder="Goodreads Link">
+
+<input
+id="storygraphLink"
+type="url"
+placeholder="StoryGraph Link">
+
+<select id="featured">
+
+<option value="false">Not Featured</option>
+
+<option value="true">Featured Book</option>
+
+</select>
+
+<button
+class="btn gold"
+type="submit">
+
+<i class="fa-solid fa-floppy-disk"></i>
+
+Save Changes
+
+</button>
+
+<a
+class="btn red"
+href="manage-books.html">
+
+Cancel
+
+</a>
+
+<p id="status"></p>
+
+</form>
+
+</div>
+
+</main>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut,
+  setPersistence,
+  browserLocalPersistence
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  updateDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
+  authDomain: "the-phoenix-whispers.firebaseapp.com",
+  projectId: "the-phoenix-whispers",
+  storageBucket: "the-phoenix-whispers.firebasestorage.app",
+  messagingSenderId: "60939247464",
+  appId: "1:60939247464:web:a6b49dc2cf938a939480dd",
+  measurementId: "G-JRTWDK1XVF"
+};
+
+const ADMIN_EMAIL = "thephoenixwhispers.official@gmail.com";
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+await setPersistence(auth, browserLocalPersistence);
+
+const params = new URLSearchParams(window.location.search);
+const bookId = params.get("id");
+
+const form = document.getElementById("editBookForm");
+const statusBox = document.getElementById("status");
+
+let currentUser = null;
+
+onAuthStateChanged(auth, async (user) => {
+
+  if (!user) {
+    location.href = "index.html";
+    return;
+  }
+
+  if (user.email !== ADMIN_EMAIL) {
+    await signOut(auth);
+    location.href = "index.html";
+    return;
+  }
+
+  currentUser = user;
+  loadBook();
+
+});
+
+async function loadBook() {
+
+  if (!bookId) {
+    statusBox.innerText = "Book ID missing.";
+    return;
+  }
+
+  const ref = doc(db, "books", bookId);
+  const snap = await getDoc(ref);
+
+  if (!snap.exists()) {
+    statusBox.innerText = "Book not found.";
+    return;
+  }
+
+  const b = snap.data();
+
+  title.value = b.title || "";
+  author.value = b.author || "";
+  subtitle.value = b.subtitle || "";
+  coverImage.value = b.coverImage || "";
+  description.value = b.description || "";
+  language.value = b.language || "";
+  statusField.value = b.status || "";
+  pages.value = b.pages || "";
+  price.value = b.price || "";
+  isbn.value = b.isbn || "";
+  amazonPaperback.value = b.amazonPaperback || "";
+  amazonKindle.value = b.amazonKindle || "";
+  goodreadsLink.value = b.goodreadsLink || "";
+  storygraphLink.value = b.storygraphLink || "";
+  featured.value = b.featured ? "true" : "false";
+
+}
+
+function makeSlug(text) {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+form.addEventListener("submit", async (e) => {
+
+  e.preventDefault();
+
+  try {
+
+    await updateDoc(doc(db, "books", bookId), {
+
+      title: title.value.trim(),
+      slug: makeSlug(title.value),
+
+      author: author.value.trim(),
+      subtitle: subtitle.value.trim(),
+
+      coverImage: coverImage.value.trim(),
+
+      description: description.value.trim(),
+
+      language: language.value.trim(),
+
+      status: statusField.value.trim(),
+
+      pages: pages.value.trim(),
+
+      price: price.value.trim(),
+
+      isbn: isbn.value.trim(),
+
+      amazonPaperback: amazonPaperback.value.trim(),
+
+      amazonKindle: amazonKindle.value.trim(),
+
+      goodreadsLink: goodreadsLink.value.trim(),
+
+      storygraphLink: storygraphLink.value.trim(),
+
+      featured: featured.value === "true",
+
+      updatedAt: serverTimestamp()
+
+    });
+
+    statusBox.innerHTML = "✅ Book updated successfully.";
+
+    setTimeout(() => {
+
+      location.href = "manage-books.html";
+
+    }, 1000);
+
+  }
+
+  catch (err) {
+
+    console.error(err);
+
+    statusBox.innerHTML = "❌ Failed to update book.";
+
+  }
+
+});
+</script>
+
+</body>
+</html>

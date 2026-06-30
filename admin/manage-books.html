@@ -134,12 +134,18 @@ ${cover}
 ${book.amazonPaperback ? `<a class="btn gold" href="${book.amazonPaperback}" target="_blank">Paperback</a>` : ""}
 ${book.amazonKindle ? `<a class="btn gold" href="${book.amazonKindle}" target="_blank">Kindle</a>` : ""}
 
+<a class="btn gold" href="edit-book.html?id=${book.id}">
+<i class="fa-solid fa-pen"></i> Edit
+</a>
+
 <button class="btn dark" data-feature="${book.id}">
-${book.featured ? "Remove Featured" : "Make Featured"}
+<i class="fa-solid fa-star"></i>
+${book.featured ? " Remove Featured" : " Make Featured"}
 </button>
 
-<button class="btn red" data-delete="${book.id}">Delete</button>
-</div>
+<button class="btn red" data-delete="${book.id}">
+<i class="fa-solid fa-trash"></i> Delete
+</button>
 `;
 
 booksList.appendChild(card);

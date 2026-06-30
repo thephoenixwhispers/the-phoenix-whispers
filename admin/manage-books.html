@@ -1,1 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manage Books | Phoenix Admin</title>
 
+<link rel="icon" href="../logo.png">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+body{margin:0;background:#070707;color:#f5f0e6;font-family:Georgia,serif}
+.header{display:flex;justify-content:space-between;align-items:center;padding:18px 7%;background:#050505;border-bottom:1px solid #222}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand img{width:50px}
+.brand h2{color:#ffcc33;margin:0}
+.container{max-width:1100px;margin:auto;padding:40px 7%}
+.book-card{background:#111;border:1px solid #292929;padding:22px;margin-bottom:18px;display:grid;grid-template-columns:130px 1fr;gap:20px}
+.cover{width:130px;height:180px;object-fit:cover;background:#1a1a1a;border:1px solid #333;display:flex;align-items:center;justify-content:center;font-size:42px}
+.book-card h3{margin:0;color:#ffcc33}
+.meta{color:#aaa;font-size:14px;margin:8px 0}
+.desc{color:#cfc7b8;line-height:1.6}
+.btn{display:inline-block;padding:10px 16px;border:none;cursor:pointer;font-weight:bold;margin:6px 6px 0 0;font-family:Georgia,serif;text-decoration:none}
+.gold{background:#f0d27a;color:#170b05}
+.red{background:#8b0000;color:#fff}
+.dark{background:#222;color:#fff}
+.status{margin:20px 0;color:#ffcc33}
+@media(max-width:700px){.book-card{grid-template-columns:1fr}.cover{width:100%;height:240px}}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+<a class="brand" href="dashboard.html">
+<img src="../logo.png">
+<h2>Manage Books</h2>
+</a>
+
+<div>
+<a class="btn dark" href="dashboard.html">Dashboard</a>
+<a class="btn gold" href="new-book.html">+ New Book</a>
+</div>
+</header>
+
+<div class="container">
+<h1 style="color:#ffcc33">Books Library</h1>
+<p id="status" class="status">Loading books...</p>
+<div id="booksList"></div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import {
+getAuth,onAuthStateChanged,signOut,setPersistence,browserLocalPersistence
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+import {
+getFirestore,collection,getDocs,deleteDoc,doc,updateDoc
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+const firebaseConfig={
+apiKey:"AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
+authDomain:"the-phoenix-whispers.firebaseapp.com",
+projectId:"the-phoenix-whispers",
+storageBucket:"the-phoenix-whispers.firebasestorage.app",
+messagingSenderId:"60939247464",
+appId:"1:60939247464:web:a6b49dc2cf938a939480dd",
+measurementId:"G-JRTWDK1XVF"
+};
+
+const ADMIN_EMAIL="thephoenixwhispers.official@gmail.com";
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+
+await setPersistence(auth,browserLocalPersistence);
+
+const statusBox=document.getElementById("status");
+const booksList=document.getElementById("booksList");
+
+onAuthStateChanged(auth,async user=>{
+if(!user){location.href="index.html";return}
+if(user.email!==ADMIN_EMAIL){await signOut(auth);location.href="index.html";return}
+loadBooks();
+});
+
+function shortText(text,limit=180){
+return text && text.length>limit ? text.substring(0,limit)+"..." : (text||"");
+}
+
+async function loadBooks(){
+try{
+const snap=await getDocs(collection(db,"books"));
+let books=[];
+
+snap.forEach(d=>{
+books.push({id:d.id,...d.data()});
+});
+
+books.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+
+statusBox.innerText=books.length+" book(s) found.";
+booksList.innerHTML="";
+
+if(books.length===0){
+booksList.innerHTML='<div class="book-card"><p>No books yet.</p></div>';
+return;
+}
+
+books.forEach(book=>{
+const card=document.createElement("div");
+card.className="book-card";
+
+const cover=book.coverImage
+? `<img class="cover" src="${book.coverImage}" alt="${book.title}">`
+: `<div class="cover">📚</div>`;
+
+card.innerHTML=`
+${cover}
+
+<div>
+<h3>${book.title || "Untitled Book"}</h3>
+
+<div class="meta">
+<strong>Author:</strong> ${book.author || "Vineet"} ·
+<strong>Status:</strong> ${book.status || "draft"} ·
+<strong>Featured:</strong> ${book.featured ? "Yes" : "No"}
+</div>
+
+<p class="desc">${shortText(book.description)}</p>
+
+${book.amazonPaperback ? `<a class="btn gold" href="${book.amazonPaperback}" target="_blank">Paperback</a>` : ""}
+${book.amazonKindle ? `<a class="btn gold" href="${book.amazonKindle}" target="_blank">Kindle</a>` : ""}
+
+<button class="btn dark" data-feature="${book.id}">
+${book.featured ? "Remove Featured" : "Make Featured"}
+</button>
+
+<button class="btn red" data-delete="${book.id}">Delete</button>
+</div>
+`;
+
+booksList.appendChild(card);
+});
+
+document.querySelectorAll("[data-delete]").forEach(btn=>{
+btn.addEventListener("click",async()=>{
+if(!confirm("Delete this book permanently?"))return;
+await deleteDoc(doc(db,"books",btn.dataset.delete));
+loadBooks();
+});
+});
+
+document.querySelectorAll("[data-feature]").forEach(btn=>{
+btn.addEventListener("click",async()=>{
+const id=btn.dataset.feature;
+const book=books.find(b=>b.id===id);
+if(!book)return;
+
+await updateDoc(doc(db,"books",id),{
+featured:!book.featured
+});
+
+loadBooks();
+});
+});
+
+}catch(error){
+console.error(error);
+statusBox.innerText="Failed to load books. Check Firebase rules.";
+}
+}
+</script>
+
+</body>
+</html>

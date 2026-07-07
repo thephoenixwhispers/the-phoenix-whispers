@@ -5,12 +5,60 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Stories | The Phoenix Whispers</title>
-<meta name="description" content="Read stories published on The Phoenix Whispers.">
+<meta name="description" content="Read published stories from The Phoenix Whispers.">
 <meta name="author" content="Vineet Yadav">
 
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+.filter-box{
+  max-width:1000px;
+  margin:0 auto 30px;
+  display:grid;
+  grid-template-columns:1fr 220px;
+  gap:14px;
+}
+.filter-box input,.filter-box select{
+  padding:14px;
+  background:#080808;
+  border:1px solid #333;
+  color:white;
+  font-family:Georgia,serif;
+}
+.story-mini-author{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:12px;
+}
+.story-mini-avatar{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  object-fit:cover;
+  border:1px solid #ffcc33;
+  background:#222;
+}
+.story-mini-default{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#222;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#ffcc33;
+}
+.featured-badge{
+  color:#ffcc33;
+  font-weight:bold;
+}
+@media(max-width:700px){
+  .filter-box{grid-template-columns:1fr}
+}
+</style>
 </head>
 
 <body>
@@ -46,10 +94,9 @@
   <div class="hero-content">
     <span class="hero-label">Story Library</span>
     <h2>Stories That Deserve To Be Heard</h2>
-    <p>Published stories from The Phoenix Whispers.</p>
+    <p>Read published stories, real voices and creative memories from The Phoenix Whispers.</p>
 
     <a class="btn light" href="submit-story.html">Share Your Story</a>
-    <a class="btn" href="admin/">Admin</a>
   </div>
 </section>
 
@@ -57,6 +104,21 @@
   <div class="section-title">
     <span>Live Library</span>
     <h2>Published Stories</h2>
+  </div>
+
+  <div class="filter-box">
+    <input type="text" id="searchInput" placeholder="Search stories by title, author, category...">
+    <select id="categoryFilter">
+      <option value="all">All Categories</option>
+      <option>Hope</option>
+      <option>Family</option>
+      <option>Education</option>
+      <option>Society</option>
+      <option>Love</option>
+      <option>Anonymous</option>
+      <option>Personal</option>
+      <option>Other</option>
+    </select>
   </div>
 
   <div class="story-grid" id="liveStories">
@@ -115,6 +177,7 @@
     <div class="footer-links">
       <h3>Explore</h3>
       <a href="index.html">Home</a>
+      <a href="stories.html">Stories</a>
       <a href="books.html">Books</a>
       <a href="submit-story.html">Share Your Story</a>
       <a href="blog.html">Blog</a>
@@ -133,8 +196,6 @@
 
 <script src="script.js"></script>
 
-<!-- KEEP SAME HEAD + BODY ABOVE -->
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
@@ -151,7 +212,12 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
 const liveStories = document.getElementById("liveStories");
+const searchInput = document.getElementById("searchInput");
+const categoryFilter = document.getElementById("categoryFilter");
+
+let allStories = [];
 
 function shortText(text, limit = 160){
   if(!text) return "";
@@ -163,6 +229,69 @@ function readTime(text){
   return Math.max(1, Math.ceil(words / 200));
 }
 
+function renderStories(stories){
+  if(stories.length === 0){
+    liveStories.innerHTML = `
+      <div class="card">
+        <h3>No matching stories</h3>
+        <p>Try another keyword or category.</p>
+        <a class="btn light" href="submit-story.html">Share Your Story</a>
+      </div>`;
+    return;
+  }
+
+  liveStories.innerHTML = "";
+
+  stories.forEach(story => {
+    const card = document.createElement("div");
+    card.className = "story-card";
+
+    const imagePart = story.imageUrl
+      ? `<img src="${story.imageUrl}" alt="${story.title}" style="width:100%;height:185px;object-fit:cover;">`
+      : `<div class="story-image">${story.featured ? "⭐" : "📖"}</div>`;
+
+    const avatar = story.profilePhoto
+      ? `<img class="story-mini-avatar" src="${story.profilePhoto}" alt="${story.authorName || "Author"}">`
+      : `<div class="story-mini-default"><i class="fa-solid fa-user"></i></div>`;
+
+    card.innerHTML = `
+      ${imagePart}
+      <div class="story-content">
+        <div class="story-mini-author">
+          ${avatar}
+          <div>
+            <small>${story.authorName || "Anonymous"}</small><br>
+            <small>
+              ${story.featured ? `<span class="featured-badge">Featured · </span>` : ""}
+              ${story.category || "Story"} · ${readTime(story.content)} min read · 👁️ ${story.views || 0}
+            </small>
+          </div>
+        </div>
+
+        <h3>${story.title}</h3>
+        <p>${shortText(story.excerpt || story.content)}</p>
+        <a class="read-link" href="story-reader.html?id=${story.id}">Read Story →</a>
+      </div>
+    `;
+
+    liveStories.appendChild(card);
+  });
+}
+
+function applyFilters(){
+  const q = searchInput.value.toLowerCase().trim();
+  const cat = categoryFilter.value;
+
+  let filtered = allStories.filter(story => {
+    const text = `${story.title || ""} ${story.authorName || ""} ${story.category || ""} ${story.excerpt || ""} ${story.content || ""}`.toLowerCase();
+    const matchesSearch = !q || text.includes(q);
+    const matchesCat = cat === "all" || story.category === cat;
+    return matchesSearch && matchesCat;
+  });
+
+  renderStories(filtered);
+}
+
 async function loadStories(){
   try{
     const snapshot = await getDocs(collection(db, "stories"));
@@ -172,53 +301,15 @@ async function loadStories(){
       stories.push({ id: doc.id, ...doc.data() });
     });
 
-    stories = stories
+    allStories = stories
       .filter(story => story.status === "published")
-      .sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+      .sort((a,b) => {
+        if(a.featured && !b.featured) return -1;
+        if(!a.featured && b.featured) return 1;
+        return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
+      });
 
-    if(stories.length === 0){
-      liveStories.innerHTML = `
-        <div class="card">
-          <h3>No stories yet</h3>
-          <p>Published stories will appear here soon.</p>
-          <a class="btn light" href="submit-story.html">Share Your Story</a>
-        </div>`;
-      return;
-    }
-
-    liveStories.innerHTML = "";
-
-    stories.forEach(story => {
-      const card = document.createElement("div");
-      card.className = "story-card";
-
-      const imagePart = story.imageUrl
-        ? `<img src="${story.imageUrl}" alt="${story.title}" style="width:100%;height:185px;object-fit:cover;">`
-        : `<div class="story-image">📖</div>`;
-
-      const avatar = story.profilePhoto
-        ? `<img src="${story.profilePhoto}" style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:1px solid #ffcc33;">`
-        : `<div style="width:38px;height:38px;border-radius:50%;background:#222;display:flex;align-items:center;justify-content:center;color:#ffcc33;">👤</div>`;
-
-      card.innerHTML = `
-        ${imagePart}
-        <div class="story-content">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-            ${avatar}
-            <div>
-              <small>${story.authorName || "Anonymous"}</small><br>
-              <small>${story.category || "Story"} · ${readTime(story.content)} min read · 👁️ ${story.views || 0}</small>
-            </div>
-          </div>
-
-          <h3>${story.title}</h3>
-          <p>${shortText(story.excerpt || story.content)}</p>
-          <a class="read-link" href="story-reader.html?id=${story.id}">Read Story →</a>
-        </div>
-      `;
-
-      liveStories.appendChild(card);
-    });
+    renderStories(allStories);
 
   }catch(error){
     console.error(error);
@@ -229,6 +320,9 @@ async function loadStories(){
       </div>`;
   }
 }
+
+searchInput.addEventListener("input", applyFilters);
+categoryFilter.addEventListener("change", applyFilters);
 
 loadStories();
 </script>

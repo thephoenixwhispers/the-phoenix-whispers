@@ -65,6 +65,42 @@
   font-weight:bold;
 }
 
+  .author-box{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin:18px 0 26px;
+  padding:14px;
+  background:#0b0b0b;
+  border:1px solid #292929;
+}
+
+.author-avatar{
+  width:62px;
+  height:62px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid #ffcc33;
+  background:#222;
+}
+
+.author-avatar.default{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#ffcc33;
+  font-size:26px;
+}
+
+.author-box strong{
+  color:#ffcc33;
+}
+
+.author-box span{
+  color:#caa24a;
+  font-size:13px;
+}
+
 @media(max-width:800px){
   .reader-card{padding:24px}
   .reader-card h1{font-size:34px}
@@ -212,8 +248,20 @@ async function loadStory(){
 
     readerBox.innerHTML = `
       <span class="hero-label">${escapeHTML(story.category || "Story")}</span>
-      <h1>${escapeHTML(story.title)}</h1>
-      <div class="reader-meta">By ${escapeHTML(story.authorName || "Anonymous")}</div>
+<h1>${escapeHTML(story.title)}</h1>
+
+<div class="author-box">
+  ${
+    story.profilePhoto
+    ? `<img class="author-avatar" src="${escapeHTML(story.profilePhoto)}" alt="${escapeHTML(story.authorName || "Author")}">`
+    : `<div class="author-avatar default"><i class="fa-solid fa-user"></i></div>`
+  }
+
+  <div>
+    <strong>${escapeHTML(story.authorName || "Anonymous")}</strong><br>
+    <span>${escapeHTML(story.category || "Story")} · The Phoenix Whispers</span>
+  </div>
+</div>
 
       ${story.imageUrl ? `<img class="reader-img" src="${escapeHTML(story.imageUrl)}" alt="${escapeHTML(story.title)}">` : ""}
 

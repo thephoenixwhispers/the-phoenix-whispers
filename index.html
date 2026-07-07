@@ -286,5 +286,77 @@ gtag('config', 'G-BS8Z15XE0P');
 
 <script src="script.js"></script>
   <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
+  authDomain: "the-phoenix-whispers.firebaseapp.com",
+  projectId: "the-phoenix-whispers",
+  storageBucket: "the-phoenix-whispers.firebasestorage.app",
+  messagingSenderId: "60939247464",
+  appId: "1:60939247464:web:a6b49dc2cf938a939480dd",
+  measurementId: "G-JRTWDK1XVF"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const latestStoryBox = document.getElementById("latestStory");
+
+function shortText(text, limit = 180){
+  return text && text.length > limit ? text.substring(0, limit) + "..." : (text || "");
+}
+
+async function loadLatestStory(){
+  try{
+    const snap = await getDocs(collection(db, "stories"));
+    let stories = [];
+
+    snap.forEach(doc => {
+      stories.push({ id: doc.id, ...doc.data() });
+    });
+
+    stories = stories
+      .filter(story => story.status === "published")
+      .sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+
+    if(stories.length === 0){
+      latestStoryBox.innerHTML = `
+        <div class="card">
+          <h3>No stories yet</h3>
+          <p>Latest published stories will appear here.</p>
+        </div>
+      `;
+      return;
+    }
+
+    const story = stories[0];
+
+    latestStoryBox.innerHTML = `
+      <div class="story-card">
+        <div class="story-image">🔥</div>
+        <div class="story-content">
+          <small>${story.category || "Story"} · ${story.authorName || "Anonymous"}</small>
+          <h3>${story.title}</h3>
+          <p>${shortText(story.excerpt || story.content)}</p>
+          <a class="read-link" href="story-reader.html?id=${story.id}">Read Latest Story →</a>
+        </div>
+      </div>
+    `;
+  }catch(error){
+    console.error(error);
+    latestStoryBox.innerHTML = `
+      <div class="card">
+        <h3>Latest story could not load</h3>
+        <p>Check Firebase connection.</p>
+      </div>
+    `;
+  }
+}
+
+loadLatestStory();
+</script>
+  
 </body>
 </html>

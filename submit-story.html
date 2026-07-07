@@ -169,6 +169,7 @@
           <option value="Keep me anonymous">Keep me anonymous</option>
           <option value="Contact me before deciding">Contact me before deciding</option>
         </select>
+        <input type="url" id="profilePhoto" placeholder="Optional: Profile photo / DP image link">
 
         <input type="url" id="mediaUrl" placeholder="Optional: Google Drive / YouTube / PDF / Audio / Video link">
 
@@ -266,6 +267,7 @@ form.addEventListener("submit", async (e) => {
     title: document.getElementById("title").value.trim(),
     category: document.getElementById("category").value,
     authorChoice: document.getElementById("authorChoice").value,
+    profilePhoto: document.getElementById("profilePhoto").value.trim(),
     mediaUrl: document.getElementById("mediaUrl").value.trim(),
     excerpt: document.getElementById("excerpt").value.trim(),
     content: document.getElementById("content").value.trim(),

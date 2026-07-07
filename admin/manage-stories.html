@@ -10,159 +10,182 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 <style>
-.admin-shell{min-height:100vh;background:#070707;color:#f5f0e6}
-.admin-header{display:flex;justify-content:space-between;align-items:center;padding:18px 7%;border-bottom:1px solid #222;background:#050505}
-.admin-brand{display:flex;align-items:center;gap:12px}
-.admin-brand img{width:52px}
-.admin-brand h1{color:#ffcc33;font-size:24px;margin:0}
-.admin-main{padding:45px 7%;max-width:1100px;margin:auto}
-.story-admin-card{background:#111;border:1px solid #292929;padding:22px;margin:16px 0}
-.story-admin-card h3{color:#ffcc33;margin:0 0 8px}
-.story-admin-card p{color:#cfc7b8}
-.admin-btn{padding:10px 16px;background:#f0d27a;color:#170b05;border:none;font-weight:bold;cursor:pointer;font-family:Georgia,serif;margin:6px}
-.admin-btn.red{background:#9b0000;color:white}
-.admin-btn.dark{background:#222;color:#f5f0e6}
+body{margin:0;background:#070707;color:#f5f0e6;font-family:Georgia,serif}
+.header{display:flex;justify-content:space-between;align-items:center;padding:18px 7%;background:#050505;border-bottom:1px solid #222}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand img{width:50px}
+.brand h2{color:#ffcc33;margin:0}
+.container{max-width:1100px;margin:auto;padding:40px 7%}
+.story-card-admin{background:#111;border:1px solid #292929;padding:22px;margin-bottom:18px}
+.story-top{display:flex;gap:15px;align-items:center;margin-bottom:12px}
+.avatar{width:62px;height:62px;border-radius:50%;object-fit:cover;border:2px solid #ffcc33;background:#222}
+.avatar.default{display:flex;align-items:center;justify-content:center;color:#ffcc33;font-size:26px}
+.story-card-admin h3{color:#ffcc33;margin:0}
+.meta{color:#aaa;font-size:14px;margin:8px 0}
+.desc{color:#cfc7b8;line-height:1.6}
+.btn{display:inline-block;padding:10px 16px;border:none;cursor:pointer;font-weight:bold;margin:6px 6px 0 0;font-family:Georgia,serif;text-decoration:none}
+.gold{background:#f0d27a;color:#170b05}
+.red{background:#8b0000;color:white}
+.dark{background:#222;color:white}
+.status{margin:20px 0;color:#ffcc33}
 </style>
 </head>
 
 <body>
-<div class="admin-shell">
 
-<header class="admin-header">
-  <a class="admin-brand" href="dashboard.html">
-    <img src="../logo.png" alt="Logo">
-    <h1>Phoenix Admin</h1>
-  </a>
+<header class="header">
+<a class="brand" href="dashboard.html">
+<img src="../logo.png">
+<h2>Manage Stories</h2>
+</a>
 
-  <button class="admin-btn red" id="logoutBtn">Logout</button>
+<div>
+<a class="btn dark" href="dashboard.html">Dashboard</a>
+<a class="btn gold" href="new-story.html">+ New Story</a>
+</div>
 </header>
 
-<main class="admin-main">
-  <span class="hero-label">Admin</span>
-  <h2 style="font-size:42px;color:#ffcc33;margin:10px 0;">Manage Stories</h2>
-
-  <a class="admin-btn" href="new-story.html">+ New Story</a>
-  <a class="admin-btn dark" href="dashboard.html">Dashboard</a>
-
-  <p id="status" style="color:#ffcc33;margin-top:20px;">Loading stories...</p>
-
-  <div id="storiesList"></div>
-</main>
-
+<div class="container">
+<h1 style="color:#ffcc33">Stories Library</h1>
+<p id="status" class="status">Loading stories...</p>
+<div id="storiesList"></div>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
-import { getFirestore, collection, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import {
+getAuth,onAuthStateChanged,signOut,setPersistence,browserLocalPersistence
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+import {
+getFirestore,collection,getDocs,deleteDoc,doc,updateDoc
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
-  authDomain: "the-phoenix-whispers.firebaseapp.com",
-  projectId: "the-phoenix-whispers",
-  storageBucket: "the-phoenix-whispers.firebasestorage.app",
-  messagingSenderId: "60939247464",
-  appId: "1:60939247464:web:a6b49dc2cf938a939480dd",
-  measurementId: "G-JRTWDK1XVF"
+const firebaseConfig={
+apiKey:"AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
+authDomain:"the-phoenix-whispers.firebaseapp.com",
+projectId:"the-phoenix-whispers",
+storageBucket:"the-phoenix-whispers.firebasestorage.app",
+messagingSenderId:"60939247464",
+appId:"1:60939247464:web:a6b49dc2cf938a939480dd",
+measurementId:"G-JRTWDK1XVF"
 };
 
-const ADMIN_EMAIL = "thephoenixwhispers.official@gmail.com";
+const ADMIN_EMAIL="thephoenixwhispers.official@gmail.com";
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
 
-await setPersistence(auth, browserLocalPersistence);
+await setPersistence(auth,browserLocalPersistence);
 
-const statusBox = document.getElementById("status");
-const storiesList = document.getElementById("storiesList");
-const logoutBtn = document.getElementById("logoutBtn");
+const statusBox=document.getElementById("status");
+const storiesList=document.getElementById("storiesList");
 
-onAuthStateChanged(auth, async (user) => {
-  if(!user){
-    window.location.href = "index.html";
-    return;
-  }
-
-  if(user.email !== ADMIN_EMAIL){
-    await signOut(auth);
-    window.location.href = "index.html";
-    return;
-  }
-
-  loadStories();
+onAuthStateChanged(auth,async user=>{
+if(!user){location.href="index.html";return}
+if(user.email!==ADMIN_EMAIL){await signOut(auth);location.href="index.html";return}
+loadStories();
 });
 
-logoutBtn.addEventListener("click", async () => {
-  await signOut(auth);
-  window.location.href = "index.html";
-});
+function shortText(text,limit=170){
+return text && text.length>limit ? text.substring(0,limit)+"..." : (text||"");
+}
 
-function shortText(text, limit=140){
-  if(!text) return "";
-  return text.length > limit ? text.substring(0, limit) + "..." : text;
+function readTime(text){
+const words=(text||"").trim().split(/\s+/).filter(Boolean).length;
+return Math.max(1,Math.ceil(words/200));
 }
 
 async function loadStories(){
-  try{
-    const snapshot = await getDocs(collection(db, "stories"));
-    let stories = [];
+try{
+const snap=await getDocs(collection(db,"stories"));
+let stories=[];
 
-    snapshot.forEach(docSnap => {
-      stories.push({
-        id: docSnap.id,
-        ...docSnap.data()
-      });
-    });
+snap.forEach(d=>stories.push({id:d.id,...d.data()}));
 
-    stories.sort((a,b) => {
-      const aTime = a.createdAt?.seconds || 0;
-      const bTime = b.createdAt?.seconds || 0;
-      return bTime - aTime;
-    });
+stories.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
 
-    statusBox.innerText = stories.length + " stories found.";
-    storiesList.innerHTML = "";
+statusBox.innerText=stories.length+" story(s) found.";
+storiesList.innerHTML="";
 
-    if(stories.length === 0){
-      storiesList.innerHTML = `<div class="story-admin-card"><p>No stories yet.</p></div>`;
-      return;
-    }
-
-    stories.forEach(story => {
-      const card = document.createElement("div");
-      card.className = "story-admin-card";
-      card.innerHTML = `
-        <h3>${story.title || "Untitled"}</h3>
-        <p><strong>Status:</strong> ${story.status || "unknown"} · <strong>Category:</strong> ${story.category || "Story"} · <strong>Author:</strong> ${story.authorName || "Anonymous"}</p>
-        <p>${shortText(story.excerpt || story.content)}</p>
-
-        <a class="admin-btn dark" href="../story-reader.html?id=${story.id}" target="_blank">Preview</a>
-        <a class="admin-btn" href="edit-story.html?id=${story.id}">Edit</a>
-        <button class="admin-btn red" data-id="${story.id}">Delete</button>
-      `;
-
-      storiesList.appendChild(card);
-    });
-
-    document.querySelectorAll("button[data-id]").forEach(btn => {
-      btn.addEventListener("click", async () => {
-        const id = btn.dataset.id;
-        const confirmDelete = confirm("Delete this story permanently?");
-        if(!confirmDelete) return;
-
-        await deleteDoc(doc(db, "stories", id));
-        statusBox.innerText = "Story deleted.";
-        loadStories();
-      });
-    });
-
-  }catch(error){
-    console.error(error);
-    statusBox.innerText = "Failed to load stories. Check Firestore rules.";
-  }
+if(stories.length===0){
+storiesList.innerHTML='<div class="story-card-admin"><p>No stories yet.</p></div>';
+return;
 }
 
+stories.forEach(story=>{
+const card=document.createElement("div");
+card.className="story-card-admin";
+
+const avatar=story.profilePhoto
+? `<img class="avatar" src="${story.profilePhoto}" alt="Author">`
+: `<div class="avatar default"><i class="fa-solid fa-user"></i></div>`;
+
+card.innerHTML=`
+<div class="story-top">
+${avatar}
+<div>
+<h3>${story.title||"Untitled Story"}</h3>
+<div class="meta">
+<strong>Author:</strong> ${story.authorName||"Anonymous"} ·
+<strong>Status:</strong> ${story.status||"draft"} ·
+<strong>Category:</strong> ${story.category||"Story"} ·
+<strong>Views:</strong> ${story.views||0} ·
+<strong>Read:</strong> ${readTime(story.content)} min ·
+<strong>Featured:</strong> ${story.featured ? "Yes" : "No"}
+</div>
+</div>
+</div>
+
+<p class="desc">${shortText(story.excerpt||story.content)}</p>
+
+<a class="btn dark" href="../story-reader.html?id=${story.id}" target="_blank">Preview</a>
+
+<a class="btn gold" href="edit-story.html?id=${story.id}">
+<i class="fa-solid fa-pen"></i> Edit
+</a>
+
+<button class="btn dark" data-feature="${story.id}">
+<i class="fa-solid fa-star"></i>
+${story.featured ? " Remove Featured" : " Make Featured"}
+</button>
+
+<button class="btn red" data-delete="${story.id}">
+<i class="fa-solid fa-trash"></i> Delete
+</button>
+`;
+
+storiesList.appendChild(card);
+});
+
+document.querySelectorAll("[data-delete]").forEach(btn=>{
+btn.addEventListener("click",async()=>{
+if(!confirm("Delete this story permanently?"))return;
+await deleteDoc(doc(db,"stories",btn.dataset.delete));
+loadStories();
+});
+});
+
+document.querySelectorAll("[data-feature]").forEach(btn=>{
+btn.addEventListener("click",async()=>{
+const id=btn.dataset.feature;
+const story=stories.find(s=>s.id===id);
+if(!story)return;
+
+await updateDoc(doc(db,"stories",id),{
+featured:!story.featured
+});
+
+loadStories();
+});
+});
+
+}catch(error){
+console.error(error);
+statusBox.innerText="Failed to load stories. Check Firebase rules.";
+}
+}
 </script>
+
 </body>
 </html>

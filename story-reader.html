@@ -206,7 +206,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import { getFirestore, doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
@@ -256,6 +256,9 @@ async function loadStory(){
     }
 
     const story = snap.data();
+    await updateDoc(ref, {
+  views: increment(1)
+});
 
     if(story.status !== "published"){
       readerBox.innerHTML = `
@@ -273,6 +276,10 @@ async function loadStory(){
 <h1>${escapeHTML(story.title)}</h1>
 
 <div class="author-box">
+
+<div class="reader-meta">
+  👁️ ${story.views || 0} views
+</div>
   ${
     story.profilePhoto
     ? `<img class="author-avatar" src="${escapeHTML(story.profilePhoto)}" alt="${escapeHTML(story.authorName || "Author")}">`

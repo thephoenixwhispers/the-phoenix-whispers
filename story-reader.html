@@ -12,6 +12,26 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 <style>
+
+  .back-arrow{
+  position:fixed;
+  top:95px;
+  left:22px;
+  z-index:999;
+  background:#111;
+  color:#ffcc33;
+  border:1px solid #333;
+  padding:10px 14px;
+  font-family:Georgia,serif;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.back-arrow:hover{
+  border-color:#8b0000;
+  background:#180606;
+}
+  
 .reader-wrap{
   max-width:880px;
   margin:auto;
@@ -161,6 +181,8 @@
     </div>
   </div>
 </header>
+
+  <button class="back-arrow" id="smartBack">← Back</button> 
 
 <main class="reader-wrap">
   <div class="reader-card" id="readerBox">
@@ -338,6 +360,15 @@ Share Your Story
 }
 
 loadStory();
+
+document.getElementById("smartBack").addEventListener("click", () => {
+  if (history.length > 1) {
+    history.back();
+  } else {
+    window.location.href = "stories.html";
+  }
+});
+  
   document.getElementById("shareBtn")?.addEventListener("click", async () => {
 
 if(navigator.share){

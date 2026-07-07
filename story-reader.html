@@ -291,10 +291,30 @@ async function loadStory(){
 
       <div class="reader-content">${escapeHTML(story.content)}</div>
 
-      <div class="reader-actions">
-        <a class="btn light" href="stories.html">Back To Stories</a>
-        <a class="btn" href="submit-story.html">Share Your Story</a>
-      </div>
+      <div class="story-actions">
+
+<button class="story-action-btn" id="likeBtn">
+❤️ <span id="likeCount">0</span>
+</button>
+
+<button class="story-action-btn" id="shareBtn">
+<i class="fa-solid fa-share"></i> Share
+</button>
+
+<button class="story-action-btn" id="copyBtn">
+<i class="fa-solid fa-link"></i> Copy Link
+</button>
+
+<a class="btn light" href="stories.html">
+Back To Stories
+</a>
+
+<a class="btn" href="submit-story.html">
+Share Your Story
+</a>
+
+</div>
+
     `;
 
   }catch(error){
@@ -308,6 +328,34 @@ async function loadStory(){
 }
 
 loadStory();
+  document.getElementById("shareBtn")?.addEventListener("click", async () => {
+
+if(navigator.share){
+
+try{
+await navigator.share({
+title:document.title,
+url:window.location.href
+});
+}catch(e){}
+
+}else{
+
+navigator.clipboard.writeText(window.location.href);
+
+alert("Story link copied.");
+
+}
+
+});
+
+document.getElementById("copyBtn")?.addEventListener("click",()=>{
+
+navigator.clipboard.writeText(window.location.href);
+
+alert("Story link copied.");
+
+});
 </script>
 
 </body>

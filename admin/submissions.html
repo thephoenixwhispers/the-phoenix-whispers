@@ -17,6 +17,31 @@
 .admin-main{padding:45px 7%;max-width:1100px;margin:auto}
 .item{background:#111;border:1px solid #292929;padding:22px;margin:16px 0}
 .item h3{color:#ffcc33;margin:0 0 8px}.item p{color:#cfc7b8}
+
+  .submit-header{
+display:flex;
+align-items:center;
+gap:15px;
+margin-bottom:15px;
+}
+
+.submit-avatar{
+width:70px;
+height:70px;
+border-radius:50%;
+object-fit:cover;
+border:2px solid #ffcc33;
+background:#222;
+}
+
+.submit-avatar.default{
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:30px;
+color:#ffcc33;
+}
+  
 .admin-btn{padding:10px 16px;background:#f0d27a;color:#170b05;border:none;font-weight:bold;cursor:pointer;font-family:Georgia,serif;margin:6px}
 .admin-btn.red{background:#9b0000;color:white}.admin-btn.dark{background:#222;color:#f5f0e6}
 </style>
@@ -96,10 +121,47 @@ items.forEach(s=>{
 const div=document.createElement("div");
 div.className="item";
 div.innerHTML=`
+
+const avatar = s.profilePhoto
+? `<img class="submit-avatar" src="${s.profilePhoto}" alt="Profile">`
+: `<div class="submit-avatar default"><i class="fa-solid fa-user"></i></div>`;
+
+div.innerHTML=`
+
+<div class="submit-header">
+
+${avatar}
+
+<div>
+
 <h3>${s.title||"Untitled"}</h3>
-<p><strong>By:</strong> ${s.name||"Unknown"} · <strong>Email:</strong> ${s.email||"No email"} · <strong>Status:</strong> ${s.status||"pending"}</p>
+
+<p>
+<strong>By:</strong> ${s.name||"Unknown"}
+<br>
+<strong>Email:</strong> ${s.email||"No email"}
+</p>
+
+</div>
+
+</div>
+
+<p><strong>Status:</strong> ${s.status||"pending"}</p>
+
 <p><strong>Choice:</strong> ${s.authorChoice||"Not set"} · <strong>Category:</strong> ${s.category||"Story"}</p>
+
 <p>${shortText(s.excerpt||s.content)}</p>
+
+<button class="admin-btn" data-publish="${s.id}">
+Approve & Publish
+</button>
+
+<button class="admin-btn red" data-delete="${s.id}">
+Delete
+</button>
+
+`;
+
 <button class="admin-btn" data-publish="${s.id}">Approve & Publish</button>
 <button class="admin-btn red" data-delete="${s.id}">Delete</button>
 `;
@@ -123,12 +185,15 @@ const authorName =
 sub.authorChoice==="Keep me anonymous" ? "Anonymous" : (sub.name||"Anonymous");
 
 await addDoc(collection(db,"stories"),{
+  
 title:sub.title||"Untitled",
 slug:makeSlug(sub.title||"untitled"),
 authorName,
 category:sub.category||"Story",
 status:"published",
 imageUrl:"",
+  profilePhoto: sub.profilePhoto || "",
+  
 mediaUrl:sub.mediaUrl||"",
 excerpt:sub.excerpt||"",
 content:sub.content||"",

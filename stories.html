@@ -133,6 +133,8 @@
 
 <script src="script.js"></script>
 
+<!-- KEEP SAME HEAD + BODY ABOVE -->
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
@@ -149,34 +151,30 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
 const liveStories = document.getElementById("liveStories");
 
-function shortText(text, limit = 170){
+function shortText(text, limit = 160){
   if(!text) return "";
   return text.length > limit ? text.substring(0, limit) + "..." : text;
+}
+
+function readTime(text){
+  const words = (text || "").trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.ceil(words / 200));
 }
 
 async function loadStories(){
   try{
     const snapshot = await getDocs(collection(db, "stories"));
-
     let stories = [];
 
     snapshot.forEach(doc => {
-      stories.push({
-        id: doc.id,
-        ...doc.data()
-      });
+      stories.push({ id: doc.id, ...doc.data() });
     });
 
     stories = stories
       .filter(story => story.status === "published")
-      .sort((a,b) => {
-        const aTime = a.createdAt?.seconds || 0;
-        const bTime = b.createdAt?.seconds || 0;
-        return bTime - aTime;
-      });
+      .sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
 
     if(stories.length === 0){
       liveStories.innerHTML = `
@@ -184,8 +182,7 @@ async function loadStories(){
           <h3>No stories yet</h3>
           <p>Published stories will appear here soon.</p>
           <a class="btn light" href="submit-story.html">Share Your Story</a>
-        </div>
-      `;
+        </div>`;
       return;
     }
 
@@ -199,10 +196,21 @@ async function loadStories(){
         ? `<img src="${story.imageUrl}" alt="${story.title}" style="width:100%;height:185px;object-fit:cover;">`
         : `<div class="story-image">📖</div>`;
 
+      const avatar = story.profilePhoto
+        ? `<img src="${story.profilePhoto}" style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:1px solid #ffcc33;">`
+        : `<div style="width:38px;height:38px;border-radius:50%;background:#222;display:flex;align-items:center;justify-content:center;color:#ffcc33;">👤</div>`;
+
       card.innerHTML = `
         ${imagePart}
         <div class="story-content">
-          <small>${story.category || "Story"} · ${story.authorName || "Anonymous"}</small>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+            ${avatar}
+            <div>
+              <small>${story.authorName || "Anonymous"}</small><br>
+              <small>${story.category || "Story"} · ${readTime(story.content)} min read · 👁️ ${story.views || 0}</small>
+            </div>
+          </div>
+
           <h3>${story.title}</h3>
           <p>${shortText(story.excerpt || story.content)}</p>
           <a class="read-link" href="story-reader.html?id=${story.id}">Read Story →</a>
@@ -218,8 +226,7 @@ async function loadStories(){
       <div class="card">
         <h3>Stories could not load</h3>
         <p>Check Firebase rules or internet connection.</p>
-      </div>
-    `;
+      </div>`;
   }
 }
 

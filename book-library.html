@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Book Library | The Phoenix Whispers</title>
+<meta name="description" content="Explore published and upcoming books from The Phoenix Whispers.">
+
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+.book-filter{
+  max-width:1000px;
+  margin:0 auto 30px;
+}
+.book-filter input{
+  width:100%;
+  padding:14px;
+  background:#080808;
+  border:1px solid #333;
+  color:white;
+  font-family:Georgia,serif;
+}
+.book-badge{
+  color:#ffcc33;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div id="loader">
+  <img src="logo.png" alt="Phoenix Logo">
+  <h2>The Phoenix Whispers</h2>
+  <p>Rise • Transform • Inspire</p>
+</div>
+
+<div id="progress-bar"></div>
+<button id="backToTop">↑</button>
+
+<header>
+  <div class="top">
+    <a href="index.html" class="brand">
+      <img src="logo.png" alt="The Phoenix Whispers Logo">
+      <h1>The Phoenix Whispers</h1>
+    </a>
+
+    <div class="top-links">
+      <a href="index.html">Home</a>
+      <a href="stories.html">Stories</a>
+      <a href="submit-story.html">Share Story</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="embers" id="embers"></div>
+  <div class="hero-content">
+    <span class="hero-label">Book Library</span>
+    <h2>Books That Carry The Fire</h2>
+    <p>Published and upcoming books from The Phoenix Whispers.</p>
+  </div>
+</section>
+
+<section class="section reveal">
+  <div class="section-title">
+    <span>Library</span>
+    <h2>Explore Books</h2>
+  </div>
+
+  <div class="book-filter">
+    <input type="text" id="bookSearch" placeholder="Search books by title, author, language...">
+  </div>
+
+  <div class="story-grid" id="booksGrid">
+    <div class="card"><p>Loading books...</p></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <a href="index.html" class="footer-logo">
+        <img src="logo.png" alt="The Phoenix Whispers Logo">
+        <h3>The Phoenix Whispers</h3>
+      </a>
+      <p>A home for stories, books, interviews and creative voices.</p>
+    </div>
+
+    <div class="footer-links">
+      <h3>Explore</h3>
+      <a href="index.html">Home</a>
+      <a href="stories.html">Stories</a>
+      <a href="book-library.html">Books</a>
+      <a href="submit-story.html">Share Your Story</a>
+    </div>
+
+    <div class="footer-links">
+      <h3>Connect</h3>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="donate.html">Support</a>
+    </div>
+  </div>
+
+  <div class="copyright">© 2026 The Phoenix Whispers · Created by Vineet</div>
+</footer>
+
+<script src="script.js"></script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+const firebaseConfig={
+apiKey:"AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
+authDomain:"the-phoenix-whispers.firebaseapp.com",
+projectId:"the-phoenix-whispers",
+storageBucket:"the-phoenix-whispers.firebasestorage.app",
+messagingSenderId:"60939247464",
+appId:"1:60939247464:web:a6b49dc2cf938a939480dd",
+measurementId:"G-JRTWDK1XVF"
+};
+
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+
+const booksGrid=document.getElementById("booksGrid");
+const bookSearch=document.getElementById("bookSearch");
+
+let allBooks=[];
+
+function shortText(text,limit=170){
+  return text && text.length>limit ? text.substring(0,limit)+"..." : (text||"");
+}
+
+function renderBooks(books){
+  if(books.length===0){
+    booksGrid.innerHTML=`<div class="card"><h3>No books found</h3><p>Try another search.</p></div>`;
+    return;
+  }
+
+  booksGrid.innerHTML="";
+
+  books.forEach(book=>{
+    const card=document.createElement("div");
+    card.className="story-card";
+
+    const cover=book.coverImage
+      ? `<img src="${book.coverImage}" alt="${book.title}" style="width:100%;height:270px;object-fit:cover;">`
+      : `<div class="story-image">📚</div>`;
+
+    card.innerHTML=`
+      ${cover}
+      <div class="story-content">
+        <small>
+          ${book.featured ? `<span class="book-badge">Featured · </span>` : ""}
+          ${book.status || "Book"} · ${book.language || "English"}
+        </small>
+
+        <h3>${book.title || "Untitled Book"}</h3>
+        <p>${shortText(book.description)}</p>
+        <p><strong>Author:</strong> ${book.author || "Vineet"}</p>
+
+        <a class="read-link" href="books.html?id=${book.id}">View Details →</a>
+        <br>
+
+        ${book.amazonPaperback ? `<a class="read-link" href="${book.amazonPaperback}" target="_blank">Paperback →</a>` : ""}
+        ${book.amazonKindle ? `<a class="read-link" href="${book.amazonKindle}" target="_blank">Kindle →</a>` : ""}
+      </div>
+    `;
+
+    booksGrid.appendChild(card);
+  });
+}
+
+function applyBookSearch(){
+  const q=bookSearch.value.toLowerCase().trim();
+
+  const filtered=allBooks.filter(book=>{
+    const text=`${book.title||""} ${book.author||""} ${book.language||""} ${book.description||""}`.toLowerCase();
+    return !q || text.includes(q);
+  });
+
+  renderBooks(filtered);
+}
+
+async function loadBooks(){
+  try{
+    const snap=await getDocs(collection(db,"books"));
+    let books=[];
+
+    snap.forEach(d=>books.push({id:d.id,...d.data()}));
+
+    allBooks=books
+      .filter(book=>book.status==="published" || book.status==="upcoming")
+      .sort((a,b)=>{
+        if(a.featured && !b.featured) return -1;
+        if(!a.featured && b.featured) return 1;
+        return (b.createdAt?.seconds||0)-(a.createdAt?.seconds||0);
+      });
+
+    renderBooks(allBooks);
+
+  }catch(error){
+    console.error(error);
+    booksGrid.innerHTML=`<div class="card"><h3>Books could not load</h3><p>Check Firebase rules.</p></div>`;
+  }
+}
+
+bookSearch.addEventListener("input",applyBookSearch);
+loadBooks();
+</script>
+
+</body>
+</html>

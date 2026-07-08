@@ -343,6 +343,12 @@ onAuthStateChanged(auth, async (user) => {
   currentUser = user;
   loadBook();
 
+  sampleLink.value=b.sampleLink||"";
+category.value=b.category||"";
+publishDate.value=b.publishDate||"";
+series.value=b.series||"";
+bookNumber.value=b.bookNumber||"";
+
 });
 
 async function loadBook() {
@@ -396,6 +402,12 @@ form.addEventListener("submit", async (e) => {
 
     await updateDoc(doc(db, "books", bookId), {
 
+      sampleLink:sampleLink.value.trim(),
+category:category.value.trim(),
+publishDate:publishDate.value,
+series:series.value.trim(),
+bookNumber:bookNumber.value.trim(),
+      
       title: title.value.trim(),
       slug: makeSlug(title.value),
 

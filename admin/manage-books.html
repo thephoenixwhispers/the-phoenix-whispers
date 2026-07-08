@@ -129,6 +129,8 @@ ${cover}
 <strong>Featured:</strong> ${book.featured ? "Yes" : "No"}
 </div>
 
+<strong>Category:</strong> ${book.category || "General"}
+
 <p class="desc">${shortText(book.description)}</p>
 
 ${book.amazonPaperback ? `<a class="btn gold" href="${book.amazonPaperback}" target="_blank">Paperback</a>` : ""}

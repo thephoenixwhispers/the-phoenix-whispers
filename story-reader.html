@@ -12,144 +12,33 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 <style>
+.reader-wrap{max-width:880px;margin:auto;padding:80px 8%}
+.reader-card{background:#111;border:1px solid #292929;padding:38px;box-shadow:0 0 35px rgba(139,0,0,.18)}
+.reader-card h1{color:#ffcc33;font-size:46px;margin:10px 0 12px}
+.reader-meta{color:#caa24a;letter-spacing:2px;text-transform:uppercase;font-size:13px;margin-bottom:25px}
+.reader-img{width:100%;max-height:430px;object-fit:cover;margin:20px 0;border:1px solid #333}
+.reader-content{color:#e6d8c4;line-height:1.9;font-size:20px;white-space:pre-line;word-break:break-word;overflow-wrap:anywhere;max-width:100%}
+.reader-actions{margin-top:30px}
+.media-link{display:inline-block;margin:15px 0;color:#ffcc33;font-weight:bold}
 
-  .back-arrow{
-  position:fixed;
-  top:95px;
-  left:22px;
-  z-index:999;
-  background:#111;
-  color:#ffcc33;
-  border:1px solid #333;
-  padding:10px 14px;
-  font-family:Georgia,serif;
-  font-weight:bold;
-  cursor:pointer;
-}
+.author-box{display:flex;align-items:center;gap:14px;margin:18px 0 26px;padding:14px;background:#0b0b0b;border:1px solid #292929}
+.author-avatar{width:62px;height:62px;border-radius:50%;object-fit:cover;border:2px solid #ffcc33;background:#222}
+.author-avatar.default{display:flex;align-items:center;justify-content:center;color:#ffcc33;font-size:26px}
+.author-box strong{color:#ffcc33}
+.author-box span{color:#caa24a;font-size:13px}
 
-.back-arrow:hover{
-  border-color:#8b0000;
-  background:#180606;
-}
-  
-.reader-wrap{
-  max-width:880px;
-  margin:auto;
-  padding:80px 8%;
-}
+.story-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.story-action-btn{padding:11px 16px;border:1px solid #333;background:#0b0b0b;color:#ffcc33;cursor:pointer;font-family:Georgia,serif;font-weight:bold}
+.story-action-btn:hover{border-color:#8b0000;background:#160606}
 
-.reader-card{
-  background:#111;
-  border:1px solid #292929;
-  padding:38px;
-  box-shadow:0 0 35px rgba(139,0,0,.18);
-}
-
-.reader-card h1{
-  color:#ffcc33;
-  font-size:46px;
-  margin:10px 0 12px;
-}
-
-.reader-meta{
-  color:#caa24a;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  font-size:13px;
-  margin-bottom:25px;
-}
-
-.reader-img{
-  width:100%;
-  max-height:430px;
-  object-fit:cover;
-  margin:20px 0;
-  border:1px solid #333;
-}
-
-.reader-content{
-  color:#e6d8c4;
-  line-height:1.9;
-  font-size:20px;
-  white-space:pre-line;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-  max-width: 100%;
-}
-
-.reader-actions{
-  margin-top:30px;
-}
-
-.media-link{
-  display:inline-block;
-  margin:15px 0;
-  color:#ffcc33;
-  font-weight:bold;
-}
-
-  .author-box{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  margin:18px 0 26px;
-  padding:14px;
-  background:#0b0b0b;
-  border:1px solid #292929;
-}
-
-.author-avatar{
-  width:62px;
-  height:62px;
-  border-radius:50%;
-  object-fit:cover;
-  border:2px solid #ffcc33;
-  background:#222;
-}
-
-.author-avatar.default{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#ffcc33;
-  font-size:26px;
-}
-
-.author-box strong{
-  color:#ffcc33;
-}
-
-.author-box span{
-  color:#caa24a;
-  font-size:13px;
-}
+.back-arrow{position:fixed;top:95px;left:22px;z-index:999;background:#111;color:#ffcc33;border:1px solid #333;padding:10px 14px;font-family:Georgia,serif;font-weight:bold;cursor:pointer}
+.back-arrow:hover{border-color:#8b0000;background:#180606}
 
 @media(max-width:800px){
-  .reader-card{padding:24px}
-  .reader-card h1{font-size:34px}
-  .reader-content{font-size:18px}
-}
-
-  .story-actions{
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-  margin-top:28px;
-}
-
-.story-action-btn{
-  padding:11px 16px;
-  border:1px solid #333;
-  background:#0b0b0b;
-  color:#ffcc33;
-  cursor:pointer;
-  font-family:Georgia,serif;
-  font-weight:bold;
-}
-
-.story-action-btn:hover{
-  border-color:#8b0000;
-  background:#160606;
+.reader-card{padding:24px}
+.reader-card h1{font-size:34px}
+.reader-content{font-size:18px}
+.back-arrow{top:82px;left:12px}
 }
 </style>
 </head>
@@ -182,7 +71,7 @@
   </div>
 </header>
 
-  <button class="back-arrow" id="smartBack">← Back</button> 
+<button class="back-arrow" id="smartBack">← Back</button>
 
 <main class="reader-wrap">
   <div class="reader-card" id="readerBox">
@@ -281,9 +170,6 @@ async function loadStory(){
     }
 
     const story = snap.data();
-    await updateDoc(ref, {
-  views: increment(1)
-});
 
     if(story.status !== "published"){
       readerBox.innerHTML = `
@@ -294,28 +180,37 @@ async function loadStory(){
       return;
     }
 
+    try{
+      await updateDoc(ref, { views: increment(1) });
+    }catch(e){
+      console.log("View update skipped", e);
+    }
+
+    const likedKey = "liked_story_" + storyId;
+    const alreadyLiked = localStorage.getItem(likedKey) === "yes";
+
     document.title = story.title + " | The Phoenix Whispers";
 
     readerBox.innerHTML = `
       <span class="hero-label">${escapeHTML(story.category || "Story")}</span>
-<h1>${escapeHTML(story.title)}</h1>
+      <h1>${escapeHTML(story.title)}</h1>
 
-<div class="author-box">
+      <div class="author-box">
+        ${
+          story.profilePhoto
+          ? `<img class="author-avatar" src="${escapeHTML(story.profilePhoto)}" alt="${escapeHTML(story.authorName || "Author")}">`
+          : `<div class="author-avatar default"><i class="fa-solid fa-user"></i></div>`
+        }
 
-<div class="reader-meta">
-  👁️ ${story.views || 0} views
-</div>
-  ${
-    story.profilePhoto
-    ? `<img class="author-avatar" src="${escapeHTML(story.profilePhoto)}" alt="${escapeHTML(story.authorName || "Author")}">`
-    : `<div class="author-avatar default"><i class="fa-solid fa-user"></i></div>`
-  }
+        <div>
+          <strong>${escapeHTML(story.authorName || "Anonymous")}</strong><br>
+          <span>${escapeHTML(story.category || "Story")} · The Phoenix Whispers</span>
+        </div>
+      </div>
 
-  <div>
-    <strong>${escapeHTML(story.authorName || "Anonymous")}</strong><br>
-    <span>${escapeHTML(story.category || "Story")} · The Phoenix Whispers</span>
-  </div>
-</div>
+      <div class="reader-meta">
+        👁️ ${(story.views || 0) + 1} views · ❤️ <span id="likeCount">${story.likes || 0}</span> likes
+      </div>
 
       ${story.imageUrl ? `<img class="reader-img" src="${escapeHTML(story.imageUrl)}" alt="${escapeHTML(story.title)}">` : ""}
 
@@ -324,30 +219,24 @@ async function loadStory(){
       <div class="reader-content">${escapeHTML(story.content)}</div>
 
       <div class="story-actions">
+        <button class="story-action-btn" id="likeBtn">
+          ${alreadyLiked ? "❤️ Liked" : "🤍 Like"}
+        </button>
 
-<button class="story-action-btn" id="likeBtn">
-❤️ <span id="likeCount">0</span>
-</button>
+        <button class="story-action-btn" id="shareBtn">
+          <i class="fa-solid fa-share"></i> Share
+        </button>
 
-<button class="story-action-btn" id="shareBtn">
-<i class="fa-solid fa-share"></i> Share
-</button>
+        <button class="story-action-btn" id="copyBtn">
+          <i class="fa-solid fa-link"></i> Copy Link
+        </button>
 
-<button class="story-action-btn" id="copyBtn">
-<i class="fa-solid fa-link"></i> Copy Link
-</button>
-
-<a class="btn light" href="stories.html">
-Back To Stories
-</a>
-
-<a class="btn" href="submit-story.html">
-Share Your Story
-</a>
-
-</div>
-
+        <a class="btn light" href="stories.html">Back To Stories</a>
+        <a class="btn" href="submit-story.html">Share Your Story</a>
+      </div>
     `;
+
+    setupStoryActions(ref, alreadyLiked);
 
   }catch(error){
     console.error(error);
@@ -359,44 +248,66 @@ Share Your Story
   }
 }
 
-loadStory();
+function setupStoryActions(ref, alreadyLiked){
+  const likeBtn = document.getElementById("likeBtn");
+  const likeCount = document.getElementById("likeCount");
+  const shareBtn = document.getElementById("shareBtn");
+  const copyBtn = document.getElementById("copyBtn");
+
+  if(likeBtn){
+    likeBtn.addEventListener("click", async () => {
+      const likedKey = "liked_story_" + storyId;
+
+      if(localStorage.getItem(likedKey) === "yes"){
+        alert("You already liked this story.");
+        return;
+      }
+
+      try{
+        await updateDoc(ref, { likes: increment(1) });
+        localStorage.setItem(likedKey, "yes");
+        likeBtn.innerHTML = "❤️ Liked";
+        likeCount.innerText = Number(likeCount.innerText || 0) + 1;
+      }catch(error){
+        console.error(error);
+        alert("Like failed. Try again later.");
+      }
+    });
+  }
+
+  if(shareBtn){
+    shareBtn.addEventListener("click", async () => {
+      if(navigator.share){
+        try{
+          await navigator.share({
+            title: document.title,
+            url: window.location.href
+          });
+        }catch(e){}
+      }else{
+        await navigator.clipboard.writeText(window.location.href);
+        alert("Story link copied.");
+      }
+    });
+  }
+
+  if(copyBtn){
+    copyBtn.addEventListener("click", async () => {
+      await navigator.clipboard.writeText(window.location.href);
+      alert("Story link copied.");
+    });
+  }
+}
 
 document.getElementById("smartBack").addEventListener("click", () => {
-  if (history.length > 1) {
+  if(history.length > 1){
     history.back();
-  } else {
+  }else{
     window.location.href = "stories.html";
   }
 });
-  
-  document.getElementById("shareBtn")?.addEventListener("click", async () => {
 
-if(navigator.share){
-
-try{
-await navigator.share({
-title:document.title,
-url:window.location.href
-});
-}catch(e){}
-
-}else{
-
-navigator.clipboard.writeText(window.location.href);
-
-alert("Story link copied.");
-
-}
-
-});
-
-document.getElementById("copyBtn")?.addEventListener("click",()=>{
-
-navigator.clipboard.writeText(window.location.href);
-
-alert("Story link copied.");
-
-});
+loadStory();
 </script>
 
 </body>

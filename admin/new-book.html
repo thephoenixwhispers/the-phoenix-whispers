@@ -12,16 +12,21 @@
 <style>
 .admin-shell{min-height:100vh;background:#070707;color:#f5f0e6}
 .admin-header{display:flex;justify-content:space-between;align-items:center;padding:18px 7%;border-bottom:1px solid #222;background:#050505}
-.admin-brand{display:flex;align-items:center;gap:12px}.admin-brand img{width:52px}.admin-brand h1{color:#ffcc33;font-size:24px;margin:0}
+.admin-brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.admin-brand img{width:52px}
+.admin-brand h1{color:#ffcc33;font-size:24px;margin:0}
 .admin-main{padding:45px 7%;max-width:1050px;margin:auto}
 .book-form{background:#111;border:1px solid #292929;padding:32px;box-shadow:0 0 35px rgba(139,0,0,.18)}
 .book-form input,.book-form select,.book-form textarea{width:100%;padding:14px;margin:9px 0;background:#080808;border:1px solid #333;color:white;font-family:Georgia,serif}
 .book-form textarea{min-height:180px}
+.book-form .sample-box{min-height:260px}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.admin-btn{padding:13px 22px;background:#f0d27a;color:#170b05;border:none;font-weight:bold;cursor:pointer;font-family:Georgia,serif;margin-top:12px}
+.form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.admin-btn{padding:13px 22px;background:#f0d27a;color:#170b05;border:none;font-weight:bold;cursor:pointer;font-family:Georgia,serif;margin-top:12px;text-decoration:none;display:inline-block}
 .admin-btn.red{background:#9b0000;color:white}
 #status{color:#ffcc33;margin-top:16px}
-@media(max-width:800px){.form-grid{grid-template-columns:1fr}}
+.help-text{color:#aaa;font-size:13px;line-height:1.6;margin:4px 0 12px}
+@media(max-width:800px){.form-grid,.form-grid-3{grid-template-columns:1fr}}
 </style>
 </head>
 
@@ -52,28 +57,43 @@
 
     <textarea id="description" placeholder="Book Description" required></textarea>
 
+    <textarea id="sampleText" class="sample-box" placeholder="Read Sample Text (paste sample chapter / pages here)"></textarea>
+    <p class="help-text">This sample will appear inside the website on the book detail page.</p>
+
     <div class="form-grid">
       <input type="text" id="language" placeholder="Language" value="English">
-      <input type="text" id="statusField" placeholder="Status: published / upcoming / draft" value="published">
+      <select id="statusField">
+        <option value="published">Published</option>
+        <option value="upcoming">Upcoming</option>
+        <option value="draft">Draft</option>
+      </select>
     </div>
 
     <div class="form-grid">
-      <input type="text" id="pages" placeholder="Pages">
-      <input type="text" id="price" placeholder="Price">
+      <select id="category">
+        <option value="">Select Category</option>
+        <option value="Novel">Novel</option>
+        <option value="Poetry">Poetry</option>
+        <option value="Memoir">Memoir</option>
+        <option value="Thriller">Thriller</option>
+        <option value="Stories">Stories</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <input type="date" id="publishDate">
     </div>
 
-    <input type="text" id="isbn" placeholder="ISBN optional">
-    <input type="url" id="sampleLink" placeholder="Read Sample PDF Link">
+    <div class="form-grid-3">
+      <input type="text" id="pages" placeholder="Pages">
+      <input type="text" id="price" placeholder="Price">
+      <input type="text" id="isbn" placeholder="ISBN optional">
+    </div>
 
-<input type="text" id="category" placeholder="Category (Novel, Poetry, Memoir...)">
+    <div class="form-grid">
+      <input type="text" id="series" placeholder="Series Name optional">
+      <input type="number" id="bookNumber" placeholder="Book Number optional">
+    </div>
 
-<input type="date" id="publishDate">
-
-<input type="text" id="series" placeholder="Series Name (optional)">
-
-<input type="number" id="bookNumber" placeholder="Book Number">
-
-  
     <input type="url" id="amazonPaperback" placeholder="Amazon Paperback Link">
     <input type="url" id="amazonKindle" placeholder="Amazon Kindle Link">
     <input type="url" id="goodreadsLink" placeholder="Goodreads Link optional">
@@ -93,13 +113,22 @@
     <p id="status"></p>
   </form>
 </main>
-
-</div>
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-import { getAuth,onAuthStateChanged,signOut,setPersistence,browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
-import { getFirestore,collection,addDoc,serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut,
+  setPersistence,
+  browserLocalPersistence
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 const firebaseConfig={
 apiKey:"AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
@@ -112,6 +141,7 @@ measurementId:"G-JRTWDK1XVF"
 };
 
 const ADMIN_EMAIL="thephoenixwhispers.official@gmail.com";
+
 const app=initializeApp(firebaseConfig);
 const auth=getAuth(app);
 const db=getFirestore(app);
@@ -126,9 +156,20 @@ const logoutBtn=document.getElementById("logoutBtn");
 let currentUser=null;
 
 onAuthStateChanged(auth,async user=>{
-if(!user){location.href="index.html";return}
-if(user.email!==ADMIN_EMAIL){await signOut(auth);location.href="index.html";return}
+
+if(!user){
+location.href="index.html";
+return;
+}
+
+if(user.email!==ADMIN_EMAIL){
+await signOut(auth);
+location.href="index.html";
+return;
+}
+
 currentUser=user;
+
 });
 
 logoutBtn.addEventListener("click",async()=>{
@@ -137,10 +178,15 @@ location.href="index.html";
 });
 
 function makeSlug(text){
-return text.toLowerCase().trim().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+return text
+.toLowerCase()
+.trim()
+.replace(/[^a-z0-9]+/g,"-")
+.replace(/^-+|-+$/g,"");
 }
 
 form.addEventListener("submit",async e=>{
+
 e.preventDefault();
 
 if(!currentUser){
@@ -149,52 +195,87 @@ return;
 }
 
 saveBtn.disabled=true;
-saveBtn.innerText="Saving...";
+saveBtn.innerHTML="Saving...";
 
 const title=document.getElementById("title").value.trim();
 
 const book={
+
 title,
 slug:makeSlug(title),
-author:document.getElementById("author").value.trim(),
-subtitle:document.getElementById("subtitle").value.trim(),
-coverImage:document.getElementById("coverImage").value.trim(),
-description:document.getElementById("description").value.trim(),
-language:document.getElementById("language").value.trim(),
-status:document.getElementById("statusField").value.trim(),
-pages:document.getElementById("pages").value.trim(),
-price:document.getElementById("price").value.trim(),
-isbn:document.getElementById("isbn").value.trim(),
-amazonPaperback:document.getElementById("amazonPaperback").value.trim(),
-amazonKindle:document.getElementById("amazonKindle").value.trim(),
-goodreadsLink:document.getElementById("goodreadsLink").value.trim(),
-storygraphLink:document.getElementById("storygraphLink").value.trim(),
-featured:document.getElementById("featured").value==="true",
+
+author:author.value.trim(),
+subtitle:subtitle.value.trim(),
+
+coverImage:coverImage.value.trim(),
+
+description:description.value.trim(),
+
+sampleText:sampleText.value.trim(),
+
+language:language.value.trim(),
+
+status:statusField.value,
+
+category:category.value,
+
+publishDate:publishDate.value,
+
+pages:pages.value.trim(),
+
+price:price.value.trim(),
+
+isbn:isbn.value.trim(),
+
+series:series.value.trim(),
+
+bookNumber:bookNumber.value.trim(),
+
+amazonPaperback:amazonPaperback.value.trim(),
+
+amazonKindle:amazonKindle.value.trim(),
+
+goodreadsLink:goodreadsLink.value.trim(),
+
+storygraphLink:storygraphLink.value.trim(),
+
+featured:featured.value==="true",
+
 createdBy:currentUser.email,
+
 createdAt:serverTimestamp(),
-updatedAt:serverTimestamp(),
-  sampleLink:document.getElementById("sampleLink").value.trim(),
-category:document.getElementById("category").value.trim(),
-publishDate:document.getElementById("publishDate").value,
-series:document.getElementById("series").value.trim(),
-bookNumber:document.getElementById("bookNumber").value.trim(),
+
+updatedAt:serverTimestamp()
+
 };
 
 try{
+
 await addDoc(collection(db,"books"),book);
-statusBox.innerText="✅ Book saved successfully.";
+
+statusBox.innerHTML="✅ Book saved successfully.";
+
 form.reset();
-document.getElementById("author").value="Vineet";
-document.getElementById("language").value="English";
-document.getElementById("statusField").value="published";
-}catch(error){
-console.error(error);
-statusBox.innerText="❌ Failed to save book. Check Firestore rules.";
+
+author.value="Vineet";
+language.value="English";
+statusField.value="published";
+
+}
+catch(err){
+
+console.error(err);
+
+statusBox.innerHTML="❌ Failed to save book.";
+
 }
 
 saveBtn.disabled=false;
+
 saveBtn.innerHTML='<i class="fa-solid fa-book"></i> Save Book';
+
 });
 </script>
+
 </body>
 </html>

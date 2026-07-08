@@ -11,66 +11,20 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 <style>
-
-body{
-margin:0;
-background:#070707;
-color:#f5f0e6;
-font-family:Georgia,serif;
-}
-
-.admin-shell{
-min-height:100vh;
-}
-
-.admin-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:18px 7%;
-background:#050505;
-border-bottom:1px solid #222;
-}
-
-.admin-brand{
-display:flex;
-align-items:center;
-gap:12px;
-text-decoration:none;
-}
-
-.admin-brand img{
-width:52px;
-}
-
-.admin-brand h1{
-margin:0;
-color:#ffcc33;
-font-size:24px;
-}
-
-.admin-main{
-padding:45px 7%;
-max-width:1100px;
-margin:auto;
-}
-
-.editor-card{
-background:#111;
-border:1px solid #292929;
-padding:30px;
-}
-
-.form-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:14px;
-}
-
+body{margin:0;background:#070707;color:#f5f0e6;font-family:Georgia,serif}
+.admin-shell{min-height:100vh}
+.admin-header{display:flex;justify-content:space-between;align-items:center;padding:18px 7%;background:#050505;border-bottom:1px solid #222}
+.admin-brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.admin-brand img{width:52px}
+.admin-brand h1{margin:0;color:#ffcc33;font-size:24px}
+.admin-main{padding:45px 7%;max-width:1100px;margin:auto}
+.editor-card{background:#111;border:1px solid #292929;padding:30px}
+.editor-card h2{color:#ffcc33;margin-top:0}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
 .editor-card input,
 .editor-card textarea,
 .editor-card select{
-
 width:100%;
 padding:14px;
 margin:10px 0;
@@ -78,56 +32,16 @@ background:#080808;
 border:1px solid #333;
 color:white;
 font-family:Georgia,serif;
-
 }
-
-.editor-card textarea{
-min-height:180px;
-resize:vertical;
-}
-
-.editor-card h2{
-color:#ffcc33;
-margin-top:0;
-}
-
-.btn{
-padding:12px 20px;
-border:none;
-cursor:pointer;
-font-weight:bold;
-font-family:Georgia,serif;
-margin-right:10px;
-margin-top:15px;
-}
-
-.gold{
-background:#f0d27a;
-color:#170b05;
-}
-
-.red{
-background:#8b0000;
-color:white;
-}
-
-#status{
-margin-top:20px;
-color:#ffcc33;
-}
-
-@media(max-width:800px){
-
-.form-grid{
-
-grid-template-columns:1fr;
-
-}
-
-}
-
+.editor-card textarea{min-height:180px;resize:vertical}
+.editor-card .sample-box{min-height:260px}
+.btn{padding:12px 20px;border:none;cursor:pointer;font-weight:bold;font-family:Georgia,serif;margin-right:10px;margin-top:15px;text-decoration:none;display:inline-block}
+.gold{background:#f0d27a;color:#170b05}
+.red{background:#8b0000;color:white}
+#status{margin-top:20px;color:#ffcc33}
+.help-text{color:#aaa;font-size:13px;line-height:1.6;margin:4px 0 12px}
+@media(max-width:800px){.form-grid,.form-grid-3{grid-template-columns:1fr}}
 </style>
-
 </head>
 
 <body>
@@ -135,27 +49,16 @@ grid-template-columns:1fr;
 <div class="admin-shell">
 
 <header class="admin-header">
-
 <a class="admin-brand" href="dashboard.html">
-
 <img src="../logo.png">
-
 <h1>Phoenix Admin</h1>
-
 </a>
 
 <div>
-
 <a class="btn gold" href="manage-books.html">
-
-<i class="fa-solid fa-arrow-left"></i>
-
-Back
-
+<i class="fa-solid fa-arrow-left"></i> Back
 </a>
-
 </div>
-
 </header>
 
 <main class="admin-main">
@@ -167,114 +70,68 @@ Back
 <form id="editBookForm">
 
 <div class="form-grid">
-
-<input
-id="title"
-type="text"
-placeholder="Book Title"
-required>
-
-<input
-id="author"
-type="text"
-placeholder="Author"
-required>
-
+<input id="title" type="text" placeholder="Book Title" required>
+<input id="author" type="text" placeholder="Author" required>
 </div>
 
-<input
-id="subtitle"
-type="text"
-placeholder="Subtitle">
+<input id="subtitle" type="text" placeholder="Subtitle">
+<input id="coverImage" type="url" placeholder="Cover Image URL">
 
-<input
-id="coverImage"
-type="url"
-placeholder="Cover Image URL">
+<textarea id="description" placeholder="Description" required></textarea>
 
-<textarea
-id="description"
-placeholder="Description"
-required></textarea>
+<textarea id="sampleText" class="sample-box" placeholder="Read Sample Text"></textarea>
+<p class="help-text">This sample appears inside the website on the book detail page.</p>
 
 <div class="form-grid">
+<input id="language" type="text" placeholder="Language">
 
-<input
-id="language"
-type="text"
-placeholder="Language">
-
-<input
-id="statusField"
-type="text"
-placeholder="published / upcoming / draft">
-
+<select id="statusField">
+<option value="published">Published</option>
+<option value="upcoming">Upcoming</option>
+<option value="draft">Draft</option>
+</select>
 </div>
 
 <div class="form-grid">
-
-<input
-id="pages"
-type="text"
-placeholder="Pages">
-
-<input
-id="price"
-type="text"
-placeholder="Price">
-
-</div>
-
-<input
-id="isbn"
-type="text"
-placeholder="ISBN">
-
-<input
-id="amazonPaperback"
-type="url"
-placeholder="Amazon Paperback Link">
-
-<input
-id="amazonKindle"
-type="url"
-placeholder="Amazon Kindle Link">
-
-<input
-id="goodreadsLink"
-type="url"
-placeholder="Goodreads Link">
-
-<input
-id="storygraphLink"
-type="url"
-placeholder="StoryGraph Link">
-
-<select id="featured">
-
-<option value="false">Not Featured</option>
-
-<option value="true">Featured Book</option>
-
+<select id="category">
+<option value="">Select Category</option>
+<option value="Novel">Novel</option>
+<option value="Poetry">Poetry</option>
+<option value="Memoir">Memoir</option>
+<option value="Thriller">Thriller</option>
+<option value="Stories">Stories</option>
+<option value="Other">Other</option>
 </select>
 
-<button
-class="btn gold"
-type="submit">
+<input id="publishDate" type="date">
+</div>
 
-<i class="fa-solid fa-floppy-disk"></i>
+<div class="form-grid-3">
+<input id="pages" type="text" placeholder="Pages">
+<input id="price" type="text" placeholder="Price">
+<input id="isbn" type="text" placeholder="ISBN">
+</div>
 
-Save Changes
+<div class="form-grid">
+<input id="series" type="text" placeholder="Series Name optional">
+<input id="bookNumber" type="number" placeholder="Book Number optional">
+</div>
 
+<input id="amazonPaperback" type="url" placeholder="Amazon Paperback Link">
+<input id="amazonKindle" type="url" placeholder="Amazon Kindle Link">
+<input id="goodreadsLink" type="url" placeholder="Goodreads Link">
+<input id="storygraphLink" type="url" placeholder="StoryGraph Link">
+
+<select id="featured">
+<option value="false">Not Featured</option>
+<option value="true">Featured Book</option>
+</select>
+
+<button class="btn gold" type="submit">
+<i class="fa-solid fa-floppy-disk"></i> Save Changes
 </button>
 
-<a
-class="btn red"
-href="manage-books.html">
-
-Cancel
-
-</a>
+<a class="btn red" href="manage-books.html">Cancel</a>
 
 <p id="status"></p>
 
@@ -325,10 +182,7 @@ const bookId = params.get("id");
 const form = document.getElementById("editBookForm");
 const statusBox = document.getElementById("status");
 
-let currentUser = null;
-
 onAuthStateChanged(auth, async (user) => {
-
   if (!user) {
     location.href = "index.html";
     return;
@@ -340,26 +194,16 @@ onAuthStateChanged(auth, async (user) => {
     return;
   }
 
-  currentUser = user;
   loadBook();
-
-  sampleLink.value=b.sampleLink||"";
-category.value=b.category||"";
-publishDate.value=b.publishDate||"";
-series.value=b.series||"";
-bookNumber.value=b.bookNumber||"";
-
 });
 
 async function loadBook() {
-
   if (!bookId) {
     statusBox.innerText = "Book ID missing.";
     return;
   }
 
-  const ref = doc(db, "books", bookId);
-  const snap = await getDoc(ref);
+  const snap = await getDoc(doc(db, "books", bookId));
 
   if (!snap.exists()) {
     statusBox.innerText = "Book not found.";
@@ -373,17 +217,21 @@ async function loadBook() {
   subtitle.value = b.subtitle || "";
   coverImage.value = b.coverImage || "";
   description.value = b.description || "";
+  sampleText.value = b.sampleText || "";
   language.value = b.language || "";
-  statusField.value = b.status || "";
+  statusField.value = b.status || "published";
+  category.value = b.category || "";
+  publishDate.value = b.publishDate || "";
   pages.value = b.pages || "";
   price.value = b.price || "";
   isbn.value = b.isbn || "";
+  series.value = b.series || "";
+  bookNumber.value = b.bookNumber || "";
   amazonPaperback.value = b.amazonPaperback || "";
   amazonKindle.value = b.amazonKindle || "";
   goodreadsLink.value = b.goodreadsLink || "";
   storygraphLink.value = b.storygraphLink || "";
   featured.value = b.featured ? "true" : "false";
-
 }
 
 function makeSlug(text) {
@@ -395,71 +243,44 @@ function makeSlug(text) {
 }
 
 form.addEventListener("submit", async (e) => {
-
   e.preventDefault();
 
   try {
-
     await updateDoc(doc(db, "books", bookId), {
-
-      sampleLink:sampleLink.value.trim(),
-category:category.value.trim(),
-publishDate:publishDate.value,
-series:series.value.trim(),
-bookNumber:bookNumber.value.trim(),
-      
       title: title.value.trim(),
       slug: makeSlug(title.value),
-
       author: author.value.trim(),
       subtitle: subtitle.value.trim(),
-
       coverImage: coverImage.value.trim(),
-
       description: description.value.trim(),
-
+      sampleText: sampleText.value.trim(),
       language: language.value.trim(),
-
-      status: statusField.value.trim(),
-
+      status: statusField.value,
+      category: category.value,
+      publishDate: publishDate.value,
       pages: pages.value.trim(),
-
       price: price.value.trim(),
-
       isbn: isbn.value.trim(),
-
+      series: series.value.trim(),
+      bookNumber: bookNumber.value.trim(),
       amazonPaperback: amazonPaperback.value.trim(),
-
       amazonKindle: amazonKindle.value.trim(),
-
       goodreadsLink: goodreadsLink.value.trim(),
-
       storygraphLink: storygraphLink.value.trim(),
-
       featured: featured.value === "true",
-
       updatedAt: serverTimestamp()
-
     });
 
     statusBox.innerHTML = "✅ Book updated successfully.";
 
     setTimeout(() => {
-
       location.href = "manage-books.html";
+    }, 900);
 
-    }, 1000);
-
-  }
-
-  catch (err) {
-
+  } catch (err) {
     console.error(err);
-
     statusBox.innerHTML = "❌ Failed to update book.";
-
   }
-
 });
 </script>
 

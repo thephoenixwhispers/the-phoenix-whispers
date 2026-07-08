@@ -5,184 +5,466 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Search | The Phoenix Whispers</title>
+<meta name="description" content="Search stories, books and pages on The Phoenix Whispers.">
 
-<link rel="icon" href="logo.png">
+<link rel="icon" type="image/png" href="logo.png">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 <style>
-
 .search-wrap{
-max-width:1100px;
-margin:auto;
-padding:90px 8%;
+  max-width:1100px;
+  margin:auto;
+  padding:80px 8%;
+}
+
+.search-panel{
+  background:#111;
+  border:1px solid #292929;
+  padding:30px;
+  box-shadow:0 0 35px rgba(139,0,0,.16);
 }
 
 .search-box{
-display:flex;
-align-items:center;
-background:#101010;
-border:1px solid #333;
-padding:16px 20px;
-margin-bottom:35px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  background:#080808;
+  border:1px solid #333;
+  padding:16px 18px;
 }
 
 .search-box i{
-font-size:22px;
-color:#ffcc33;
-margin-right:15px;
+  color:#ffcc33;
+  font-size:22px;
 }
 
 .search-box input{
-flex:1;
-background:none;
-border:none;
-outline:none;
-color:white;
-font-size:20px;
-font-family:Georgia,serif;
+  width:100%;
+  background:transparent;
+  border:none;
+  outline:none;
+  color:white;
+  font-family:Georgia,serif;
+  font-size:20px;
+}
+
+.search-tabs{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin:22px 0 10px;
+}
+
+.search-tab{
+  padding:9px 14px;
+  border:1px solid #333;
+  background:#0b0b0b;
+  color:#ffcc33;
+  cursor:pointer;
+  font-family:Georgia,serif;
+  font-weight:bold;
+}
+
+.search-tab.active{
+  background:#f0d27a;
+  color:#170b05;
 }
 
 .search-results{
-display:grid;
-gap:20px;
+  display:grid;
+  gap:18px;
+  margin-top:28px;
 }
 
 .result-card{
-background:#111;
-border:1px solid #292929;
-padding:24px;
-transition:.3s;
+  background:#111;
+  border:1px solid #292929;
+  padding:22px;
+  transition:.25s;
 }
 
 .result-card:hover{
-border-color:#ffcc33;
-transform:translateY(-4px);
+  transform:translateY(-4px);
+  border-color:#ffcc33;
 }
 
-.result-type{
-color:#ffcc33;
-font-size:13px;
-letter-spacing:2px;
-text-transform:uppercase;
+.result-card small{
+  color:#ffcc33;
+  letter-spacing:1px;
+  text-transform:uppercase;
 }
 
 .result-card h3{
-margin:10px 0;
-color:#fff;
+  color:#fff;
+  margin:9px 0;
 }
 
 .result-card p{
-color:#cfc7b8;
-line-height:1.7;
+  color:#cfc7b8;
+  line-height:1.7;
 }
 
 .result-card a{
-display:inline-block;
-margin-top:15px;
-color:#ffcc33;
-font-weight:bold;
-text-decoration:none;
+  color:#ffcc33;
+  font-weight:bold;
+  text-decoration:none;
 }
 
-.empty{
-text-align:center;
-padding:60px 20px;
-color:#aaa;
+.empty-state{
+  text-align:center;
+  color:#aaa;
+  padding:50px 20px;
+  border:1px dashed #333;
+  background:#0b0b0b;
 }
 
+@media(max-width:700px){
+  .search-wrap{
+    padding:55px 6%;
+  }
+
+  .search-box input{
+    font-size:17px;
+  }
+}
 </style>
-
 </head>
 
 <body>
 
 <div id="loader">
-<img src="logo.png">
-<h2>The Phoenix Whispers</h2>
-<p>Rise • Transform • Inspire</p>
+  <img src="logo.png" alt="Phoenix Logo">
+  <h2>The Phoenix Whispers</h2>
+  <p>Rise • Transform • Inspire</p>
 </div>
 
 <div id="progress-bar"></div>
 <button id="backToTop">↑</button>
 
 <header>
+  <div class="top">
+    <a href="index.html" class="brand">
+      <img src="logo.png" alt="The Phoenix Whispers Logo">
+      <h1>The Phoenix Whispers</h1>
+    </a>
 
-<div class="top">
-
-<a href="index.html" class="brand">
-
-<img src="logo.png">
-
-<h1>The Phoenix Whispers</h1>
-
-</a>
-
-<div class="top-links">
-
-<a href="index.html">Home</a>
-
-<a href="stories.html">Stories</a>
-
-<a href="book-library.html">Books</a>
-
-<a href="about.html">About</a>
-
-<a href="contact.html">Contact</a>
-
-</div>
-
-</div>
-
+    <div class="top-links">
+      <a href="index.html">Home</a>
+      <a href="stories.html">Stories</a>
+      <a href="book-library.html">Books</a>
+      <a href="submit-story.html">Share Story</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
 </header>
 
-<div class="search-wrap">
+<section class="hero">
+  <div class="embers" id="embers"></div>
+  <div class="hero-content">
+    <span class="hero-label">Search</span>
+    <h2>Find Stories, Books & Pages</h2>
+    <p>Search across The Phoenix Whispers library.</p>
+  </div>
+</section>
 
-<div class="section-title">
+<main class="search-wrap">
+  <div class="search-panel">
+    <div class="search-box">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input id="searchInput" type="text" placeholder="Search stories, books, authors, pages...">
+    </div>
 
-<span>Search</span>
+    <div class="search-tabs">
+      <button class="search-tab active" data-filter="all">All</button>
+      <button class="search-tab" data-filter="story">Stories</button>
+      <button class="search-tab" data-filter="book">Books</button>
+      <button class="search-tab" data-filter="page">Pages</button>
+    </div>
 
-<h2>Find Stories & Books</h2>
+    <div id="results" class="search-results">
+      <div class="empty-state">
+        <h3>Start typing...</h3>
+        <p>Search results will appear here.</p>
+      </div>
+    </div>
+  </div>
+</main>
 
-</div>
+  <footer class="footer">
+  <div class="footer-grid">
 
-<div class="search-box">
+    <div>
+      <a href="index.html" class="footer-logo">
+        <img src="logo.png" alt="The Phoenix Whispers Logo">
+        <h3>The Phoenix Whispers</h3>
+      </a>
 
-<i class="fa-solid fa-magnifying-glass"></i>
+      <p>A home for stories, books and creative voices that deserve to be heard.</p>
+    </div>
 
-<input
-id="searchInput"
-type="text"
-placeholder="Search books, stories, authors..."
->
+    <div class="footer-links">
+      <h3>Explore</h3>
+      <a href="stories.html">Stories</a>
+      <a href="book-library.html">Books</a>
+      <a href="submit-story.html">Share Your Story</a>
+    </div>
 
-</div>
+    <div class="footer-links">
+      <h3>Connect</h3>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="donate.html">Support</a>
+    </div>
 
-<div id="results" class="search-results">
+  </div>
 
-<div class="empty">
-
-<h3>Start typing...</h3>
-
-<p>Search books, stories and more.</p>
-
-</div>
-
-</div>
-
-</div>
-
-<footer class="footer">
-
-<div class="copyright">
-
-© The Phoenix Whispers · Created by Vineet
-
-</div>
-
+  <div class="copyright">
+    © 2026 The Phoenix Whispers · Created by Vineet
+  </div>
 </footer>
 
 <script src="script.js"></script>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+const firebaseConfig={
+apiKey:"AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
+authDomain:"the-phoenix-whispers.firebaseapp.com",
+projectId:"the-phoenix-whispers",
+storageBucket:"the-phoenix-whispers.firebasestorage.app",
+messagingSenderId:"60939247464",
+appId:"1:60939247464:web:a6b49dc2cf938a939480dd",
+measurementId:"G-JRTWDK1XVF"
+};
+
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+
+const input=document.getElementById("searchInput");
+const results=document.getElementById("results");
+
+let filter="all";
+let items=[];
+
+function shortText(text,limit=170){
+return text && text.length>limit
+? text.substring(0,limit)+"..."
+: (text||"");
+}
+
+async function loadData(){
+
+const storySnap=await getDocs(collection(db,"stories"));
+const bookSnap=await getDocs(collection(db,"books"));
+
+storySnap.forEach(doc=>{
+
+const s={id:doc.id,...doc.data()};
+
+if(s.status==="published"){
+
+items.push({
+
+type:"story",
+
+title:s.title||"Untitled",
+
+author:s.authorName||"Anonymous",
+
+category:s.category||"Story",
+
+description:s.excerpt||s.content||"",
+
+url:`story-reader.html?id=${s.id}`
+
+});
+
+}
+
+});
+
+bookSnap.forEach(doc=>{
+
+const b={id:doc.id,...doc.data()};
+
+if(b.status==="published" || b.status==="upcoming"){
+
+items.push({
+
+type:"book",
+
+title:b.title||"Untitled Book",
+
+author:b.author||"Vineet",
+
+category:b.language||"Book",
+
+description:b.description||"",
+
+url:`books.html?id=${b.id}`
+
+});
+
+}
+
+});
+
+items.push({
+
+type:"page",
+
+title:"About",
+
+author:"Website",
+
+category:"Page",
+
+description:"Learn about The Phoenix Whispers.",
+
+url:"about.html"
+
+});
+
+items.push({
+
+type:"page",
+
+title:"Contact",
+
+author:"Website",
+
+category:"Page",
+
+description:"Get in touch with us.",
+
+url:"contact.html"
+
+});
+
+items.push({
+
+type:"page",
+
+title:"Share Your Story",
+
+author:"Website",
+
+category:"Page",
+
+description:"Submit your own story.",
+
+url:"submit-story.html"
+
+});
+
+render("");
+
+}
+
+function render(query){
+
+query=query.toLowerCase().trim();
+
+let found=items.filter(item=>{
+
+if(filter!=="all" && item.type!==filter) return false;
+
+const text=`
+
+${item.title}
+
+${item.author}
+
+${item.category}
+
+${item.description}
+
+`.toLowerCase();
+
+return text.includes(query);
+
+});
+
+if(found.length===0){
+
+results.innerHTML=`
+
+<div class="empty-state">
+
+<h3>No results found</h3>
+
+<p>Try another keyword.</p>
+
+</div>
+
+`;
+
+return;
+
+}
+
+results.innerHTML="";
+
+found.forEach(item=>{
+
+results.innerHTML+=`
+
+<div class="result-card">
+
+<small>${item.type} · ${item.category}</small>
+
+<h3>${item.title}</h3>
+
+<p><strong>${item.author}</strong></p>
+
+<p>${shortText(item.description)}</p>
+
+<a href="${item.url}">
+
+Open →
+
+</a>
+
+</div>
+
+`;
+
+});
+
+}
+
+input.addEventListener("input",()=>{
+
+render(input.value);
+
+});
+
+document.querySelectorAll(".search-tab").forEach(btn=>{
+
+btn.onclick=()=>{
+
+document.querySelectorAll(".search-tab")
+
+.forEach(x=>x.classList.remove("active"));
+
+btn.classList.add("active");
+
+filter=btn.dataset.filter;
+
+render(input.value);
+
+};
+
+});
+
+loadData();
+
+</script>
 
 </body>
 </html>

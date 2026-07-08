@@ -1047,3 +1047,13 @@ body.light-mode footer{
   box-shadow:0 0 22px rgba(255,80,0,.45);
   background:#1a0505;
 }
+.search-icon{
+  font-size:18px;
+  transition:.25s;
+}
+
+.search-icon:hover{
+  color:#ffcc33;
+  transform:scale(1.15);
+  text-shadow:0 0 10px rgba(255,204,51,.5);
+}

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Search | The Phoenix Whispers</title>
+
+<link rel="icon" href="logo.png">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+
+.search-wrap{
+max-width:1100px;
+margin:auto;
+padding:90px 8%;
+}
+
+.search-box{
+display:flex;
+align-items:center;
+background:#101010;
+border:1px solid #333;
+padding:16px 20px;
+margin-bottom:35px;
+}
+
+.search-box i{
+font-size:22px;
+color:#ffcc33;
+margin-right:15px;
+}
+
+.search-box input{
+flex:1;
+background:none;
+border:none;
+outline:none;
+color:white;
+font-size:20px;
+font-family:Georgia,serif;
+}
+
+.search-results{
+display:grid;
+gap:20px;
+}
+
+.result-card{
+background:#111;
+border:1px solid #292929;
+padding:24px;
+transition:.3s;
+}
+
+.result-card:hover{
+border-color:#ffcc33;
+transform:translateY(-4px);
+}
+
+.result-type{
+color:#ffcc33;
+font-size:13px;
+letter-spacing:2px;
+text-transform:uppercase;
+}
+
+.result-card h3{
+margin:10px 0;
+color:#fff;
+}
+
+.result-card p{
+color:#cfc7b8;
+line-height:1.7;
+}
+
+.result-card a{
+display:inline-block;
+margin-top:15px;
+color:#ffcc33;
+font-weight:bold;
+text-decoration:none;
+}
+
+.empty{
+text-align:center;
+padding:60px 20px;
+color:#aaa;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="loader">
+<img src="logo.png">
+<h2>The Phoenix Whispers</h2>
+<p>Rise • Transform • Inspire</p>
+</div>
+
+<div id="progress-bar"></div>
+<button id="backToTop">↑</button>
+
+<header>
+
+<div class="top">
+
+<a href="index.html" class="brand">
+
+<img src="logo.png">
+
+<h1>The Phoenix Whispers</h1>
+
+</a>
+
+<div class="top-links">
+
+<a href="index.html">Home</a>
+
+<a href="stories.html">Stories</a>
+
+<a href="book-library.html">Books</a>
+
+<a href="about.html">About</a>
+
+<a href="contact.html">Contact</a>
+
+</div>
+
+</div>
+
+</header>
+
+<div class="search-wrap">
+
+<div class="section-title">
+
+<span>Search</span>
+
+<h2>Find Stories & Books</h2>
+
+</div>
+
+<div class="search-box">
+
+<i class="fa-solid fa-magnifying-glass"></i>
+
+<input
+id="searchInput"
+type="text"
+placeholder="Search books, stories, authors..."
+>
+
+</div>
+
+<div id="results" class="search-results">
+
+<div class="empty">
+
+<h3>Start typing...</h3>
+
+<p>Search books, stories and more.</p>
+
+</div>
+
+</div>
+
+</div>
+
+<footer class="footer">
+
+<div class="copyright">
+
+© The Phoenix Whispers · Created by Vineet
+
+</div>
+
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

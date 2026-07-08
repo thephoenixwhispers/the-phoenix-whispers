@@ -63,7 +63,17 @@
     </div>
 
     <input type="text" id="isbn" placeholder="ISBN optional">
+    <input type="url" id="sampleLink" placeholder="Read Sample PDF Link">
 
+<input type="text" id="category" placeholder="Category (Novel, Poetry, Memoir...)">
+
+<input type="date" id="publishDate">
+
+<input type="text" id="series" placeholder="Series Name (optional)">
+
+<input type="number" id="bookNumber" placeholder="Book Number">
+
+  
     <input type="url" id="amazonPaperback" placeholder="Amazon Paperback Link">
     <input type="url" id="amazonKindle" placeholder="Amazon Kindle Link">
     <input type="url" id="goodreadsLink" placeholder="Goodreads Link optional">
@@ -162,7 +172,12 @@ storygraphLink:document.getElementById("storygraphLink").value.trim(),
 featured:document.getElementById("featured").value==="true",
 createdBy:currentUser.email,
 createdAt:serverTimestamp(),
-updatedAt:serverTimestamp()
+updatedAt:serverTimestamp(),
+  sampleLink:document.getElementById("sampleLink").value.trim(),
+category:document.getElementById("category").value.trim(),
+publishDate:document.getElementById("publishDate").value,
+series:document.getElementById("series").value.trim(),
+bookNumber:document.getElementById("bookNumber").value.trim(),
 };
 
 try{

@@ -10,6 +10,29 @@
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+.book-detail-wrap{max-width:1180px;margin:auto;padding:80px 8%}
+.book-detail{display:grid;grid-template-columns:330px 1fr;gap:45px;align-items:start}
+.book-3d{perspective:1200px}
+.book-detail-cover{background:#111;border:1px solid #333;min-height:450px;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:18px 18px 45px rgba(0,0,0,.55);transform:rotateY(-10deg);transition:.35s}
+.book-detail-cover:hover{transform:rotateY(0deg) scale(1.02)}
+.book-detail-cover img{width:100%;height:100%;object-fit:cover}
+.placeholder{font-size:76px}
+.book-detail-info h1{color:#ffcc33;font-size:48px;margin:8px 0 12px}
+.book-detail-info p{color:#d8cbb8;line-height:1.8;font-size:18px}
+.book-badges{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}
+.book-badges span{border:1px solid #333;padding:8px 12px;color:#caa24a;font-size:13px}
+.book-links,.book-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin-top:28px}
+.related-card{background:#111;border:1px solid #292929;padding:18px}
+.related-card h3{color:#ffcc33}
+@media(max-width:800px){
+.book-detail{grid-template-columns:1fr}
+.book-detail-info h1{font-size:34px}
+.book-detail-cover{transform:none}
+}
+</style>
 </head>
 
 <body>
@@ -45,6 +68,14 @@
   <div id="bookBox" class="card">
     <p>Loading book...</p>
   </div>
+
+  <section class="section reveal" style="padding-left:0;padding-right:0;">
+    <div class="section-title">
+      <span>More Books</span>
+      <h2>Related Books</h2>
+    </div>
+    <div id="relatedBooks" class="related-grid"></div>
+  </section>
 </main>
 
 <footer class="footer">
@@ -80,7 +111,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import { getFirestore, doc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 const firebaseConfig={
 apiKey:"AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
@@ -98,12 +129,17 @@ const db=getFirestore(app);
 const params=new URLSearchParams(location.search);
 const bookId=params.get("id");
 const bookBox=document.getElementById("bookBox");
+const relatedBooks=document.getElementById("relatedBooks");
 
 function escapeHTML(str){
   return String(str || "")
     .replaceAll("&","&amp;")
     .replaceAll("<","&lt;")
     .replaceAll(">","&gt;");
+}
+
+function shortText(text,limit=120){
+  return text && text.length>limit ? text.substring(0,limit)+"..." : (text||"");
 }
 
 async function loadBook(){
@@ -117,7 +153,8 @@ async function loadBook(){
   }
 
   try{
-    const snap=await getDoc(doc(db,"books",bookId));
+    const ref=doc(db,"books",bookId);
+    const snap=await getDoc(ref);
 
     if(!snap.exists()){
       bookBox.innerHTML=`
@@ -138,7 +175,9 @@ async function loadBook(){
     bookBox.className="book-detail";
 
     bookBox.innerHTML=`
-      <div class="book-detail-cover">${cover}</div>
+      <div class="book-3d">
+        <div class="book-detail-cover">${cover}</div>
+      </div>
 
       <div class="book-detail-info">
         <span class="hero-label">${escapeHTML(book.status || "Book")}</span>
@@ -157,14 +196,24 @@ async function loadBook(){
         <p>${escapeHTML(book.description)}</p>
 
         <div class="book-links">
+          ${book.sampleLink ? `<a class="btn light" href="${escapeHTML(book.sampleLink)}" target="_blank">Read Sample</a>` : ""}
           ${book.amazonPaperback ? `<a class="btn light" href="${escapeHTML(book.amazonPaperback)}" target="_blank">Buy Paperback</a>` : ""}
           ${book.amazonKindle ? `<a class="btn" href="${escapeHTML(book.amazonKindle)}" target="_blank">Buy Kindle</a>` : ""}
           ${book.goodreadsLink ? `<a class="btn" href="${escapeHTML(book.goodreadsLink)}" target="_blank">Goodreads</a>` : ""}
           ${book.storygraphLink ? `<a class="btn" href="${escapeHTML(book.storygraphLink)}" target="_blank">StoryGraph</a>` : ""}
+        </div>
+
+        <div class="book-actions">
+          <button class="btn" id="shareBook">Share</button>
+          <button class="btn" id="copyBook">Copy Link</button>
           <a class="btn" href="book-library.html">Back To Library</a>
         </div>
       </div>
     `;
+
+    setupActions();
+    loadRelatedBooks();
+
   }catch(error){
     console.error(error);
     bookBox.innerHTML=`
@@ -172,6 +221,57 @@ async function loadBook(){
       <p>Could not load this book.</p>
       <a class="btn light" href="book-library.html">Back To Library</a>
     `;
+  }
+}
+
+function setupActions(){
+  document.getElementById("shareBook")?.addEventListener("click", async()=>{
+    if(navigator.share){
+      try{
+        await navigator.share({title:document.title,url:location.href});
+      }catch(e){}
+    }else{
+      await navigator.clipboard.writeText(location.href);
+      alert("Book link copied.");
+    }
+  });
+
+  document.getElementById("copyBook")?.addEventListener("click", async()=>{
+    await navigator.clipboard.writeText(location.href);
+    alert("Book link copied.");
+  });
+}
+
+async function loadRelatedBooks(){
+  try{
+    const snap=await getDocs(collection(db,"books"));
+    let books=[];
+    snap.forEach(d=>books.push({id:d.id,...d.data()}));
+
+    books=books
+      .filter(b=>b.id!==bookId && (b.status==="published" || b.status==="upcoming"))
+      .slice(0,3);
+
+    if(books.length===0){
+      relatedBooks.innerHTML=`<div class="card"><p>No related books yet.</p></div>`;
+      return;
+    }
+
+    relatedBooks.innerHTML="";
+
+    books.forEach(book=>{
+      const div=document.createElement("div");
+      div.className="related-card";
+      div.innerHTML=`
+        <h3>${escapeHTML(book.title || "Untitled Book")}</h3>
+        <p>${shortText(book.description)}</p>
+        <a class="read-link" href="books.html?id=${book.id}">View Details →</a>
+      `;
+      relatedBooks.appendChild(div);
+    });
+
+  }catch(e){
+    console.error(e);
   }
 }
 

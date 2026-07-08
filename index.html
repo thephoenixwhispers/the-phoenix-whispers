@@ -74,7 +74,7 @@ gtag('config', 'G-BS8Z15XE0P');
     <div class="top-links">
       <a href="submit-story.html">Share Story</a>
       <a href="newsletter.html">Sign Up</a>
-      <a href="books.html">Shop</a>
+      <a href="book-library.html">Shop</a>
       <a href="blog.html">Blog</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
@@ -94,8 +94,8 @@ gtag('config', 'G-BS8Z15XE0P');
     <div class="nav-item">
       <button class="nav-button">Books ▼</button>
       <div class="dropdown">
-        <a href="books.html">Book Library</a>
-        <a href="the-person-who-kept-walking.html">The Person Who Kept Walking</a>
+        <a href="book-library.html">Book Library</a>
+        <a href="book-library.html">Explore Books</a>
         <a href="https://a.co/d/0a8lC6Hp" target="_blank">Buy Paperback</a>
         <a href="https://amzn.in/d/0gR9ecc2" target="_blank">Buy Kindle</a>
       </div>
@@ -131,7 +131,7 @@ gtag('config', 'G-BS8Z15XE0P');
 
     <a class="btn light" href="stories.html">Read Stories</a>
     <a class="btn" href="submit-story.html">Share Your Story</a>
-    <a class="btn" href="books.html">Explore Books</a>
+    <a class="btn" href="book-library.html">Explore Books</a>
   </div>
 </section>
 
@@ -154,7 +154,7 @@ gtag('config', 'G-BS8Z15XE0P');
       <p>Submit your story with privacy and publishing choices.</p>
     </a>
 
-    <a class="purpose-card" href="books.html">
+    <a class="purpose-card" href="book-library.html">
       <div>📚</div>
       <h3>Discover Books</h3>
       <p>Read about published and upcoming books by Vineet.</p>
@@ -163,48 +163,24 @@ gtag('config', 'G-BS8Z15XE0P');
 </section>
 
 <section class="section book reveal" id="featured-book">
-  <div class="book-wrap">
-    <div class="book-cover">
-      <img src="the-person-who-kept-walking.png" alt="The Person Who Kept Walking Book Cover">
-    </div>
-
-    <div class="book-info">
-      <span class="hero-label">Featured Book</span>
-      <h2>The Person Who Kept Walking</h2>
-      <p>A deeply emotional book about loneliness, memory, healing and the quiet strength of a person who refuses to stop walking even when life feels heavy.</p>
-
-      <div class="book-meta">
-        <span>Published</span>
-        <span>Paperback</span>
-        <span>Kindle</span>
-        <span>English</span>
-        <span>By Vineet</span>
-      </div>
-
-      <a class="btn light" href="https://a.co/d/0a8lC6Hp" target="_blank">Buy Paperback</a>
-      <a class="btn" href="https://amzn.in/d/0gR9ecc2" target="_blank">Buy Kindle</a>
-      <a class="btn" href="the-person-who-kept-walking.html">Book Page</a>
+  <div class="book-wrap" id="featuredBookBox">
+    <div class="card">
+      <p>Loading featured book...</p>
     </div>
   </div>
 </section>
 
-  <section class="section reveal">
+<section class="section reveal">
+  <div class="section-title">
+    <span>Latest Story</span>
+    <h2>Fresh From The Phoenix</h2>
+  </div>
 
-<div class="section-title">
-<span>Latest Story</span>
-<h2>Fresh From The Phoenix</h2>
-</div>
-
-<div id="latestStory">
-
-<div class="card">
-
-<p>Loading latest story...</p>
-
-</div>
-
-</div>
-
+  <div id="latestStory">
+    <div class="card">
+      <p>Loading latest story...</p>
+    </div>
+  </div>
 </section>
 
 <section class="section reveal">
@@ -264,7 +240,7 @@ gtag('config', 'G-BS8Z15XE0P');
     <div class="footer-links">
       <h3>Explore</h3>
       <a href="stories.html">Stories</a>
-      <a href="books.html">Books</a>
+      <a href="book-library.html">Books</a>
       <a href="submit-story.html">Share Your Story</a>
       <a href="blog.html">Blog</a>
       <a href="newsletter.html">Newsletter</a>
@@ -285,7 +261,8 @@ gtag('config', 'G-BS8Z15XE0P');
 </footer>
 
 <script src="script.js"></script>
-  <script type="module">
+
+<script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
@@ -303,6 +280,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const latestStoryBox = document.getElementById("latestStory");
+const featuredBookBox = document.getElementById("featuredBookBox");
 
 function shortText(text, limit = 180){
   return text && text.length > limit ? text.substring(0, limit) + "..." : (text || "");
@@ -337,7 +315,7 @@ async function loadLatestStory(){
       <div class="story-card">
         <div class="story-image">🔥</div>
         <div class="story-content">
-          <small>${story.category || "Story"} · ${story.authorName || "Anonymous"}</small>
+          <small>${story.category || "Story"} · ${story.authorName || "Anonymous"} · 👁️ ${story.views || 0}</small>
           <h3>${story.title}</h3>
           <p>${shortText(story.excerpt || story.content)}</p>
           <a class="read-link" href="story-reader.html?id=${story.id}">Read Latest Story →</a>
@@ -355,8 +333,69 @@ async function loadLatestStory(){
   }
 }
 
+async function loadFeaturedBook(){
+  try{
+    const snap = await getDocs(collection(db, "books"));
+    let books = [];
+
+    snap.forEach(doc => {
+      books.push({ id: doc.id, ...doc.data() });
+    });
+
+    books = books.filter(book => book.status === "published" || book.status === "upcoming");
+
+    let book = books.find(book => book.featured === true) || books[0];
+
+    if(!book){
+      featuredBookBox.innerHTML = `
+        <div class="card">
+          <p>No featured book yet.</p>
+        </div>
+      `;
+      return;
+    }
+
+    featuredBookBox.innerHTML = `
+      <div class="book-cover">
+        ${
+          book.coverImage
+          ? `<img src="${book.coverImage}" alt="${book.title}">`
+          : `<div style="font-size:80px;text-align:center;">📚</div>`
+        }
+      </div>
+
+      <div class="book-info">
+        <span class="hero-label">Featured Book</span>
+        <h2>${book.title || "Untitled Book"}</h2>
+        <p>${book.description || ""}</p>
+
+        <div class="book-meta">
+          <span>${book.status || "Book"}</span>
+          <span>${book.language || "English"}</span>
+          <span>By ${book.author || "Vineet"}</span>
+          ${book.pages ? `<span>${book.pages} pages</span>` : ""}
+          ${book.price ? `<span>${book.price}</span>` : ""}
+        </div>
+
+        ${book.amazonPaperback ? `<a class="btn light" href="${book.amazonPaperback}" target="_blank">Buy Paperback</a>` : ""}
+        ${book.amazonKindle ? `<a class="btn" href="${book.amazonKindle}" target="_blank">Buy Kindle</a>` : ""}
+        <a class="btn" href="books.html?id=${book.id}">Book Page</a>
+      </div>
+    `;
+  }catch(error){
+    console.error(error);
+    featuredBookBox.innerHTML = `
+      <div class="card">
+        <h3>Featured book could not load</h3>
+        <p>Check Firebase connection.</p>
+      </div>
+    `;
+  }
+}
+
 loadLatestStory();
+loadFeaturedBook();
 </script>
-  
+
 </body>
 </html>

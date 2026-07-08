@@ -12,21 +12,87 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 <style>
-.book-filter{
-  max-width:1000px;
-  margin:0 auto 30px;
+.book-tools{
+  max-width:1100px;
+  margin:0 auto 35px;
+  display:grid;
+  grid-template-columns:1.3fr .7fr .7fr;
+  gap:14px;
 }
-.book-filter input{
-  width:100%;
+
+.book-tools input,
+.book-tools select{
   padding:14px;
   background:#080808;
   border:1px solid #333;
   color:white;
   font-family:Georgia,serif;
 }
-.book-badge{
+
+.book-card-pro{
+  background:#111;
+  border:1px solid #292929;
+  overflow:hidden;
+  transition:.3s;
+}
+
+.book-card-pro:hover{
+  transform:translateY(-6px);
+  border-color:#ffcc33;
+  box-shadow:0 0 28px rgba(139,0,0,.25);
+}
+
+.book-cover-box{
+  height:380px;
+  background:#070707;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid #292929;
+}
+
+.book-cover-box img{
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+}
+
+.book-info-box{
+  padding:24px;
+}
+
+.book-info-box small{
+  color:#caa24a;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+}
+
+.book-info-box h3{
+  color:#ffcc33;
+  font-size:25px;
+  margin:10px 0;
+}
+
+.book-info-box p{
+  color:#cfc7b8;
+  line-height:1.7;
+}
+
+.book-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:16px;
+}
+
+.featured-mark{
   color:#ffcc33;
   font-weight:bold;
+}
+
+@media(max-width:800px){
+  .book-tools{grid-template-columns:1fr}
+  .book-cover-box{height:330px}
 }
 </style>
 </head>
@@ -55,6 +121,9 @@
       <a href="submit-story.html">Share Story</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
+      <a href="search.html" class="search-icon" title="Search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </a>
     </div>
   </div>
 </header>
@@ -74,8 +143,25 @@
     <h2>Explore Books</h2>
   </div>
 
-  <div class="book-filter">
+  <div class="book-tools">
     <input type="text" id="bookSearch" placeholder="Search books by title, author, language...">
+
+    <select id="categoryFilter">
+      <option value="all">All Categories</option>
+      <option value="Novel">Novel</option>
+      <option value="Poetry">Poetry</option>
+      <option value="Memoir">Memoir</option>
+      <option value="Thriller">Thriller</option>
+      <option value="Stories">Stories</option>
+      <option value="Other">Other</option>
+    </select>
+
+    <select id="sortFilter">
+      <option value="featured">Featured First</option>
+      <option value="newest">Newest First</option>
+      <option value="oldest">Oldest First</option>
+      <option value="title">Title A-Z</option>
+    </select>
   </div>
 
   <div class="story-grid" id="booksGrid">
@@ -133,6 +219,8 @@ const db=getFirestore(app);
 
 const booksGrid=document.getElementById("booksGrid");
 const bookSearch=document.getElementById("bookSearch");
+const categoryFilter=document.getElementById("categoryFilter");
+const sortFilter=document.getElementById("sortFilter");
 
 let allBooks=[];
 
@@ -142,7 +230,11 @@ function shortText(text,limit=170){
 
 function renderBooks(books){
   if(books.length===0){
-    booksGrid.innerHTML=`<div class="card"><h3>No books found</h3><p>Try another search.</p></div>`;
+    booksGrid.innerHTML=`
+      <div class="card">
+        <h3>No books found</h3>
+        <p>Try another search or category.</p>
+      </div>`;
     return;
   }
 
@@ -150,31 +242,35 @@ function renderBooks(books){
 
   books.forEach(book=>{
     const card=document.createElement("div");
-    card.className="story-card";
+    card.className="book-card-pro";
 
     const cover=book.coverImage
-      ? `<div style="height:360px;background:#0b0b0b;display:flex;align-items:center;justify-content:center;border-bottom:1px solid #292929;">
-  <img src="${book.coverImage}" alt="${book.title}" style="max-width:100%;max-height:100%;object-fit:contain;">
-</div>`
-      : `<div class="story-image">📚</div>`;
+      ? `<img src="${book.coverImage}" alt="${book.title}">`
+      : `<div style="font-size:70px;">📚</div>`;
 
     card.innerHTML=`
-      ${cover}
-      <div class="story-content">
+      <div class="book-cover-box">
+        ${cover}
+      </div>
+
+      <div class="book-info-box">
         <small>
-          ${book.featured ? `<span class="book-badge">Featured · </span>` : ""}
+          ${book.featured ? `<span class="featured-mark">Featured · </span>` : ""}
           ${book.status || "Book"} · ${book.language || "English"}
+          ${book.category ? ` · ${book.category}` : ""}
         </small>
 
         <h3>${book.title || "Untitled Book"}</h3>
+
         <p>${shortText(book.description)}</p>
+
         <p><strong>Author:</strong> ${book.author || "Vineet"}</p>
 
-        <a class="read-link" href="books.html?id=${book.id}">View Details →</a>
-        <br>
-
-        ${book.amazonPaperback ? `<a class="read-link" href="${book.amazonPaperback}" target="_blank">Paperback →</a>` : ""}
-        ${book.amazonKindle ? `<a class="read-link" href="${book.amazonKindle}" target="_blank">Kindle →</a>` : ""}
+        <div class="book-actions">
+          <a class="btn light" href="books.html?id=${book.id}">View Details</a>
+          ${book.amazonPaperback ? `<a class="btn" href="${book.amazonPaperback}" target="_blank">Paperback</a>` : ""}
+          ${book.amazonKindle ? `<a class="btn" href="${book.amazonKindle}" target="_blank">Kindle</a>` : ""}
+        </div>
       </div>
     `;
 
@@ -182,12 +278,38 @@ function renderBooks(books){
   });
 }
 
-function applyBookSearch(){
+function applyFilters(){
   const q=bookSearch.value.toLowerCase().trim();
+  const cat=categoryFilter.value;
+  const sort=sortFilter.value;
 
-  const filtered=allBooks.filter(book=>{
-    const text=`${book.title||""} ${book.author||""} ${book.language||""} ${book.description||""}`.toLowerCase();
-    return !q || text.includes(q);
+  let filtered=allBooks.filter(book=>{
+    const text=`${book.title||""} ${book.author||""} ${book.language||""} ${book.description||""} ${book.category||""}`.toLowerCase();
+    const matchesSearch=!q || text.includes(q);
+    const matchesCat=cat==="all" || book.category===cat;
+    return matchesSearch && matchesCat;
+  });
+
+  filtered.sort((a,b)=>{
+    if(sort==="featured"){
+      if(a.featured && !b.featured) return -1;
+      if(!a.featured && b.featured) return 1;
+      return (b.createdAt?.seconds||0)-(a.createdAt?.seconds||0);
+    }
+
+    if(sort==="newest"){
+      return (b.createdAt?.seconds||0)-(a.createdAt?.seconds||0);
+    }
+
+    if(sort==="oldest"){
+      return (a.createdAt?.seconds||0)-(b.createdAt?.seconds||0);
+    }
+
+    if(sort==="title"){
+      return (a.title||"").localeCompare(b.title||"");
+    }
+
+    return 0;
   });
 
   renderBooks(filtered);
@@ -200,23 +322,24 @@ async function loadBooks(){
 
     snap.forEach(d=>books.push({id:d.id,...d.data()}));
 
-    allBooks=books
-      .filter(book=>book.status==="published" || book.status==="upcoming")
-      .sort((a,b)=>{
-        if(a.featured && !b.featured) return -1;
-        if(!a.featured && b.featured) return 1;
-        return (b.createdAt?.seconds||0)-(a.createdAt?.seconds||0);
-      });
+    allBooks=books.filter(book=>book.status==="published" || book.status==="upcoming");
 
-    renderBooks(allBooks);
+    applyFilters();
 
   }catch(error){
     console.error(error);
-    booksGrid.innerHTML=`<div class="card"><h3>Books could not load</h3><p>Check Firebase rules.</p></div>`;
+    booksGrid.innerHTML=`
+      <div class="card">
+        <h3>Books could not load</h3>
+        <p>Check Firebase rules or internet connection.</p>
+      </div>`;
   }
 }
 
-bookSearch.addEventListener("input",applyBookSearch);
+bookSearch.addEventListener("input",applyFilters);
+categoryFilter.addEventListener("change",applyFilters);
+sortFilter.addEventListener("change",applyFilters);
+
 loadBooks();
 </script>
 

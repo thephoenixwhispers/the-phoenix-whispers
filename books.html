@@ -195,17 +195,10 @@ async function loadBook(){
 
         <p>${escapeHTML(book.description)}</p>
 
-        ${book.sampleText ? `
-  <div id="readSample" style="margin-top:35px;padding:28px;background:#0b0b0b;border:1px solid #333;">
-    <span class="hero-label">Read Sample</span>
-    <div style="color:#e6d8c4;line-height:1.9;font-size:19px;white-space:pre-line;margin-top:18px;">
-      ${book.sampleText}
-    </div>
-  </div>
-` : ""}
+      
 
         <div class="book-links">
-         ${book.sampleText ? `<a class="btn light" href="#readSample">Read Sample</a>` : ""}
+         ${book.sampleText ? `<a class="btn light" href="book-sample.html?id=${bookId}">Read Sample</a>` : ""}
           ${book.amazonPaperback ? `<a class="btn light" href="${escapeHTML(book.amazonPaperback)}" target="_blank">Buy Paperback</a>` : ""}
           ${book.amazonKindle ? `<a class="btn" href="${escapeHTML(book.amazonKindle)}" target="_blank">Buy Kindle</a>` : ""}
           ${book.goodreadsLink ? `<a class="btn" href="${escapeHTML(book.goodreadsLink)}" target="_blank">Goodreads</a>` : ""}

@@ -12,13 +12,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 <style>
-.reader-wrap{max-width:880px;margin:auto;padding:80px 8%}
+.reader-wrap{max-width:900px;margin:auto;padding:80px 8%}
 .reader-card{background:#111;border:1px solid #292929;padding:38px;box-shadow:0 0 35px rgba(139,0,0,.18)}
 .reader-card h1{color:#ffcc33;font-size:46px;margin:10px 0 12px}
-.reader-meta{color:#caa24a;letter-spacing:2px;text-transform:uppercase;font-size:13px;margin-bottom:25px}
+.reader-meta{color:#caa24a;letter-spacing:1.5px;text-transform:uppercase;font-size:13px;margin-bottom:25px;line-height:1.8}
 .reader-img{width:100%;max-height:430px;object-fit:cover;margin:20px 0;border:1px solid #333}
 .reader-content{color:#e6d8c4;line-height:1.9;font-size:20px;white-space:pre-line;word-break:break-word;overflow-wrap:anywhere;max-width:100%}
-.reader-actions{margin-top:30px}
 .media-link{display:inline-block;margin:15px 0;color:#ffcc33;font-weight:bold}
 
 .author-box{display:flex;align-items:center;gap:14px;margin:18px 0 26px;padding:14px;background:#0b0b0b;border:1px solid #292929}
@@ -29,24 +28,7 @@
 
 .story-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
 .story-action-btn{padding:11px 16px;border:1px solid #333;background:#0b0b0b;color:#ffcc33;cursor:pointer;font-family:Georgia,serif;font-weight:bold}
-.story-action-btn:hover{border-color:#8b0000;background:#160606}
-
-.back-arrow{position:fixed;top:95px;left:22px;z-index:999;background:#111;color:#ffcc33;border:1px solid #333;padding:10px 14px;font-family:Georgia,serif;font-weight:bold;cursor:pointer}
-.back-arrow:hover{border-color:#8b0000;background:#180606}
-
-@media(max-width:800px){
-
-.reader-card{
-padding:24px;
-}
-
-.reader-card h1{
-font-size:34px;
-}
-
-.reader-content{
-font-size:18px;
-}
+.story-action-btn:hover{border-color:#ffcc33;background:#1a1a1a}
 
 .back-arrow{
 position:absolute;
@@ -63,20 +45,59 @@ cursor:pointer;
 transition:.25s;
 border-radius:10px;
 }
-  .back-arrow{
-position:absolute;
-top:135px;
-left:12px;
-z-index:10;
-padding:8px 12px;
-font-size:13px;
-}
-  
-.back-arrow:hover{
-background:#1a1a1a;
-border-color:#ffcc33;
+
+.back-arrow:hover{background:#1a1a1a;border-color:#ffcc33}
+
+.end-note{
+margin-top:40px;
+padding:28px;
+background:#0b0b0b;
+border:1px solid #333;
+text-align:center;
 }
 
+.end-note h2{color:#ffcc33;margin:0 0 10px}
+.end-note p{color:#cfc7b8;line-height:1.7}
+
+.related-stories{
+margin-top:45px;
+display:grid;
+gap:16px;
+}
+
+.related-stories h2{
+color:#ffcc33;
+margin-bottom:4px;
+}
+
+.related-story{
+background:#0b0b0b;
+border:1px solid #292929;
+padding:18px;
+transition:.25s;
+}
+
+.related-story:hover{
+border-color:#ffcc33;
+transform:translateY(-3px);
+}
+
+.related-story h3{
+color:#ffcc33;
+margin:0 0 8px;
+}
+
+.related-story p{
+color:#cfc7b8;
+line-height:1.7;
+}
+
+@media(max-width:800px){
+.reader-wrap{padding:60px 6%}
+.reader-card{padding:24px}
+.reader-card h1{font-size:34px}
+.reader-content{font-size:18px}
+.back-arrow{top:135px;left:12px;padding:8px 12px;font-size:13px}
 }
 </style>
 </head>
@@ -102,7 +123,7 @@ border-color:#ffcc33;
     <div class="top-links">
       <a href="index.html">Home</a>
       <a href="stories.html">Stories</a>
-      <a href="books.html">Books</a>
+      <a href="book-library.html">Books</a>
       <a href="submit-story.html">Share Story</a>
       <a href="about.html">About</a>
     </div>
@@ -139,7 +160,7 @@ border-color:#ffcc33;
       <h3>Explore</h3>
       <a href="index.html">Home</a>
       <a href="stories.html">Stories</a>
-      <a href="books.html">Books</a>
+      <a href="book-library.html">Books</a>
       <a href="submit-story.html">Share Your Story</a>
     </div>
 
@@ -158,7 +179,7 @@ border-color:#ffcc33;
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-import { getFirestore, doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import { getFirestore, doc, getDoc, updateDoc, increment, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
@@ -182,6 +203,20 @@ function escapeHTML(str){
     .replaceAll("&","&amp;")
     .replaceAll("<","&lt;")
     .replaceAll(">","&gt;");
+}
+
+function readTime(text){
+  const words = (text || "").trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.ceil(words / 200));
+}
+
+function formatDate(seconds){
+  if(!seconds) return "Recently published";
+  return new Date(seconds * 1000).toLocaleDateString("en-IN", {
+    day:"numeric",
+    month:"long",
+    year:"numeric"
+  });
 }
 
 async function loadStory(){
@@ -247,7 +282,11 @@ async function loadStory(){
       </div>
 
       <div class="reader-meta">
-        👁️ ${(story.views || 0) + 1} views · ❤️ <span id="likeCount">${story.likes || 0}</span> likes
+        ${story.featured ? "⭐ Featured Story · " : ""}
+        ${formatDate(story.createdAt?.seconds)} · 
+        ${readTime(story.content)} min read · 
+        👁️ ${(story.views || 0) + 1} views · 
+        ❤️ <span id="likeCount">${story.likes || 0}</span> likes
       </div>
 
       ${story.imageUrl ? `<img class="reader-img" src="${escapeHTML(story.imageUrl)}" alt="${escapeHTML(story.title)}">` : ""}
@@ -255,6 +294,13 @@ async function loadStory(){
       ${story.mediaUrl ? `<a class="media-link" href="${escapeHTML(story.mediaUrl)}" target="_blank"><i class="fa-solid fa-link"></i> Open attached media</a>` : ""}
 
       <div class="reader-content">${escapeHTML(story.content)}</div>
+
+      <div class="end-note">
+        <h2>You reached the end</h2>
+        <p>Thank you for reading this story on The Phoenix Whispers.</p>
+      </div>
+
+      <div class="related-stories" id="relatedStories"></div>
 
       <div class="story-actions">
         <button class="story-action-btn" id="likeBtn">
@@ -274,7 +320,8 @@ async function loadStory(){
       </div>
     `;
 
-    setupStoryActions(ref, alreadyLiked);
+    setupStoryActions(ref);
+    loadRelatedStories(story.category);
 
   }catch(error){
     console.error(error);
@@ -286,7 +333,7 @@ async function loadStory(){
   }
 }
 
-function setupStoryActions(ref, alreadyLiked){
+function setupStoryActions(ref){
   const likeBtn = document.getElementById("likeBtn");
   const likeCount = document.getElementById("likeCount");
   const shareBtn = document.getElementById("shareBtn");
@@ -334,6 +381,43 @@ function setupStoryActions(ref, alreadyLiked){
       await navigator.clipboard.writeText(window.location.href);
       alert("Story link copied.");
     });
+  }
+}
+
+async function loadRelatedStories(category){
+  const box = document.getElementById("relatedStories");
+  if(!box) return;
+
+  try{
+    const snap = await getDocs(collection(db,"stories"));
+    let stories = [];
+
+    snap.forEach(d => stories.push({ id:d.id, ...d.data() }));
+
+    stories = stories
+      .filter(s => s.id !== storyId && s.status === "published" && s.category === category)
+      .sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0))
+      .slice(0,3);
+
+    if(stories.length === 0){
+      box.innerHTML = "";
+      return;
+    }
+
+    box.innerHTML = `<h2>Related Stories</h2>`;
+
+    stories.forEach(s => {
+      box.innerHTML += `
+        <div class="related-story">
+          <h3>${escapeHTML(s.title || "Untitled Story")}</h3>
+          <p>${escapeHTML((s.excerpt || s.content || "").substring(0,130))}...</p>
+          <a class="read-link" href="story-reader.html?id=${s.id}">Read Story →</a>
+        </div>
+      `;
+    });
+
+  }catch(e){
+    console.error(e);
   }
 }
 

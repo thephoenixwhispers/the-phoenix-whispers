@@ -79,8 +79,8 @@ gtag('config', 'G-BS8Z15XE0P');
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
       <a href="search.html" class="search-icon" title="Search">
-  <i class="fa-solid fa-magnifying-glass"></i>
-</a>
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </a>
     </div>
   </div>
 
@@ -202,27 +202,17 @@ gtag('config', 'G-BS8Z15XE0P');
 <section class="section reveal">
   <div class="section-title">
     <span>Latest Stories</span>
+    <h2>Fresh From The Phoenix</h2>
+  </div>
 
-<h2>Fresh From The Phoenix</h2>
-
-<div id="latestStory" class="story-grid">
-
-<div class="card">
-
-<p>Loading stories...</p>
-
-</div>
-
-</div>
-
-<div style="text-align:center;margin-top:30px;">
-<a class="btn light" href="stories.html">View All Stories</a>
-</div>
-
-  <div id="latestStory">
+  <div id="latestStory" class="story-grid">
     <div class="card">
-      <p>Loading latest story...</p>
+      <p>Loading stories...</p>
     </div>
+  </div>
+
+  <div style="text-align:center;margin-top:30px;">
+    <a class="btn light" href="stories.html">View All Stories</a>
   </div>
 </section>
 
@@ -363,121 +353,145 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const latestStoryBox = document.getElementById("latestStory");
+const latestBooksBox = document.getElementById("latestBooks");
 const featuredBookBox = document.getElementById("featuredBookBox");
 
-function shortText(text, limit = 180){
+const storyCount = document.getElementById("storyCount");
+const bookCount = document.getElementById("bookCount");
+const viewCount = document.getElementById("viewCount");
+
+function escapeHTML(str){
+  return String(str || "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;");
+}
+
+function shortText(text, limit = 150){
   return text && text.length > limit ? text.substring(0, limit) + "..." : (text || "");
 }
 
-async function loadLatestStory(){
-  try{
-    const snap = await getDocs(collection(db, "stories"));
-    let stories = [];
+function storyCard(story){
+  const img = story.imageUrl
+    ? `<img src="${escapeHTML(story.imageUrl)}" alt="${escapeHTML(story.title)}" style="width:100%;height:185px;object-fit:cover;">`
+    : `<div class="story-image">🔥</div>`;
 
-    snap.forEach(doc => {
-      stories.push({ id: doc.id, ...doc.data() });
-    });
-
-    stories = stories
-      .filter(story => story.status === "published")
-      .sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-
-    if(stories.length === 0){
-      latestStoryBox.innerHTML = `
-        <div class="card">
-          <h3>No stories yet</h3>
-          <p>Latest published stories will appear here.</p>
-        </div>
-      `;
-      return;
-    }
-
-    const story = stories[0];
-
-    latestStoryBox.innerHTML = `
-      <div class="story-card">
-        <div class="story-image">🔥</div>
-        <div class="story-content">
-          <small>${story.category || "Story"} · ${story.authorName || "Anonymous"} · 👁️ ${story.views || 0}</small>
-          <h3>${story.title}</h3>
-          <p>${shortText(story.excerpt || story.content)}</p>
-          <a class="read-link" href="story-reader.html?id=${story.id}">Read Latest Story →</a>
-        </div>
+  return `
+    <div class="story-card">
+      ${img}
+      <div class="story-content">
+        <small>${escapeHTML(story.category || "Story")} · ${escapeHTML(story.authorName || "Anonymous")} · 👁️ ${story.views || 0}</small>
+        <h3>${escapeHTML(story.title || "Untitled Story")}</h3>
+        <p>${escapeHTML(shortText(story.excerpt || story.content))}</p>
+        <a class="read-link" href="story-reader.html?id=${story.id}">Read Story →</a>
       </div>
-    `;
-  }catch(error){
-    console.error(error);
-    latestStoryBox.innerHTML = `
-      <div class="card">
-        <h3>Latest story could not load</h3>
-        <p>Check Firebase connection.</p>
-      </div>
-    `;
-  }
+    </div>
+  `;
 }
 
-async function loadFeaturedBook(){
+function bookCard(book){
+  const cover = book.coverImage
+    ? `<img src="${escapeHTML(book.coverImage)}" alt="${escapeHTML(book.title)}" style="max-width:100%;max-height:100%;object-fit:contain;">`
+    : `<div style="font-size:60px;">📚</div>`;
+
+  return `
+    <div class="story-card">
+      <div style="height:260px;background:#070707;display:flex;align-items:center;justify-content:center;border-bottom:1px solid #292929;">
+        ${cover}
+      </div>
+      <div class="story-content">
+        <small>${book.featured ? "Featured · " : ""}${escapeHTML(book.status || "Book")} · ${escapeHTML(book.language || "English")}</small>
+        <h3>${escapeHTML(book.title || "Untitled Book")}</h3>
+        <p>${escapeHTML(shortText(book.description))}</p>
+        <a class="read-link" href="books.html?id=${book.id}">View Book →</a>
+      </div>
+    </div>
+  `;
+}
+
+async function loadHomepage(){
   try{
-    const snap = await getDocs(collection(db, "books"));
+    const storySnap = await getDocs(collection(db, "stories"));
+    const bookSnap = await getDocs(collection(db, "books"));
+
+    let stories = [];
     let books = [];
 
-    snap.forEach(doc => {
-      books.push({ id: doc.id, ...doc.data() });
-    });
+    storySnap.forEach(doc => stories.push({ id: doc.id, ...doc.data() }));
+    bookSnap.forEach(doc => books.push({ id: doc.id, ...doc.data() }));
 
-    books = books.filter(book => book.status === "published" || book.status === "upcoming");
+    stories = stories
+      .filter(s => s.status === "published")
+      .sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
 
-    let book = books.find(book => book.featured === true) || books[0];
+    books = books
+      .filter(b => b.status === "published" || b.status === "upcoming")
+      .sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
 
-    if(!book){
-      featuredBookBox.innerHTML = `
-        <div class="card">
-          <p>No featured book yet.</p>
-        </div>
-      `;
+    const totalViews = stories.reduce((sum, s) => sum + (Number(s.views) || 0), 0);
+
+    if(storyCount) storyCount.innerText = stories.length;
+    if(bookCount) bookCount.innerText = books.length;
+    if(viewCount) viewCount.innerText = totalViews;
+
+    latestStoryBox.innerHTML = stories.length
+      ? stories.slice(0,3).map(storyCard).join("")
+      : `<div class="card"><h3>No stories yet</h3><p>Latest published stories will appear here.</p></div>`;
+
+    latestBooksBox.innerHTML = books.length
+      ? books.slice(0,3).map(bookCard).join("")
+      : `<div class="card"><h3>No books yet</h3><p>Latest books will appear here.</p></div>`;
+
+    const featuredBook = books.find(b => b.featured === true) || books[0];
+
+    if(!featuredBook){
+      featuredBookBox.innerHTML = `<div class="card"><p>No featured book yet.</p></div>`;
       return;
     }
 
     featuredBookBox.innerHTML = `
       <div class="book-cover">
-        ${
-          book.coverImage
-          ? `<img src="${book.coverImage}" alt="${book.title}">`
-          : `<div style="font-size:80px;text-align:center;">📚</div>`
-        }
+        ${featuredBook.coverImage ? `<img src="${escapeHTML(featuredBook.coverImage)}" alt="${escapeHTML(featuredBook.title)}">` : `<div style="font-size:80px;text-align:center;">📚</div>`}
       </div>
 
       <div class="book-info">
         <span class="hero-label">Featured Book</span>
-        <h2>${book.title || "Untitled Book"}</h2>
-        <p>${book.description || ""}</p>
+        <h2>${escapeHTML(featuredBook.title || "Untitled Book")}</h2>
+        <p>${escapeHTML(featuredBook.description || "")}</p>
 
         <div class="book-meta">
-          <span>${book.status || "Book"}</span>
-          <span>${book.language || "English"}</span>
-          <span>By ${book.author || "Vineet"}</span>
-          ${book.pages ? `<span>${book.pages} pages</span>` : ""}
-          ${book.price ? `<span>${book.price}</span>` : ""}
+          <span>${escapeHTML(featuredBook.status || "Book")}</span>
+          <span>${escapeHTML(featuredBook.language || "English")}</span>
+          <span>By ${escapeHTML(featuredBook.author || "Vineet")}</span>
+          ${featuredBook.pages ? `<span>${escapeHTML(featuredBook.pages)} pages</span>` : ""}
+          ${featuredBook.category ? `<span>${escapeHTML(featuredBook.category)}</span>` : ""}
         </div>
 
-        ${book.amazonPaperback ? `<a class="btn light" href="${book.amazonPaperback}" target="_blank">Buy Paperback</a>` : ""}
-        ${book.amazonKindle ? `<a class="btn" href="${book.amazonKindle}" target="_blank">Buy Kindle</a>` : ""}
-        <a class="btn" href="books.html?id=${book.id}">Book Page</a>
+        ${featuredBook.sampleText ? `<a class="btn light" href="book-sample.html?id=${featuredBook.id}">Read Sample</a>` : ""}
+        ${featuredBook.amazonPaperback ? `<a class="btn light" href="${escapeHTML(featuredBook.amazonPaperback)}" target="_blank">Buy Paperback</a>` : ""}
+        ${featuredBook.amazonKindle ? `<a class="btn" href="${escapeHTML(featuredBook.amazonKindle)}" target="_blank">Buy Kindle</a>` : ""}
+        <a class="btn" href="books.html?id=${featuredBook.id}">Book Page</a>
       </div>
     `;
+
   }catch(error){
     console.error(error);
-    featuredBookBox.innerHTML = `
-      <div class="card">
-        <h3>Featured book could not load</h3>
-        <p>Check Firebase connection.</p>
-      </div>
-    `;
+
+    if(latestStoryBox){
+      latestStoryBox.innerHTML = `<div class="card"><h3>Stories could not load</h3><p>Check Firebase connection.</p></div>`;
+    }
+
+    if(latestBooksBox){
+      latestBooksBox.innerHTML = `<div class="card"><h3>Books could not load</h3><p>Check Firebase connection.</p></div>`;
+    }
+
+    if(featuredBookBox){
+      featuredBookBox.innerHTML = `<div class="card"><h3>Featured book could not load</h3><p>Check Firebase connection.</p></div>`;
+    }
   }
 }
 
-loadLatestStory();
-loadFeaturedBook();
+loadHomepage();
 </script>
 
 </body>

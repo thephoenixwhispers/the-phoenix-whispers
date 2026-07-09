@@ -41,6 +41,10 @@ body{margin:0;background:#070707;color:#f5f0e6;font-family:Georgia,serif}
 <div>
 <a class="btn dark" href="dashboard.html">Dashboard</a>
 <a class="btn gold" href="new-book.html">+ New Book</a>
+  <a class="btn dark" href="../books.html?id=${book.id}" target="_blank">
+<i class="fa-solid fa-eye"></i>
+View Book
+</a>
 </div>
 </header>
 
@@ -124,14 +128,34 @@ ${cover}
 <h3>${book.title || "Untitled Book"}</h3>
 
 <div class="meta">
+
 <strong>Author:</strong> ${book.author || "Vineet"} ·
+
 <strong>Status:</strong> ${book.status || "draft"} ·
-<strong>Featured:</strong> ${book.featured ? "Yes" : "No"}
+
+<strong>Category:</strong> ${book.category || "General"}
+
+<br>
+
+${book.series ? `<strong>Series:</strong> ${book.series} #${book.bookNumber || 1} · ` : ""}
+
+<strong>Featured:</strong> ${book.featured ? "⭐ Yes" : "No"}
+
+<br>
+
+<strong>Sample:</strong> ${book.sampleText ? "📖 Available" : "❌ No Sample"}
+
 </div>
 
 <strong>Category:</strong> ${book.category || "General"}
 
 <p class="desc">${shortText(book.description)}</p>
+
+${book.publishDate ? `
+<p class="meta">
+<strong>Published:</strong> ${book.publishDate}
+</p>
+` : ""}
 
 ${book.amazonPaperback ? `<a class="btn gold" href="${book.amazonPaperback}" target="_blank">Paperback</a>` : ""}
 ${book.amazonKindle ? `<a class="btn gold" href="${book.amazonKindle}" target="_blank">Kindle</a>` : ""}

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Read Sample | The Phoenix Whispers</title>
+
+<link rel="icon" href="logo.png">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+
+.sample-wrap{
+max-width:900px;
+margin:auto;
+padding:70px 8%;
+}
+
+.reader-top{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:20px;
+margin-bottom:30px;
+flex-wrap:wrap;
+}
+
+.reader-title h1{
+color:#ffcc33;
+margin:8px 0;
+font-size:46px;
+}
+
+.reader-title p{
+color:#bdb5a6;
+}
+
+.reader-box{
+background:#0d0d0d;
+border:1px solid #2d2d2d;
+padding:50px;
+line-height:2.1;
+font-size:20px;
+color:#ece2d2;
+white-space:pre-wrap;
+}
+
+.reader-box h2{
+color:#ffcc33;
+margin-top:40px;
+font-size:34px;
+}
+
+.reader-box h3{
+color:#ffcc33;
+margin-top:35px;
+font-size:26px;
+}
+
+.sample-end{
+margin-top:60px;
+padding:35px;
+border-top:1px solid #333;
+text-align:center;
+}
+
+.sample-end h2{
+color:#ffcc33;
+margin-bottom:15px;
+}
+
+.sample-end p{
+color:#cfc7b8;
+font-size:18px;
+line-height:1.8;
+}
+
+.buy-buttons{
+display:flex;
+justify-content:center;
+gap:16px;
+flex-wrap:wrap;
+margin-top:28px;
+}
+
+.back-btn{
+display:inline-flex;
+align-items:center;
+gap:8px;
+margin-bottom:25px;
+}
+
+@media(max-width:800px){
+
+.reader-box{
+padding:28px;
+font-size:18px;
+}
+
+.reader-title h1{
+font-size:34px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="loader">
+
+<img src="logo.png">
+
+<h2>The Phoenix Whispers</h2>
+
+<p>Rise • Transform • Inspire</p>
+
+</div>
+
+<div id="progress-bar"></div>
+
+<button id="backToTop">↑</button>
+
+<header>
+
+<div class="top">
+
+<a href="index.html" class="brand">
+
+<img src="logo.png">
+
+<h1>The Phoenix Whispers</h1>
+
+</a>
+
+<div class="top-links">
+
+<a href="index.html">Home</a>
+
+<a href="book-library.html">Books</a>
+
+<a href="stories.html">Stories</a>
+
+<a href="about.html">About</a>
+
+</div>
+
+</div>
+
+</header>
+
+<main class="sample-wrap">
+
+<a class="btn light back-btn" href="javascript:history.back()">
+
+<i class="fa-solid fa-arrow-left"></i>
+
+Back
+
+</a>
+
+<div class="reader-top">
+
+<div class="reader-title">
+
+<span class="hero-label">
+
+Read Sample
+
+</span>
+
+<h1 id="bookTitle">
+
+Loading...
+
+</h1>
+
+<p id="bookAuthor"></p>
+
+</div>
+
+</div>
+
+<div class="reader-box" id="sampleBox">
+
+Loading sample...
+
+</div>
+
+<div class="sample-end">
+
+<h2>
+
+Continue Reading...
+
+</h2>
+
+<p>
+
+The journey has only just begun.
+
+Continue the story in the complete edition.
+
+</p>
+
+<div class="buy-buttons" id="buyButtons">
+
+</div>
+
+</div>
+
+</main>
+
+<footer class="footer">
+
+<div class="copyright">
+
+© 2026 The Phoenix Whispers · Created by Vineet
+
+</div>
+
+</footer>
+
+<script src="script.js"></script>
+
+  <script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+const firebaseConfig={
+apiKey:"AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
+authDomain:"the-phoenix-whispers.firebaseapp.com",
+projectId:"the-phoenix-whispers",
+storageBucket:"the-phoenix-whispers.firebasestorage.app",
+messagingSenderId:"60939247464",
+appId:"1:60939247464:web:a6b49dc2cf938a939480dd",
+measurementId:"G-JRTWDK1XVF"
+};
+
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+
+const params=new URLSearchParams(location.search);
+const bookId=params.get("id");
+
+const bookTitle=document.getElementById("bookTitle");
+const bookAuthor=document.getElementById("bookAuthor");
+const sampleBox=document.getElementById("sampleBox");
+const buyButtons=document.getElementById("buyButtons");
+
+function escapeHTML(str){
+return String(str||"")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;");
+}
+
+function formatSample(text){
+let safe=escapeHTML(text || "");
+
+safe=safe
+.replaceAll("&lt;h1&gt;","<h1>")
+.replaceAll("&lt;/h1&gt;","</h1>")
+.replaceAll("&lt;h2&gt;","<h2>")
+.replaceAll("&lt;/h2&gt;","</h2>")
+.replaceAll("&lt;h3&gt;","<h3>")
+.replaceAll("&lt;/h3&gt;","</h3>")
+.replaceAll("&lt;b&gt;","<b>")
+.replaceAll("&lt;/b&gt;","</b>")
+.replaceAll("&lt;i&gt;","<i>")
+.replaceAll("&lt;/i&gt;","</i>");
+
+return safe;
+}
+
+async function loadSample(){
+
+if(!bookId){
+
+bookTitle.innerText="Book Not Found";
+bookAuthor.innerText="";
+sampleBox.innerHTML="No book ID was provided.";
+return;
+
+}
+
+try{
+
+const snap=await getDoc(doc(db,"books",bookId));
+
+if(!snap.exists()){
+
+bookTitle.innerText="Book Not Found";
+bookAuthor.innerText="";
+sampleBox.innerHTML="This book does not exist or may have been removed.";
+return;
+
+}
+
+const book=snap.data();
+
+document.title=(book.title||"Read Sample")+" | The Phoenix Whispers";
+
+bookTitle.innerText=book.title||"Untitled Book";
+bookAuthor.innerText="By "+(book.author||"Vineet");
+
+if(!book.sampleText){
+
+sampleBox.innerHTML="Sample is not available for this book yet.";
+
+return;
+
+}
+
+sampleBox.innerHTML=formatSample(book.sampleText);
+
+buyButtons.innerHTML=`
+
+${book.amazonPaperback ? `<a class="btn light" href="${escapeHTML(book.amazonPaperback)}" target="_blank">Buy Paperback</a>` : ""}
+
+${book.amazonKindle ? `<a class="btn" href="${escapeHTML(book.amazonKindle)}" target="_blank">Buy Kindle</a>` : ""}
+
+<a class="btn" href="books.html?id=${bookId}">Book Details</a>
+
+`;
+
+}
+catch(error){
+
+console.error(error);
+
+bookTitle.innerText="Error";
+bookAuthor.innerText="";
+sampleBox.innerHTML="Could not load sample. Check Firebase rules.";
+
+}
+
+}
+
+loadSample();
+
+</script>
+
+</body>
+</html>

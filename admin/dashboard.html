@@ -4,153 +4,85 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Phoenix Dashboard | The Phoenix Whispers</title>
-
 <link rel="icon" href="../logo.png">
 <link rel="stylesheet" href="../style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
 <style>
+body{margin:0;background:#070707;color:#f5f0e6;font-family:Georgia,serif}
 .admin-shell{min-height:100vh;background:#070707;color:#f5f0e6}
-.admin-header{display:flex;justify-content:space-between;align-items:center;padding:18px 7%;border-bottom:1px solid #222;background:#050505}
-.admin-brand{display:flex;align-items:center;gap:12px}
-.admin-brand img{width:54px}
-.admin-brand h1{color:#ffcc33;font-size:25px;margin:0}
-.admin-main{padding:45px 7%;max-width:1200px;margin:auto}
+.admin-header{display:flex;justify-content:space-between;align-items:center;padding:18px 7%;border-bottom:1px solid #222;background:#050505;position:sticky;top:0;z-index:100}
+.admin-brand{display:flex;align-items:center;gap:12px;text-decoration:none}.admin-brand img{width:54px}.admin-brand h1{color:#ffcc33;font-size:25px;margin:0}
+.admin-main{padding:45px 7%;max-width:1250px;margin:auto}
 .admin-hero{background:radial-gradient(circle at right,rgba(139,0,0,.35),#111 65%);border:1px solid #331010;padding:32px;margin-bottom:28px}
-.admin-hero h2{font-size:42px;color:#ffcc33;margin:8px 0}
-.admin-hero p{color:#cfc7b8;line-height:1.7}
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px;margin:28px 0}
-.stat-box{background:#111;border:1px solid #292929;padding:24px}
-.stat-box i{color:#ffcc33;font-size:27px}
-.stat-box h3{font-size:34px;color:#ffcc33;margin:12px 0 4px}
-.stat-box p{color:#aaa;margin:0}
+.admin-hero h2{font-size:42px;color:#ffcc33;margin:8px 0}.admin-hero p{color:#cfc7b8;line-height:1.7}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px;margin:28px 0}
+.stat-box{background:#111;border:1px solid #292929;padding:24px;transition:.25s}.stat-box:hover{transform:translateY(-4px);border-color:#8b0000}
+.stat-box i{color:#ffcc33;font-size:27px}.stat-box h3{font-size:34px;color:#ffcc33;margin:12px 0 4px}.stat-box p{color:#aaa;margin:0}
+.dashboard-panels{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:30px 0}
+.panel{background:#111;border:1px solid #292929;padding:24px}.panel h2{color:#ffcc33;margin:0 0 18px}
+.recent-item{padding:14px 0;border-bottom:1px solid #252525}.recent-item:last-child{border-bottom:none}
+.recent-item h3{margin:0 0 6px;color:#f5f0e6;font-size:18px}.recent-item p{margin:0;color:#aaa;font-size:14px;line-height:1.5}.recent-item a{color:#ffcc33;text-decoration:none}
 .admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px}
-.admin-card{background:#111;border:1px solid #292929;padding:28px;transition:.3s}
-.admin-card:hover{transform:translateY(-6px);border-color:#8b0000;box-shadow:0 15px 35px rgba(139,0,0,.25)}
-.admin-card i{font-size:34px;color:#ffcc33}
-.admin-card h3{color:#ffcc33}
-.admin-card p{color:#cfc7b8;line-height:1.6}
-.admin-btn{padding:12px 20px;background:#f0d27a;color:#170b05;border:none;font-weight:bold;cursor:pointer;font-family:Georgia,serif}
-.admin-btn.red{background:#9b0000;color:white}
-.admin-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
-#userStatus,#statusLine{color:#cfc7b8}
+.admin-card{background:#111;border:1px solid #292929;padding:28px;transition:.3s;text-decoration:none;color:inherit}.admin-card:hover{transform:translateY(-6px);border-color:#8b0000;box-shadow:0 15px 35px rgba(139,0,0,.25)}
+.admin-card i{font-size:34px;color:#ffcc33}.admin-card h3{color:#ffcc33}.admin-card p{color:#cfc7b8;line-height:1.6}
+.admin-btn{padding:12px 20px;background:#f0d27a;color:#170b05;border:none;font-weight:bold;cursor:pointer;font-family:Georgia,serif;text-decoration:none;display:inline-block}.admin-btn.red{background:#9b0000;color:white}.admin-btn.dark{background:#222;color:#fff}
+.admin-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}#userStatus,#statusLine{color:#cfc7b8}.status-line{margin:16px 0;color:#ffcc33}
+@media(max-width:850px){.dashboard-panels{grid-template-columns:1fr}.admin-header{padding:14px 5%}.admin-main{padding:30px 5%}.admin-hero h2{font-size:32px}.admin-brand h1{font-size:20px}.admin-btn{padding:10px 14px}}
 </style>
 </head>
-
 <body>
 <div class="admin-shell">
-
 <header class="admin-header">
-  <a class="admin-brand" href="dashboard.html">
-    <img src="../logo.png" alt="Logo">
-    <h1>Phoenix Studio</h1>
-  </a>
-
-  <button class="admin-btn red" id="logoutBtn">
-    <i class="fa-solid fa-right-from-bracket"></i> Logout
-  </button>
+  <a class="admin-brand" href="dashboard.html"><img src="../logo.png" alt="Logo"><h1>Phoenix Studio</h1></a>
+  <button class="admin-btn red" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
 </header>
-
 <main class="admin-main">
-
   <section class="admin-hero">
     <span class="hero-label">Dashboard</span>
     <h2>Welcome To Phoenix Studio</h2>
     <p id="userStatus">Checking login...</p>
-
     <div class="admin-actions">
       <a class="admin-btn" href="new-story.html"><i class="fa-solid fa-plus"></i> New Story</a>
+      <a class="admin-btn" href="new-book.html"><i class="fa-solid fa-book"></i> New Book</a>
       <a class="admin-btn" href="submissions.html"><i class="fa-solid fa-inbox"></i> Review Submissions</a>
-      <a class="admin-btn" href="../stories.html" target="_blank"><i class="fa-solid fa-eye"></i> View Website</a>
+      <a class="admin-btn dark" href="../index.html" target="_blank"><i class="fa-solid fa-eye"></i> View Website</a>
     </div>
   </section>
 
   <section class="stats-grid">
-    <div class="stat-box">
-      <i class="fa-solid fa-book-open"></i>
-      <h3 id="totalStories">0</h3>
-      <p>Total Stories</p>
-    </div>
-
-    <div class="stat-box">
-      <i class="fa-solid fa-paper-plane"></i>
-      <h3 id="publishedStories">0</h3>
-      <p>Published Stories</p>
-    </div>
-
-    <div class="stat-box">
-      <i class="fa-solid fa-clock"></i>
-      <h3 id="pendingSubmissions">0</h3>
-      <p>Pending Submissions</p>
-    </div>
-
-    <div class="stat-box">
-      <i class="fa-solid fa-feather"></i>
-      <h3 id="draftStories">0</h3>
-      <p>Draft Stories</p>
-    </div>
+    <div class="stat-box"><i class="fa-solid fa-paper-plane"></i><h3 id="publishedStories">0</h3><p>Published Stories</p></div>
+    <div class="stat-box"><i class="fa-solid fa-book"></i><h3 id="publishedBooks">0</h3><p>Published Books</p></div>
+    <div class="stat-box"><i class="fa-solid fa-eye"></i><h3 id="totalViews">0</h3><p>Total Story Views</p></div>
+    <div class="stat-box"><i class="fa-solid fa-heart"></i><h3 id="totalLikes">0</h3><p>Total Likes</p></div>
+    <div class="stat-box"><i class="fa-solid fa-clock"></i><h3 id="pendingSubmissions">0</h3><p>Pending Submissions</p></div>
+    <div class="stat-box"><i class="fa-solid fa-envelope"></i><h3 id="contactMessages">0</h3><p>Contact Messages</p></div>
+    <div class="stat-box"><i class="fa-solid fa-feather"></i><h3 id="draftStories">0</h3><p>Draft Stories</p></div>
+    <div class="stat-box"><i class="fa-solid fa-layer-group"></i><h3 id="totalBooks">0</h3><p>Total Books</p></div>
   </section>
 
-  <p id="statusLine">Loading dashboard data...</p>
+  <p id="statusLine" class="status-line">Loading dashboard data...</p>
 
-  <section class="admin-grid" style="margin-top:28px;">
-    <a class="admin-card" href="new-story.html">
-      <i class="fa-solid fa-pen-nib"></i>
-      <h3>New Story</h3>
-      <p>Publish a new story directly to the website.</p>
-    </a>
+  <section class="dashboard-panels">
+    <div class="panel"><h2><i class="fa-solid fa-clock-rotate-left"></i> Recent Stories</h2><div id="recentStories"><p>Loading recent stories...</p></div></div>
+    <div class="panel"><h2><i class="fa-solid fa-book-open"></i> Recent Books</h2><div id="recentBooks"><p>Loading recent books...</p></div></div>
+  </section>
 
-    <a class="admin-card" href="manage-stories.html">
-      <i class="fa-solid fa-list-check"></i>
-      <h3>Manage Stories</h3>
-      <p>Preview, edit, delete and manage published or draft stories.</p>
-    </a>
-
-    <a class="admin-card" href="submissions.html">
-      <i class="fa-solid fa-inbox"></i>
-      <h3>Story Submissions</h3>
-      <p>Review stories submitted by readers and approve them for publishing.</p>
-    </a>
-
-
-  <a class="admin-card" href="messages.html">
-  <i class="fa-solid fa-envelope"></i>
-  <h3>Messages</h3>
-  <p>Read and manage contact messages sent from the website.</p>
-</a>
-
+  <section class="admin-grid">
+    <a class="admin-card" href="new-story.html"><i class="fa-solid fa-pen-nib"></i><h3>New Story</h3><p>Publish a new story directly to the website.</p></a>
+    <a class="admin-card" href="manage-stories.html"><i class="fa-solid fa-list-check"></i><h3>Manage Stories</h3><p>Preview, edit, delete and manage published or draft stories.</p></a>
+    <a class="admin-card" href="submissions.html"><i class="fa-solid fa-inbox"></i><h3>Story Submissions</h3><p>Review reader submissions and approve them for publishing.</p></a>
+    <a class="admin-card" href="messages.html"><i class="fa-solid fa-envelope"></i><h3>Messages</h3><p>Read and manage contact messages sent from the website.</p></a>
     <div class="admin-card">
-  <i class="fa-solid fa-book"></i>
-  <h3>Books</h3>
-
-  <p>Manage all your published and upcoming books.</p>
-
-  <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;">
-
-    <a class="admin-btn" href="new-book.html">
-      <i class="fa-solid fa-plus"></i> New Book
-    </a>
-
-    <a class="admin-btn" href="manage-books.html">
-      <i class="fa-solid fa-list"></i> Manage
-    </a>
-
-  </div>
-</div>
-    
-    <a class="admin-card" href="#">
-      <i class="fa-solid fa-newspaper"></i>
-      <h3>Blog</h3>
-      <p>Coming soon: create author notes and website updates.</p>
-    </a>
-
-    <a class="admin-card" href="#">
-      <i class="fa-solid fa-gear"></i>
-      <h3>Settings</h3>
-      <p>Coming soon: manage featured content and website settings.</p>
-    </a>
+      <i class="fa-solid fa-book"></i><h3>Books</h3><p>Manage all published, upcoming and draft books.</p>
+      <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;">
+        <a class="admin-btn" href="new-book.html"><i class="fa-solid fa-plus"></i> New Book</a>
+        <a class="admin-btn" href="manage-books.html"><i class="fa-solid fa-list"></i> Manage</a>
+      </div>
+    </div>
+    <a class="admin-card" href="#"><i class="fa-solid fa-newspaper"></i><h3>Blog</h3><p>Coming soon: create author notes and website updates.</p></a>
+    <a class="admin-card" href="#"><i class="fa-solid fa-users"></i><h3>Newsletter</h3><p>Coming soon: manage newsletter subscribers and exports.</p></a>
+    <a class="admin-card" href="#"><i class="fa-solid fa-gear"></i><h3>Settings</h3><p>Coming soon: manage featured content and website settings.</p></a>
   </section>
-
 </main>
 </div>
 
@@ -159,83 +91,105 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/fireba
 import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
-  authDomain: "the-phoenix-whispers.firebaseapp.com",
-  projectId: "the-phoenix-whispers",
-  storageBucket: "the-phoenix-whispers.firebasestorage.app",
-  messagingSenderId: "60939247464",
-  appId: "1:60939247464:web:a6b49dc2cf938a939480dd",
-  measurementId: "G-JRTWDK1XVF"
+const firebaseConfig={
+apiKey:"AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
+authDomain:"the-phoenix-whispers.firebaseapp.com",
+projectId:"the-phoenix-whispers",
+storageBucket:"the-phoenix-whispers.firebasestorage.app",
+messagingSenderId:"60939247464",
+appId:"1:60939247464:web:a6b49dc2cf938a939480dd",
+measurementId:"G-JRTWDK1XVF"
 };
 
-const ADMIN_EMAIL = "thephoenixwhispers.official@gmail.com";
+const ADMIN_EMAIL="thephoenixwhispers.official@gmail.com";
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+await setPersistence(auth,browserLocalPersistence);
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+const userStatus=document.getElementById("userStatus");
+const logoutBtn=document.getElementById("logoutBtn");
+const statusLine=document.getElementById("statusLine");
 
-await setPersistence(auth, browserLocalPersistence);
-
-const userStatus = document.getElementById("userStatus");
-const logoutBtn = document.getElementById("logoutBtn");
-const statusLine = document.getElementById("statusLine");
-
-onAuthStateChanged(auth, async (user) => {
-  if(!user){
-    window.location.href = "index.html";
-    return;
-  }
-
-  if(user.email !== ADMIN_EMAIL){
-    await signOut(auth);
-    window.location.href = "index.html";
-    return;
-  }
-
-  userStatus.innerText = "Logged in as " + user.email;
+onAuthStateChanged(auth,async user=>{
+  if(!user){window.location.href="index.html";return}
+  if(user.email!==ADMIN_EMAIL){await signOut(auth);window.location.href="index.html";return}
+  userStatus.innerText="Logged in as "+user.email;
   loadDashboard();
 });
 
-logoutBtn.addEventListener("click", async () => {
-  await signOut(auth);
-  window.location.href = "index.html";
-});
+logoutBtn.addEventListener("click",async()=>{await signOut(auth);window.location.href="index.html"});
+
+function formatNumber(value){return Number(value||0).toLocaleString("en-IN")}
+function formatDate(timestamp){
+  if(!timestamp?.seconds)return "No date";
+  return new Date(timestamp.seconds*1000).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
+}
+function escapeHTML(str){return String(str||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")}
+
+async function safeGetCollection(name){
+  try{return await getDocs(collection(db,name))}
+  catch(error){console.warn("Could not load collection:",name,error);return null}
+}
 
 async function loadDashboard(){
+  statusLine.innerText="Loading dashboard data...";
   try{
-    const storiesSnap = await getDocs(collection(db, "stories"));
-    const submissionsSnap = await getDocs(collection(db, "submissions"));
+    const [storiesSnap,booksSnap,submissionsSnap,messagesSnap]=await Promise.all([
+      safeGetCollection("stories"),safeGetCollection("books"),safeGetCollection("submissions"),safeGetCollection("messages")
+    ]);
 
-    let total = 0;
-    let published = 0;
-    let drafts = 0;
+    const stories=[];const books=[];const submissions=[];const messages=[];
+    storiesSnap?.forEach(d=>stories.push({id:d.id,...d.data()}));
+    booksSnap?.forEach(d=>books.push({id:d.id,...d.data()}));
+    submissionsSnap?.forEach(d=>submissions.push({id:d.id,...d.data()}));
+    messagesSnap?.forEach(d=>messages.push({id:d.id,...d.data()}));
 
-    storiesSnap.forEach(doc => {
-      total++;
-      const data = doc.data();
-      if(data.status === "published") published++;
-      if(data.status === "draft") drafts++;
-    });
+    const publishedStories=stories.filter(s=>s.status==="published");
+    const draftStories=stories.filter(s=>s.status==="draft");
+    const publishedBooks=books.filter(b=>b.status==="published");
+    const pendingSubmissions=submissions.filter(s=>(s.status||"pending")==="pending");
+    const totalViews=stories.reduce((sum,s)=>sum+(Number(s.views)||0),0);
+    const totalLikes=stories.reduce((sum,s)=>sum+(Number(s.likes)||0),0);
 
-    let pending = 0;
-    submissionsSnap.forEach(doc => {
-      const data = doc.data();
-      if(data.status === "pending") pending++;
-    });
+    document.getElementById("publishedStories").innerText=formatNumber(publishedStories.length);
+    document.getElementById("publishedBooks").innerText=formatNumber(publishedBooks.length);
+    document.getElementById("totalViews").innerText=formatNumber(totalViews);
+    document.getElementById("totalLikes").innerText=formatNumber(totalLikes);
+    document.getElementById("pendingSubmissions").innerText=formatNumber(pendingSubmissions.length);
+    document.getElementById("contactMessages").innerText=formatNumber(messages.length);
+    document.getElementById("draftStories").innerText=formatNumber(draftStories.length);
+    document.getElementById("totalBooks").innerText=formatNumber(books.length);
 
-    document.getElementById("totalStories").innerText = total;
-    document.getElementById("publishedStories").innerText = published;
-    document.getElementById("draftStories").innerText = drafts;
-    document.getElementById("pendingSubmissions").innerText = pending;
+    renderRecentStories(stories);
+    renderRecentBooks(books);
+    statusLine.innerText="Dashboard updated successfully.";
+  }catch(error){console.error(error);statusLine.innerText="Could not load complete dashboard data."}
+}
 
-    statusLine.innerText = "Dashboard updated successfully.";
-  }catch(error){
-    console.error(error);
-    statusLine.innerText = "Could not load dashboard data.";
-  }
+function renderRecentStories(stories){
+  const box=document.getElementById("recentStories");
+  const recent=[...stories].sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).slice(0,5);
+  if(recent.length===0){box.innerHTML="<p>No stories yet.</p>";return}
+  box.innerHTML=recent.map(story=>`
+    <div class="recent-item">
+      <h3>${escapeHTML(story.title||"Untitled Story")}</h3>
+      <p>${escapeHTML(story.status||"draft")} · ${formatDate(story.createdAt)} · ${formatNumber(story.views)} views · ${formatNumber(story.likes)} likes</p>
+      <p style="margin-top:6px;"><a href="edit-story.html?id=${story.id}">Edit Story →</a></p>
+    </div>`).join("");
+}
+
+function renderRecentBooks(books){
+  const box=document.getElementById("recentBooks");
+  const recent=[...books].sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).slice(0,5);
+  if(recent.length===0){box.innerHTML="<p>No books yet.</p>";return}
+  box.innerHTML=recent.map(book=>`
+    <div class="recent-item">
+      <h3>${escapeHTML(book.title||"Untitled Book")}</h3>
+      <p>${escapeHTML(book.status||"draft")} · ${escapeHTML(book.category||"General")} · ${formatDate(book.createdAt)}</p>
+      <p style="margin-top:6px;"><a href="edit-book.html?id=${book.id}">Edit Book →</a></p>
+    </div>`).join("");
 }
 </script>
-
 </body>
 </html>

@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Newsletter | The Phoenix Whispers</title>
-
 <meta name="description" content="Join The Phoenix Whispers newsletter for book updates, stories, creative notes and reflections.">
 <meta name="author" content="Vineet Yadav">
 
@@ -14,8 +13,7 @@
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#8b0000">
 <link rel="stylesheet" href="style.css">
-
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 <style>
 .newsletter-live-wrap{
@@ -62,6 +60,7 @@
 
 .newsletter-form-card input{
   width:100%;
+  box-sizing:border-box;
   padding:15px;
   margin:10px 0;
   background:#080808;
@@ -72,13 +71,14 @@
 
 .newsletter-form-card input:focus{
   outline:none;
-  border-color:#8b0000;
+  border-color:#ffcc33;
 }
 
 #newsletterStatus{
   margin-top:15px;
   color:#ffcc33;
   line-height:1.6;
+  min-height:24px;
 }
 
 .newsletter-note{
@@ -88,22 +88,25 @@
   margin-top:15px;
 }
 
+.btn[disabled]{
+  opacity:.65;
+  cursor:not-allowed;
+}
+
 @media(max-width:800px){
   .newsletter-live-wrap{
     grid-template-columns:1fr;
   }
 }
 </style>
-  <!-- Google Analytics -->
+
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-BS8Z15XE0P"></script>
 <script>
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-
 gtag('config', 'G-BS8Z15XE0P');
 </script>
-  
 </head>
 
 <body>
@@ -119,14 +122,14 @@ gtag('config', 'G-BS8Z15XE0P');
 
 <header>
   <div class="top">
-    <div class="brand">
+    <a class="brand" href="index.html">
       <img src="logo.png" alt="The Phoenix Whispers Logo">
       <h1>The Phoenix Whispers</h1>
-    </div>
+    </a>
 
     <div class="top-links">
       <a href="newsletter.html">Sign Up</a>
-      <a href="books.html">Shop</a>
+      <a href="book-library.html">Shop</a>
       <a href="blog.html">Blog</a>
       <a href="donate.html">Donate</a>
       <a href="about.html">About</a>
@@ -137,7 +140,7 @@ gtag('config', 'G-BS8Z15XE0P');
   <nav>
     <a href="index.html">Home</a>
     <a href="stories.html">Stories</a>
-    <a href="books.html">Books</a>
+    <a href="book-library.html">Books</a>
     <a href="blog.html">Blog</a>
     <a href="about.html">About</a>
   </nav>
@@ -151,6 +154,7 @@ gtag('config', 'G-BS8Z15XE0P');
     <p>Book updates, story notes, creative thoughts and behind-the-scenes letters.</p>
   </div>
 </section>
+
 <section class="section reveal">
   <div class="section-title">
     <span>Join</span>
@@ -173,14 +177,23 @@ gtag('config', 'G-BS8Z15XE0P');
     <div class="newsletter-form-card">
       <h3>Join The List</h3>
 
-      <form id="newsletterForm">
-        <input type="email" name="email" placeholder="Your email address" required>
-        <input type="hidden" name="time" id="newsletterTime">
+      <form id="newsletterForm" novalidate>
+        <input
+          type="email"
+          id="newsletterEmail"
+          name="email"
+          placeholder="Your email address"
+          autocomplete="email"
+          maxlength="254"
+          required
+        >
 
-        <button class="btn light" type="submit" id="newsletterBtn">Subscribe</button>
+        <button class="btn light" type="submit" id="newsletterBtn">
+          <i class="fa-solid fa-envelope"></i> Subscribe
+        </button>
       </form>
 
-      <p id="newsletterStatus"></p>
+      <p id="newsletterStatus" aria-live="polite"></p>
       <p class="newsletter-note">Your email will only be used for updates from The Phoenix Whispers.</p>
     </div>
   </div>
@@ -213,17 +226,18 @@ gtag('config', 'G-BS8Z15XE0P');
 <footer class="footer">
   <div class="footer-grid">
     <div>
-      <div class="footer-logo">
+      <a class="footer-logo" href="index.html">
         <img src="logo.png" alt="The Phoenix Whispers Logo">
         <h3>The Phoenix Whispers</h3>
-      </div>
+      </a>
+
       <p>A home for stories, books, interviews and creative voices that deserve to be heard.</p>
 
-      <div class="social">
-        <a href="#">Instagram</a>
-        <a href="#">YouTube</a>
-        <a href="#">X</a>
-        <a href="https://www.amazon.in/vineet-yadav/e/B0H4G7GKY2/" target="_blank">Amazon</a>
+      <div class="social social-icons">
+        <a href="https://www.instagram.com/thephoenixwhispers/" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://youtube.com/@thephoenixwhispers" target="_blank" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        <a href="https://www.amazon.in/vineet-yadav/e/B0H4G7GKY2/" target="_blank" aria-label="Amazon"><i class="fa-brands fa-amazon"></i></a>
+        <a href="mailto:thephoenixwhispers.official@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
       </div>
     </div>
 
@@ -231,7 +245,7 @@ gtag('config', 'G-BS8Z15XE0P');
       <h3>Explore</h3>
       <a href="index.html">Home</a>
       <a href="stories.html">Stories</a>
-      <a href="books.html">Books</a>
+      <a href="book-library.html">Books</a>
       <a href="blog.html">Blog</a>
     </div>
 
@@ -244,40 +258,98 @@ gtag('config', 'G-BS8Z15XE0P');
     </div>
   </div>
 
-  <div class="copyright">© The Phoenix Whispers · Rise. Transform. Inspire.</div>
+  <div class="copyright">© 2026 The Phoenix Whispers · Rise. Transform. Inspire.</div>
 </footer>
 
 <script src="script.js"></script>
 
-<script>
-emailjs.init("vdm5Fy-wHMW6rKjE_");
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  where,
+  limit,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-const newsletterForm = document.getElementById("newsletterForm");
-const newsletterStatus = document.getElementById("newsletterStatus");
-const newsletterBtn = document.getElementById("newsletterBtn");
-const newsletterTime = document.getElementById("newsletterTime");
+const firebaseConfig = {
+  apiKey: "AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
+  authDomain: "the-phoenix-whispers.firebaseapp.com",
+  projectId: "the-phoenix-whispers",
+  storageBucket: "the-phoenix-whispers.firebasestorage.app",
+  messagingSenderId: "60939247464",
+  appId: "1:60939247464:web:a6b49dc2cf938a939480dd",
+  measurementId: "G-JRTWDK1XVF"
+};
 
-newsletterForm.addEventListener("submit", function(e){
-  e.preventDefault();
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-  newsletterTime.value = new Date().toLocaleString();
+const form = document.getElementById("newsletterForm");
+const emailInput = document.getElementById("newsletterEmail");
+const statusBox = document.getElementById("newsletterStatus");
+const submitBtn = document.getElementById("newsletterBtn");
 
-  newsletterBtn.innerText = "Subscribing...";
-  newsletterBtn.disabled = true;
-  newsletterStatus.innerText = "";
+function normalizeEmail(value){
+  return String(value || "").trim().toLowerCase();
+}
 
-  emailjs.sendForm("service_77o3juk", "template_riovdrc", this)
-    .then(function(){
-      newsletterStatus.innerText = "You are subscribed. Welcome to The Phoenix Letter.";
-      newsletterForm.reset();
-      newsletterBtn.innerText = "Subscribe";
-      newsletterBtn.disabled = false;
-    }, function(error){
-      newsletterStatus.innerText = "Subscription failed. Please try again later.";
-      newsletterBtn.innerText = "Subscribe";
-      newsletterBtn.disabled = false;
-      console.log(error);
+function isValidEmail(value){
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+form.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const email = normalizeEmail(emailInput.value);
+
+  if(!isValidEmail(email)){
+    statusBox.innerText = "Please enter a valid email address.";
+    emailInput.focus();
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Subscribing...';
+  statusBox.innerText = "";
+
+  try{
+    const duplicateQuery = query(
+      collection(db, "newsletterSubscribers"),
+      where("emailLower", "==", email),
+      limit(1)
+    );
+
+    const duplicateSnap = await getDocs(duplicateQuery);
+
+    if(!duplicateSnap.empty){
+      statusBox.innerText = "You are already subscribed to The Phoenix Letter.";
+      return;
+    }
+
+    await addDoc(collection(db, "newsletterSubscribers"), {
+      email,
+      emailLower: email,
+      status: "active",
+      source: "newsletter-page",
+      subscribedAt: serverTimestamp(),
+      updatedAt: serverTimestamp()
     });
+
+    statusBox.innerText = "You are subscribed. Welcome to The Phoenix Letter.";
+    form.reset();
+
+  }catch(error){
+    console.error(error);
+    statusBox.innerText = "Subscription failed. Please try again later.";
+  }finally{
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '<i class="fa-solid fa-envelope"></i> Subscribe';
+  }
 });
 </script>
 

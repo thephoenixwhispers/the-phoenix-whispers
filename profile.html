@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reader Profile | The Phoenix Whispers</title>
+<link rel="icon" href="logo.png">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="reader-auth.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body class="auth-page">
+<header>
+  <div class="top">
+    <a class="brand" href="index.html">
+      <img src="logo.png" alt="Logo">
+      <h1>The Phoenix Whispers</h1>
+    </a>
+    <div class="top-links">
+      <a href="stories.html">Stories</a>
+      <a href="book-library.html">Books</a>
+      <button class="btn" id="logoutBtn">Logout</button>
+    </div>
+  </div>
+</header>
+
+<main class="profile-layout">
+  <div class="profile-top">
+    <section class="profile-card">
+      <div id="avatar" class="profile-avatar"><i class="fa-solid fa-user"></i></div>
+      <h1 id="profileName">Loading...</h1>
+      <p id="profileEmail"></p>
+      <p id="profileBio">Reader at The Phoenix Whispers.</p>
+
+      <div class="profile-stats">
+        <div class="profile-stat">
+          <strong id="bookmarkCount">0</strong>
+          <span>Bookmarks</span>
+        </div>
+        <div class="profile-stat">
+          <strong id="historyCount">0</strong>
+          <span>History</span>
+        </div>
+        <div class="profile-stat">
+          <strong id="wishlistCount">0</strong>
+          <span>Wishlist</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="profile-card">
+      <h1>Edit Profile</h1>
+      <form id="profileForm">
+        <div class="auth-field">
+          <label for="displayName">Display Name</label>
+          <input id="displayName" type="text" maxlength="50" required>
+        </div>
+
+        <div class="auth-field">
+          <label for="bio">Short Bio</label>
+          <textarea id="bio" maxlength="300" placeholder="Tell readers a little about your reading interests."></textarea>
+        </div>
+
+        <button class="btn light" id="saveBtn" type="submit">Save Profile</button>
+        <p class="auth-status" id="status"></p>
+      </form>
+    </section>
+  </div>
+
+  <section class="library-panel" style="margin-top:24px;">
+    <h2>Saved Stories</h2>
+    <div class="reader-library" id="bookmarksBox"></div>
+  </section>
+
+  <section class="library-panel" style="margin-top:24px;">
+    <h2>Reading History</h2>
+    <div class="reader-library" id="historyBox"></div>
+  </section>
+
+  <section class="library-panel" style="margin-top:24px;">
+    <h2>Book Wishlist</h2>
+    <div class="reader-library" id="wishlistBox"></div>
+  </section>
+</main>
+
+<script type="module">
+import {
+  auth,
+  db,
+  onAuthStateChanged,
+  ensureUserProfile,
+  getUserLibrary,
+  escapeHTML,
+  serverTimestamp
+} from "./reader-auth.js";
+
+import {
+  signOut,
+  updateProfile
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+import {
+  doc,
+  getDoc,
+  setDoc
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+let currentUser = null;
+
+const logoutBtn = document.getElementById("logoutBtn");
+const profileForm = document.getElementById("profileForm");
+const statusBox = document.getElementById("status");
+
+onAuthStateChanged(auth, async user => {
+  if(!user){
+    location.href = "login.html";
+    return;
+  }
+
+  currentUser = user;
+  await ensureUserProfile(user);
+  await loadProfile();
+});
+
+logoutBtn.addEventListener("click", async () => {
+  await signOut(auth);
+  location.href = "login.html";
+});
+
+async function loadProfile(){
+  const snap = await getDoc(doc(db, "users", currentUser.uid));
+  const profile = snap.exists() ? snap.data() : {};
+
+  document.getElementById("profileName").innerText =
+    profile.displayName || currentUser.displayName || "Phoenix Reader";
+
+  document.getElementById("profileEmail").innerText = currentUser.email || "";
+  document.getElementById("profileBio").innerText = profile.bio || "Reader at The Phoenix Whispers.";
+  document.getElementById("displayName").value = profile.displayName || currentUser.displayName || "";
+  document.getElementById("bio").value = profile.bio || "";
+
+  const avatar = document.getElementById("avatar");
+  if(profile.photoURL || currentUser.photoURL){
+    avatar.innerHTML = `<img src="${escapeHTML(profile.photoURL || currentUser.photoURL)}" alt="Profile" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+  }
+
+  const [bookmarks, history, wishlist] = await Promise.all([
+    getUserLibrary(currentUser.uid, "bookmarks"),
+    getUserLibrary(currentUser.uid, "history"),
+    getUserLibrary(currentUser.uid, "wishlist")
+  ]);
+
+  document.getElementById("bookmarkCount").innerText = bookmarks.length;
+  document.getElementById("historyCount").innerText = history.length;
+  document.getElementById("wishlistCount").innerText = wishlist.length;
+
+  renderItems("bookmarksBox", bookmarks, "story");
+  renderItems("historyBox", history, "story");
+  renderItems("wishlistBox", wishlist, "book");
+}
+
+function renderItems(boxId, items, type){
+  const box = document.getElementById(boxId);
+
+  if(items.length === 0){
+    box.innerHTML = `<div class="empty-state">Nothing saved here yet.</div>`;
+    return;
+  }
+
+  box.innerHTML = items.map(item => {
+    const id = type === "book" ? item.bookId : item.storyId;
+    const url = type === "book"
+      ? `books.html?id=${id}`
+      : `story-reader.html?id=${id}`;
+
+    return `
+      <article class="reader-item">
+        <h3>${escapeHTML(item.title || "Untitled")}</h3>
+        <small>${type === "book" ? "Book" : escapeHTML(item.category || "Story")}</small>
+        <p><a class="auth-link" href="${url}">Open →</a></p>
+      </article>
+    `;
+  }).join("");
+}
+
+profileForm.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const displayName = document.getElementById("displayName").value.trim();
+  const bio = document.getElementById("bio").value.trim();
+  const saveBtn = document.getElementById("saveBtn");
+
+  saveBtn.disabled = true;
+  saveBtn.innerText = "Saving...";
+  statusBox.innerText = "";
+
+  try{
+    await updateProfile(currentUser, {displayName});
+
+    await setDoc(
+      doc(db, "users", currentUser.uid),
+      {
+        displayName,
+        bio,
+        updatedAt:serverTimestamp()
+      },
+      {merge:true}
+    );
+
+    statusBox.innerText = "Profile updated successfully.";
+    await loadProfile();
+  }catch(error){
+    console.error(error);
+    statusBox.innerText = "Profile update failed.";
+  }finally{
+    saveBtn.disabled = false;
+    saveBtn.innerText = "Save Profile";
+  }
+});
+</script>
+</body>
+</html>

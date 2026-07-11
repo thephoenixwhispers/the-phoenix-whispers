@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create Account | The Phoenix Whispers</title>
+<link rel="icon" href="logo.png">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="reader-auth.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body class="auth-page">
+<header>
+  <div class="top">
+    <a class="brand" href="index.html">
+      <img src="logo.png" alt="Logo">
+      <h1>The Phoenix Whispers</h1>
+    </a>
+    <div class="top-links">
+      <a href="index.html">Home</a>
+      <a href="login.html">Login</a>
+    </div>
+  </div>
+</header>
+
+<main class="auth-shell">
+  <section class="auth-card">
+    <span class="hero-label">Reader Account</span>
+    <h1>Create Your Account</h1>
+
+    <form id="signupForm">
+      <div class="auth-field">
+        <label for="displayName">Display Name</label>
+        <input id="displayName" type="text" maxlength="50" autocomplete="name" required>
+      </div>
+
+      <div class="auth-field">
+        <label for="email">Email</label>
+        <input id="email" type="email" maxlength="254" autocomplete="email" required>
+      </div>
+
+      <div class="auth-field">
+        <label for="password">Password</label>
+        <input id="password" type="password" minlength="6" autocomplete="new-password" required>
+      </div>
+
+      <div class="auth-field">
+        <label for="confirmPassword">Confirm Password</label>
+        <input id="confirmPassword" type="password" minlength="6" autocomplete="new-password" required>
+      </div>
+
+      <button class="btn light" id="signupBtn" type="submit">
+        <i class="fa-solid fa-user-plus"></i> Create Account
+      </button>
+    </form>
+
+    <div class="auth-divider">or</div>
+
+    <button class="btn" id="googleBtn" type="button">
+      <i class="fa-brands fa-google"></i> Continue With Google
+    </button>
+
+    <p class="auth-status" id="status"></p>
+    <p class="auth-note">Already registered? <a class="auth-link" href="login.html">Login</a></p>
+  </section>
+
+  <section class="auth-card">
+    <h1>Built For Readers</h1>
+    <p>Your profile becomes your private reading shelf inside The Phoenix Whispers.</p>
+    <p class="auth-note">Never put sensitive personal information in your public display name or profile bio.</p>
+  </section>
+</main>
+
+<script type="module">
+import { auth, ensureUserProfile } from "./reader-auth.js";
+import {
+  createUserWithEmailAndPassword,
+  updateProfile,
+  GoogleAuthProvider,
+  signInWithPopup,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+const form = document.getElementById("signupForm");
+const statusBox = document.getElementById("status");
+const signupBtn = document.getElementById("signupBtn");
+const googleBtn = document.getElementById("googleBtn");
+
+onAuthStateChanged(auth, user => {
+  if(user) location.href = "profile.html";
+});
+
+form.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const displayName = document.getElementById("displayName").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
+
+  if(password !== confirmPassword){
+    statusBox.innerText = "Passwords do not match.";
+    return;
+  }
+
+  signupBtn.disabled = true;
+  signupBtn.innerText = "Creating account...";
+  statusBox.innerText = "";
+
+  try{
+    const result = await createUserWithEmailAndPassword(auth, email, password);
+    await updateProfile(result.user, {displayName});
+    await ensureUserProfile(result.user, {displayName});
+    location.href = "profile.html";
+  }catch(error){
+    console.error(error);
+    statusBox.innerText = "Account could not be created. The email may already be registered.";
+  }finally{
+    signupBtn.disabled = false;
+    signupBtn.innerHTML = '<i class="fa-solid fa-user-plus"></i> Create Account';
+  }
+});
+
+googleBtn.addEventListener("click", async () => {
+  googleBtn.disabled = true;
+  statusBox.innerText = "";
+
+  try{
+    const result = await signInWithPopup(auth, new GoogleAuthProvider());
+    await ensureUserProfile(result.user);
+    location.href = "profile.html";
+  }catch(error){
+    console.error(error);
+    statusBox.innerText = "Google sign-up failed. Please try again.";
+  }finally{
+    googleBtn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>

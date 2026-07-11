@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Newsletter Subscribers | Phoenix Admin</title>
+
+<link rel="icon" href="../logo.png">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+body{margin:0;background:#070707;color:#f5f0e6;font-family:Georgia,serif}
+.admin-shell{min-height:100vh}
+.admin-header{display:flex;justify-content:space-between;align-items:center;padding:18px 7%;background:#050505;border-bottom:1px solid #222}
+.admin-brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.admin-brand img{width:52px}
+.admin-brand h1{margin:0;color:#ffcc33;font-size:24px}
+.admin-main{padding:45px 7%;max-width:1150px;margin:auto}
+
+.toolbar{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;align-items:center;margin:24px 0}
+.toolbar-left,.toolbar-right{display:flex;gap:10px;flex-wrap:wrap}
+.search-input{padding:12px 14px;background:#080808;border:1px solid #333;color:#fff;font-family:Georgia,serif;min-width:250px}
+
+.admin-btn{padding:12px 18px;background:#f0d27a;color:#170b05;border:none;font-weight:bold;cursor:pointer;font-family:Georgia,serif;text-decoration:none;display:inline-block}
+.admin-btn.red{background:#8b0000;color:#fff}
+.admin-btn.dark{background:#222;color:#fff}
+
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin:24px 0}
+.stat{background:#111;border:1px solid #292929;padding:22px}
+.stat h3{color:#ffcc33;font-size:32px;margin:0 0 8px}
+.stat p{color:#aaa;margin:0}
+
+.table-wrap{overflow:auto;background:#111;border:1px solid #292929}
+table{width:100%;border-collapse:collapse;min-width:760px}
+th,td{text-align:left;padding:14px;border-bottom:1px solid #292929}
+th{color:#ffcc33;background:#0b0b0b}
+td{color:#d8cbb8}
+.status-active{color:#8ee28e;font-weight:bold}
+.status-unsubscribed{color:#ff9b9b;font-weight:bold}
+.empty{padding:35px;text-align:center;color:#aaa}
+#statusLine{color:#ffcc33;margin-top:16px}
+
+@media(max-width:700px){
+  .admin-header{padding:14px 5%}
+  .admin-main{padding:30px 5%}
+  .search-input{min-width:100%}
+}
+</style>
+</head>
+
+<body>
+<div class="admin-shell">
+
+<header class="admin-header">
+  <a class="admin-brand" href="dashboard.html">
+    <img src="../logo.png" alt="Logo">
+    <h1>Phoenix Admin</h1>
+  </a>
+
+  <button class="admin-btn red" id="logoutBtn">
+    <i class="fa-solid fa-right-from-bracket"></i> Logout
+  </button>
+</header>
+
+<main class="admin-main">
+  <span class="hero-label">Newsletter</span>
+  <h2 style="font-size:42px;color:#ffcc33;margin:10px 0;">Subscribers</h2>
+
+  <div class="stats-grid">
+    <div class="stat">
+      <h3 id="totalCount">0</h3>
+      <p>Total Subscribers</p>
+    </div>
+
+    <div class="stat">
+      <h3 id="activeCount">0</h3>
+      <p>Active</p>
+    </div>
+
+    <div class="stat">
+      <h3 id="inactiveCount">0</h3>
+      <p>Unsubscribed</p>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <input class="search-input" id="subscriberSearch" type="search" placeholder="Search email...">
+    </div>
+
+    <div class="toolbar-right">
+      <button class="admin-btn" id="exportBtn">
+        <i class="fa-solid fa-file-csv"></i> Export CSV
+      </button>
+
+      <a class="admin-btn dark" href="dashboard.html">
+        <i class="fa-solid fa-arrow-left"></i> Dashboard
+      </a>
+    </div>
+  </div>
+
+  <p id="statusLine">Loading subscribers...</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Source</th>
+          <th>Subscribed</th>
+        </tr>
+      </thead>
+      <tbody id="subscriberRows"></tbody>
+    </table>
+  </div>
+</main>
+
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut,
+  setPersistence,
+  browserLocalPersistence
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
+  authDomain: "the-phoenix-whispers.firebaseapp.com",
+  projectId: "the-phoenix-whispers",
+  storageBucket: "the-phoenix-whispers.firebasestorage.app",
+  messagingSenderId: "60939247464",
+  appId: "1:60939247464:web:a6b49dc2cf938a939480dd",
+  measurementId: "G-JRTWDK1XVF"
+};
+
+const ADMIN_EMAIL = "thephoenixwhispers.official@gmail.com";
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+await setPersistence(auth, browserLocalPersistence);
+
+const rows = document.getElementById("subscriberRows");
+const statusLine = document.getElementById("statusLine");
+const searchInput = document.getElementById("subscriberSearch");
+const exportBtn = document.getElementById("exportBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+
+let subscribers = [];
+
+onAuthStateChanged(auth, async user => {
+  if(!user){
+    location.href = "index.html";
+    return;
+  }
+
+  if(user.email !== ADMIN_EMAIL){
+    await signOut(auth);
+    location.href = "index.html";
+    return;
+  }
+
+  loadSubscribers();
+});
+
+logoutBtn.addEventListener("click", async () => {
+  await signOut(auth);
+  location.href = "index.html";
+});
+
+function escapeHTML(str){
+  return String(str || "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;");
+}
+
+function formatDate(timestamp){
+  if(!timestamp?.seconds) return "No date";
+  return new Date(timestamp.seconds * 1000).toLocaleString("en-IN", {
+    day:"numeric",
+    month:"short",
+    year:"numeric",
+    hour:"2-digit",
+    minute:"2-digit"
+  });
+}
+
+function updateStats(){
+  const active = subscribers.filter(s => (s.status || "active") === "active").length;
+  const inactive = subscribers.length - active;
+
+  document.getElementById("totalCount").innerText = subscribers.length;
+  document.getElementById("activeCount").innerText = active;
+  document.getElementById("inactiveCount").innerText = inactive;
+}
+
+function renderSubscribers(){
+  const query = searchInput.value.trim().toLowerCase();
+
+  const filtered = subscribers.filter(item =>
+    String(item.email || "").toLowerCase().includes(query)
+  );
+
+  if(filtered.length === 0){
+    rows.innerHTML = `<tr><td class="empty" colspan="4">No subscribers found.</td></tr>`;
+    return;
+  }
+
+  rows.innerHTML = filtered.map(item => {
+    const status = item.status || "active";
+    const statusClass = status === "active" ? "status-active" : "status-unsubscribed";
+
+    return `
+      <tr>
+        <td>${escapeHTML(item.email || "")}</td>
+        <td class="${statusClass}">${escapeHTML(status)}</td>
+        <td>${escapeHTML(item.source || "website")}</td>
+        <td>${formatDate(item.subscribedAt)}</td>
+      </tr>
+    `;
+  }).join("");
+}
+
+async function loadSubscribers(){
+  try{
+    const snap = await getDocs(collection(db, "newsletterSubscribers"));
+    subscribers = [];
+
+    snap.forEach(d => subscribers.push({id:d.id, ...d.data()}));
+
+    subscribers.sort((a,b) =>
+      (b.subscribedAt?.seconds || 0) - (a.subscribedAt?.seconds || 0)
+    );
+
+    updateStats();
+    renderSubscribers();
+    statusLine.innerText = subscribers.length + " subscriber(s) loaded.";
+
+  }catch(error){
+    console.error(error);
+    statusLine.innerText = "Could not load subscribers. Check Firestore rules.";
+  }
+}
+
+searchInput.addEventListener("input", renderSubscribers);
+
+exportBtn.addEventListener("click", () => {
+  if(subscribers.length === 0){
+    alert("No subscribers to export.");
+    return;
+  }
+
+  const csvRows = [
+    ["Email","Status","Source","Subscribed At"],
+    ...subscribers.map(item => [
+      item.email || "",
+      item.status || "active",
+      item.source || "website",
+      item.subscribedAt?.seconds
+        ? new Date(item.subscribedAt.seconds * 1000).toISOString()
+        : ""
+    ])
+  ];
+
+  const csv = csvRows
+    .map(row => row.map(value => `"${String(value).replaceAll('"','""')}"`).join(","))
+    .join("\n");
+
+  const blob = new Blob([csv], {type:"text/csv;charset=utf-8;"});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = "phoenix-newsletter-subscribers.csv";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+});
+</script>
+
+</body>
+</html>

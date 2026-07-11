@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login | The Phoenix Whispers</title>
+<link rel="icon" href="logo.png">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="reader-auth.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body class="auth-page">
+<header>
+  <div class="top">
+    <a class="brand" href="index.html">
+      <img src="logo.png" alt="Logo">
+      <h1>The Phoenix Whispers</h1>
+    </a>
+    <div class="top-links">
+      <a href="index.html">Home</a>
+      <a href="stories.html">Stories</a>
+      <a href="book-library.html">Books</a>
+    </div>
+  </div>
+</header>
+
+<main class="auth-shell">
+  <section class="auth-card">
+    <span class="hero-label">Reader Account</span>
+    <h1>Welcome Back</h1>
+    <p>Login to save stories, build your book wishlist and continue reading later.</p>
+
+    <form id="loginForm">
+      <div class="auth-field">
+        <label for="email">Email</label>
+        <input id="email" type="email" autocomplete="email" required>
+      </div>
+
+      <div class="auth-field">
+        <label for="password">Password</label>
+        <input id="password" type="password" autocomplete="current-password" minlength="6" required>
+      </div>
+
+      <div class="auth-actions">
+        <button class="btn light" id="loginBtn" type="submit">
+          <i class="fa-solid fa-right-to-bracket"></i> Login
+        </button>
+      </div>
+    </form>
+
+    <div class="auth-divider">or</div>
+
+    <button class="btn" id="googleBtn" type="button">
+      <i class="fa-brands fa-google"></i> Continue With Google
+    </button>
+
+    <p class="auth-status" id="status"></p>
+    <p class="auth-note">New reader? <a class="auth-link" href="signup.html">Create an account</a></p>
+  </section>
+
+  <section class="auth-card">
+    <h1>Your Reading Space</h1>
+    <p>Your account keeps your reading activity organised across The Phoenix Whispers.</p>
+    <div class="newsletter-points">
+      <div class="newsletter-point">🔖 Save favourite stories</div>
+      <div class="newsletter-point">📚 Build a book wishlist</div>
+      <div class="newsletter-point">🕯️ Continue from reading history</div>
+      <div class="newsletter-point">👤 Manage your reader profile</div>
+    </div>
+  </section>
+</main>
+
+<script type="module">
+import { auth } from "./reader-auth.js";
+import {
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+const form = document.getElementById("loginForm");
+const statusBox = document.getElementById("status");
+const loginBtn = document.getElementById("loginBtn");
+const googleBtn = document.getElementById("googleBtn");
+
+onAuthStateChanged(auth, user => {
+  if(user) location.href = "profile.html";
+});
+
+form.addEventListener("submit", async event => {
+  event.preventDefault();
+  loginBtn.disabled = true;
+  loginBtn.innerText = "Logging in...";
+  statusBox.innerText = "";
+
+  try{
+    await signInWithEmailAndPassword(
+      auth,
+      document.getElementById("email").value.trim(),
+      document.getElementById("password").value
+    );
+    location.href = "profile.html";
+  }catch(error){
+    console.error(error);
+    statusBox.innerText = "Login failed. Check your email and password.";
+  }finally{
+    loginBtn.disabled = false;
+    loginBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Login';
+  }
+});
+
+googleBtn.addEventListener("click", async () => {
+  googleBtn.disabled = true;
+  statusBox.innerText = "";
+
+  try{
+    await signInWithPopup(auth, new GoogleAuthProvider());
+    location.href = "profile.html";
+  }catch(error){
+    console.error(error);
+    statusBox.innerText = "Google login failed. Please try again.";
+  }finally{
+    googleBtn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>

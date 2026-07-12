@@ -123,6 +123,45 @@ gtag('config', 'G-BS8Z15XE0P');
       </div>
     </div>
   </nav>
+
+<!-- ========================= -->
+<!-- Reader Navigation -->
+<!-- ========================= -->
+
+<div class="reader-nav">
+
+  <!-- Guest Menu -->
+  <div id="guestNav" class="reader-links">
+
+    <a href="reader-login.html" class="btn light">
+      Login
+    </a>
+
+    <a href="reader-signup.html" class="btn">
+      Sign Up
+    </a>
+
+  </div>
+
+  <!-- Logged In Menu -->
+  <div id="userNav" class="reader-links" style="display:none;">
+
+    <a href="reader-profile.html" class="btn light">
+      👤 <span id="profileName">Reader</span>
+    </a>
+
+    <button
+      onclick="logoutReader()"
+      class="btn">
+
+      Logout
+
+    </button>
+
+  </div>
+
+</div>
+  
 </header>
 
 <section class="hero">

@@ -735,3 +735,209 @@ console.log(
 );
 
 console.log("Website Loaded Successfully.");
+
+
+// =======================================
+// FIREBASE READER AUTH
+// =======================================
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+
+import {
+getAuth,
+onAuthStateChanged,
+signOut
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+import {
+getFirestore,
+doc,
+setDoc,
+getDoc,
+serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey:"AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
+authDomain:"the-phoenix-whispers.firebaseapp.com",
+projectId:"the-phoenix-whispers",
+storageBucket:"the-phoenix-whispers.firebasestorage.app",
+messagingSenderId:"60939247464",
+appId:"1:60939247464:web:a6b49dc2cf938a939480dd",
+measurementId:"G-JRTWDK1XVF"
+};
+
+const phoenixApp = initializeApp(firebaseConfig);
+
+const auth = getAuth(phoenixApp);
+
+const db = getFirestore(phoenixApp);
+
+// =======================================
+// Navbar Update
+// =======================================
+
+onAuthStateChanged(auth, async(user)=>{
+
+const guestNav=document.getElementById("guestNav");
+const userNav=document.getElementById("userNav");
+
+if(user){
+
+if(guestNav) guestNav.style.display="none";
+if(userNav) userNav.style.display="flex";
+
+const profileName=document.getElementById("profileName");
+
+if(profileName){
+
+profileName.innerText=user.displayName || "Reader";
+
+}
+
+}else{
+
+if(guestNav) guestNav.style.display="flex";
+if(userNav) userNav.style.display="none";
+
+}
+
+});
+
+// =======================================
+// Logout
+// =======================================
+
+window.logoutReader=async()=>{
+
+await signOut(auth);
+
+location.reload();
+
+};
+
+// =======================================
+// Reading History
+// =======================================
+
+window.saveReadingHistory=async(story)=>{
+
+const user=auth.currentUser;
+
+if(!user) return;
+
+try{
+
+await setDoc(
+
+doc(db,"readers",user.uid,"history",story.slug),
+
+{
+
+title:story.title,
+
+slug:story.slug,
+
+cover:story.cover||"",
+
+updatedAt:serverTimestamp()
+
+}
+
+);
+
+}catch(e){
+
+console.log(e);
+
+}
+
+};
+
+// =======================================
+// Bookmark
+// =======================================
+
+window.toggleBookmark=async(story)=>{
+
+const user=auth.currentUser;
+
+if(!user){
+
+location.href="reader-login.html";
+
+return;
+
+}
+
+const ref=doc(db,"readers",user.uid,"bookmarks",story.slug);
+
+const snap=await getDoc(ref);
+
+if(snap.exists()){
+
+alert("Already bookmarked.");
+
+return;
+
+}
+
+await setDoc(ref,{
+
+title:story.title,
+
+slug:story.slug,
+
+cover:story.cover||"",
+
+createdAt:serverTimestamp()
+
+});
+
+alert("Story bookmarked.");
+
+};
+
+// =======================================
+// Wishlist
+// =======================================
+
+window.toggleWishlist=async(book)=>{
+
+const user=auth.currentUser;
+
+if(!user){
+
+location.href="reader-login.html";
+
+return;
+
+}
+
+const ref=doc(db,"readers",user.uid,"wishlist",book.slug);
+
+const snap=await getDoc(ref);
+
+if(snap.exists()){
+
+alert("Already in wishlist.");
+
+return;
+
+}
+
+await setDoc(ref,{
+
+title:book.title,
+
+slug:book.slug,
+
+cover:book.cover||"",
+
+createdAt:serverTimestamp()
+
+});
+
+alert("Book added to wishlist.");
+
+};

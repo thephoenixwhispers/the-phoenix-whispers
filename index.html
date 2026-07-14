@@ -525,6 +525,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 const guestNav = document.getElementById("guestNav");
 const userNav = document.getElementById("userNav");
@@ -582,7 +583,7 @@ function bookCard(book){
         <small>${book.featured ? "Featured · " : ""}${escapeHTML(book.status || "Book")} · ${escapeHTML(book.language || "English")}</small>
         <h3>${escapeHTML(book.title || "Untitled Book")}</h3>
         <p>${escapeHTML(shortText(book.description))}</p>
-        <a class="read-link" href="book-detail.html?id=${book.id}"">View Book →</a>
+        <a class="read-link" href="book-detail.html?id=${book.id}">View Book →</a>
       </div>
     </div>
   `;

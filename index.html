@@ -583,7 +583,7 @@ function bookCard(book){
         <small>${book.featured ? "Featured · " : ""}${escapeHTML(book.status || "Book")} · ${escapeHTML(book.language || "English")}</small>
         <h3>${escapeHTML(book.title || "Untitled Book")}</h3>
         <p>${escapeHTML(shortText(book.description))}</p>
-        <a class="read-link" href="book-detail.html?id=${book.id}">View Book →</a>
+        <a class="read-link" href="books.html?id=${book.id}">View Book →</a>
       </div>
     </div>
   `;

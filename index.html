@@ -507,6 +507,12 @@ gtag('config', 'G-BS8Z15XE0P');
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
   authDomain: "the-phoenix-whispers.firebaseapp.com",
@@ -518,7 +524,12 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const auth = getAuth(app);
+
+const guestNav = document.getElementById("guestNav");
+const userNav = document.getElementById("userNav");
+const profileName = document.getElementById("profileName");
+const logoutBtn = document.getElementById("logoutBtn");
 
 const latestStoryBox = document.getElementById("latestStory");
 const latestBooksBox = document.getElementById("latestBooks");
@@ -660,6 +671,48 @@ async function loadHomepage(){
 }
 
 loadHomepage();
+
+/* ===========================
+   Firebase Authentication
+=========================== */
+
+document.getElementById("openLogin").onclick = () => {
+    window.location.href = "reader-login.html";
+};
+
+document.getElementById("openSignup").onclick = () => {
+    window.location.href = "reader-signup.html";
+};
+
+onAuthStateChanged(auth, (user) => {
+
+    if(user){
+
+        guestNav.style.display = "none";
+        userNav.style.display = "flex";
+
+        profileName.textContent =
+            user.displayName ||
+            user.email.split("@")[0];
+
+    }else{
+
+        guestNav.style.display = "flex";
+        userNav.style.display = "none";
+
+    }
+
+});
+
+logoutBtn.onclick = async()=>{
+
+    await signOut(auth);
+
+    window.location.reload();
+
+};
+  
+  
 </script>
 
 </body>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Reader Login | The Phoenix Whispers</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+body{
+background:#050505;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+font-family:Georgia,serif;
+}
+
+.login-box{
+width:420px;
+max-width:92%;
+background:#111;
+padding:40px;
+border-radius:16px;
+border:1px solid #2d2d2d;
+}
+
+.login-box h2{
+text-align:center;
+margin-bottom:25px;
+color:#fff;
+}
+
+.login-box input{
+width:100%;
+padding:14px;
+margin-bottom:18px;
+background:#1b1b1b;
+border:1px solid #333;
+color:white;
+border-radius:8px;
+font-size:16px;
+box-sizing:border-box;
+}
+
+.login-box button{
+width:100%;
+padding:14px;
+background:#8b0000;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-size:16px;
+}
+
+.login-box button:hover{
+background:#a80000;
+}
+
+.links{
+margin-top:18px;
+text-align:center;
+}
+
+.links a{
+color:#d5b16a;
+text-decoration:none;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="login-box">
+
+<h2>Reader Login</h2>
+
+<input
+id="email"
+type="email"
+placeholder="Email">
+
+<input
+id="password"
+type="password"
+placeholder="Password">
+
+<button id="loginBtn">
+Login
+</button>
+
+<div class="links">
+
+<p>
+<a href="reader-signup.html">
+Create new account
+</a>
+</p>
+
+<p>
+<a href="index.html">
+← Back Home
+</a>
+</p>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+
+import {
+getAuth,
+signInWithEmailAndPassword
+}
+from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+const firebaseConfig={
+apiKey:"AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
+authDomain:"the-phoenix-whispers.firebaseapp.com",
+projectId:"the-phoenix-whispers",
+storageBucket:"the-phoenix-whispers.firebasestorage.app",
+messagingSenderId:"60939247464",
+appId:"1:60939247464:web:a6b49dc2cf938a939480dd",
+measurementId:"G-JRTWDK1XVF"
+};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+
+document.getElementById("loginBtn").onclick=async()=>{
+
+const email=document.getElementById("email").value.trim();
+
+const password=document.getElementById("password").value;
+
+try{
+
+await signInWithEmailAndPassword(auth,email,password);
+
+location.href="index.html";
+
+}catch(e){
+
+alert(e.message);
+
+}
+
+};
+
+</script>
+
+</body>
+</html>

@@ -111,7 +111,24 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-import { getFirestore, doc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+
+import {
+getFirestore,
+doc,
+getDoc,
+collection,
+getDocs,
+setDoc,
+deleteDoc
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+import {
+getAuth,
+onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+  
 
 const firebaseConfig={
 apiKey:"AIzaSyAhb2Dfsyp4eCQ59-bSB3Xx1rzvVm9lHMs",
@@ -124,6 +141,15 @@ measurementId:"G-JRTWDK1XVF"
 };
 
 const app=initializeApp(firebaseConfig);
+
+const auth=getAuth(app);
+
+let currentUser=null;
+
+onAuthStateChanged(auth,user=>{
+currentUser=user;
+});
+  
 const db=getFirestore(app);
 
 const params=new URLSearchParams(location.search);
@@ -198,6 +224,13 @@ async function loadBook(){
       
 
         <div class="book-links">
+
+<button
+id="wishlistBtn"
+class="btn light">
+❤ Add To Wishlist
+</button>
+        
          ${book.sampleText ? `<a class="btn light" href="book-sample.html?id=${bookId}">Read Sample</a>` : ""}
           ${book.amazonPaperback ? `<a class="btn light" href="${escapeHTML(book.amazonPaperback)}" target="_blank">Buy Paperback</a>` : ""}
           ${book.amazonKindle ? `<a class="btn" href="${escapeHTML(book.amazonKindle)}" target="_blank">Buy Kindle</a>` : ""}
@@ -213,7 +246,73 @@ async function loadBook(){
       </div>
     `;
 
-    setupActions();
+   setupActions();
+
+setupWishlist(bookId);
+
+    async function setupWishlist(bookId){
+
+const btn=document.getElementById("wishlistBtn");
+
+if(!btn) return;
+
+if(!currentUser){
+
+btn.innerHTML="Login Required";
+
+btn.onclick=()=>{
+location.href="reader-login.html";
+};
+
+return;
+
+}
+
+const ref=doc(
+db,
+"users",
+currentUser.uid,
+"wishlist",
+bookId
+);
+
+const snap=await getDoc(ref);
+
+if(snap.exists()){
+
+btn.innerHTML="❤ Remove Wishlist";
+
+}else{
+
+btn.innerHTML="🤍 Add Wishlist";
+
+}
+
+btn.onclick=async()=>{
+
+const check=await getDoc(ref);
+
+if(check.exists()){
+
+await deleteDoc(ref);
+
+btn.innerHTML="🤍 Add Wishlist";
+
+}else{
+
+await setDoc(ref,{
+bookId:bookId,
+savedAt:new Date()
+});
+
+btn.innerHTML="❤ Remove Wishlist";
+
+}
+
+};
+
+}
+    
     loadRelatedBooks();
 
   }catch(error){
@@ -267,7 +366,7 @@ async function loadRelatedBooks(){
       div.innerHTML=`
         <h3>${escapeHTML(book.title || "Untitled Book")}</h3>
         <p>${shortText(book.description)}</p>
-        <a class="read-link" href="books.html?id=${book.id}">View Details →</a>
+       <a class="read-link" href="book-detail.html?id=${book.id}">View Details →</a>
       `;
       relatedBooks.appendChild(div);
     });
